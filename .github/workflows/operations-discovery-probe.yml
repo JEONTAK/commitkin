@@ -1,0 +1,299 @@
+# SPDX-License-Identifier: MIT
+# Diagnostic only: repository discovery is not activity eligibility or completeness.
+name: Read-only operations discovery probe
+
+"on":
+  workflow_dispatch:
+    inputs:
+      username:
+        description: Public GitHub username (never enter credentials)
+        required: true
+        default: JEONTAK
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  discovery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Compare blind discovery with public operations controls
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PROBE_USERNAME: ${{ inputs.username }}
+          PROBE_API_URL: ${{ github.api_url }}
+        run: |
+          node --input-type=module <<'NODE'
+          const token = process.env.GITHUB_TOKEN;
+          const target = (process.env.PROBE_USERNAME ?? '').trim();
+          const api = process.env.PROBE_API_URL;
+          const loginPattern = /^[a-z\d](?:[a-z\d-]{0,37}[a-z\d])?$/i;
+          if (process.env.GITHUB_ACTIONS !== 'true' ||
+              process.env.GITHUB_EVENT_NAME !== 'workflow_dispatch' || !token ||
+              api !== 'https://api.github.com' || !loginPattern.test(target) ||
+              process.env.GITHUB_REPOSITORY?.toLowerCase() !== 'jeontak/commitkin') {
+            console.log('CONFIGURATION_ERROR');
+            process.exit(1);
+          }
+          const day = 86_400_000;
+          const end = new Date();
+          end.setUTCHours(0, 0, 0, 0);
+          const from = new Date(end.getTime() - 90 * day);
+          const to = new Date(end.getTime() - 1);
+          const fixture = 'cli/cli';
+          const triageTypes = new Set([
+            'labeled', 'unlabeled', 'assigned', 'unassigned', 'milestoned', 'demilestoned',
+          ]);
+          const validDate = value => {
+            const time = Date.parse(value);
+            return time >= from.getTime() && time < end.getTime();
+          };
+          const repoKey = name => {
+            if (typeof name !== 'string' || !/^[a-z\d-]+\/[a-z\d_.-]+$/i.test(name)) return null;
+            if (name.split('/')[1].toLowerCase() === 'klekit-backend') return null;
+            return name.toLowerCase();
+          };
+          const emit = (probe, result, details = {}) =>
+            console.log(JSON.stringify({ probe, result, ...details }));
+          let requests = 0;
+          let failures = 0;
+          let exhausted = false;
+          const errorTypes = new Set(['FORBIDDEN', 'NOT_FOUND', 'RATE_LIMITED', 'UNAUTHORIZED']);
+          async function request(label, path, body) {
+            if (exhausted || requests >= 60) {
+              failures++;
+              emit(label, 'SKIPPED_BUDGET_OR_RATE_LIMIT');
+              return null;
+            }
+            requests++;
+            try {
+              const response = await fetch(`${api}${path}`, {
+                method: body ? 'POST' : 'GET', redirect: 'error',
+                signal: AbortSignal.timeout(8_000),
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/vnd.github+json',
+                  'Content-Type': 'application/json',
+                  'X-GitHub-Api-Version': '2022-11-28',
+                  'User-Agent': 'commitkin-operations-discovery-probe',
+                },
+                ...(body ? { body: JSON.stringify(body) } : {}),
+              });
+              const numericHeader = name => {
+                const value = response.headers.get(name);
+                return value !== null && /^\d+$/.test(value) ? Number(value) : null;
+              };
+              const remaining = numericHeader('x-ratelimit-remaining');
+              const rawResource = response.headers.get('x-ratelimit-resource');
+              const resource = ['core', 'search', 'graphql'].includes(rawResource) ? rawResource : 'other';
+              const details = { http: response.status, resource,
+                limit: numericHeader('x-ratelimit-limit'), remaining };
+              if (remaining === 0 || response.status === 429) exhausted = true;
+              if (!response.ok) {
+                failures++; emit(label, 'FAIL_HTTP', details); return null;
+              }
+              const data = await response.json();
+              if (body && data.errors?.length) {
+                const types = [...new Set(data.errors.map(error =>
+                  errorTypes.has(error?.type) ? error.type : 'OTHER'))];
+                if (types.includes('RATE_LIMITED')) exhausted = true;
+                failures++; emit(label, 'FAIL_GRAPHQL', { ...details, types }); return null;
+              }
+              emit(label, 'PASS_ACCESS', details);
+              return data;
+            } catch {
+              failures++; emit(label, 'NETWORK_OR_RESPONSE_ERROR'); return null;
+            }
+          }
+          async function restPages(label, path, cap, extract = value => value) {
+            const items = [];
+            for (let page = 1; page <= cap; page++) {
+              const data = await request(`${label}_${page}`, `${path}${path.includes('?') ? '&' : '?'}per_page=100&page=${page}`);
+              if (!data) return { items, exhaustedPages: false, failed: true };
+              const rows = extract(data);
+              if (!Array.isArray(rows)) {
+                failures++; emit(label, 'SCHEMA_MISMATCH');
+                return { items, exhaustedPages: false, failed: true };
+              }
+              items.push(...rows);
+              if (rows.length < 100) return { items, exhaustedPages: true, failed: false };
+            }
+            return { items, exhaustedPages: false, failed: false };
+          }
+          const publicRepos = rows => new Set(rows.map(row =>
+            row?.isPrivate === false ? repoKey(row.nameWithOwner) : null).filter(Boolean));
+          const memberships = sources => Object.fromEntries(Object.entries(sources)
+            .map(([name, values]) => [name, values.has(fixture)]));
+          async function discover(login, alias) {
+            // No fixture owner/repository is supplied to any discovery request.
+            const sources = { owned: new Set(), contributed: new Set(), recent: new Set(),
+              events: new Set(), issueInvolvement: new Set() };
+            const own = await restPages(`${alias}_owned`, `/users/${login}/repos?type=owner`, 2);
+            for (const row of own.items) if (row.private === false) {
+              const key = repoKey(row.full_name); if (key) sources.owned.add(key);
+            }
+            let contributedHasNext = true;
+            let contributedFailed = false;
+            let cursor = null;
+            for (let page = 1; page <= 2 && contributedHasNext; page++) {
+              const data = await request(`${alias}_contributed_${page}`, '/graphql', {
+                query: `query($login: String!, $after: String) {
+                  user(login: $login) {
+                    repositoriesContributedTo(first: 100, after: $after, privacy: PUBLIC,
+                      includeUserRepositories: true,
+                      contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, PULL_REQUEST_REVIEW, REPOSITORY]) {
+                      nodes { nameWithOwner isPrivate }
+                      pageInfo { hasNextPage endCursor }
+                    }
+                  }
+                }`, variables: { login, after: cursor },
+              });
+              const c = data?.data?.user?.repositoriesContributedTo;
+              if (!Array.isArray(c?.nodes) || typeof c?.pageInfo?.hasNextPage !== 'boolean') {
+                if (data) { failures++; emit(`${alias}_contributed`, 'SCHEMA_MISMATCH'); }
+                contributedFailed = true; break;
+              }
+              for (const key of publicRepos(c.nodes)) sources.contributed.add(key);
+              contributedHasNext = c.pageInfo.hasNextPage;
+              cursor = c.pageInfo.endCursor;
+            }
+            const recentData = await request(`${alias}_recent_groups`, '/graphql', {
+              query: `query($login: String!, $from: DateTime!, $to: DateTime!) {
+                user(login: $login) {
+                  contributionsCollection(from: $from, to: $to) {
+                    commitContributionsByRepository(maxRepositories: 100) { repository { nameWithOwner isPrivate } }
+                    issueContributionsByRepository(maxRepositories: 100) { repository { nameWithOwner isPrivate } }
+                    pullRequestContributionsByRepository(maxRepositories: 100) { repository { nameWithOwner isPrivate } }
+                    pullRequestReviewContributionsByRepository(maxRepositories: 100) { repository { nameWithOwner isPrivate } }
+                  }
+                }
+              }`, variables: { login, from: from.toISOString(), to: to.toISOString() },
+            });
+            const recent = recentData?.data?.user?.contributionsCollection;
+            const groupNames = ['commitContributionsByRepository', 'issueContributionsByRepository',
+              'pullRequestContributionsByRepository', 'pullRequestReviewContributionsByRepository'];
+            const recentValid = groupNames.every(name => Array.isArray(recent?.[name]));
+            if (!recentValid && recentData) { failures++; emit(`${alias}_recent_groups`, 'SCHEMA_MISMATCH'); }
+            if (recentValid) for (const name of groupNames) {
+              for (const key of publicRepos(recent[name].map(row => row.repository))) sources.recent.add(key);
+            }
+            const events = await restPages(`${alias}_events`, `/users/${login}/events/public`, 3);
+            const inWindowEvents = events.items.filter(row => row.public === true && validDate(row.created_at));
+            for (const row of inWindowEvents) {
+              const key = repoKey(row.repo?.name); if (key) sources.events.add(key);
+            }
+            const query = new URLSearchParams({
+              q: `is:issue is:public involves:${login} updated:${from.toISOString().slice(0, 10)}..${to.toISOString().slice(0, 10)}`,
+            });
+            let searchIncomplete = false;
+            let searchCount = null;
+            const search = await restPages(`${alias}_issue_search`, `/search/issues?${query}`, 2, data => {
+              searchIncomplete ||= data.incomplete_results !== false;
+              searchCount = data.total_count;
+              return data.items;
+            });
+            for (const item of search.items) {
+              const match = /^https:\/\/api\.github\.com\/repos\/([^/]+\/[^/]+)$/.exec(item.repository_url ?? '');
+              const key = match && repoKey(match[1]); if (key) sources.issueInvolvement.add(key);
+            }
+            const all = new Set(Object.values(sources).flatMap(values => [...values]));
+            const summary = {
+              counts: Object.fromEntries(Object.entries(sources).map(([name, values]) => [name, values.size])),
+              union: all.size,
+              ownedPagesExhausted: own.exhaustedPages && !own.failed,
+              contributedPagesExhausted: !contributedHasNext && !contributedFailed,
+              recentGroupsValid: recentValid,
+              recentAtRepositoryCap: recentValid && groupNames.some(name => recent[name].length === 100),
+              eventsFetched: events.items.length,
+              eventsInWindow: inWindowEvents.length,
+              eventPagesExhausted: events.exhaustedPages && !events.failed,
+              eventReleaseRecords: inWindowEvents.filter(row => row.type === 'ReleaseEvent').length,
+              eventTriageRecords: inWindowEvents.filter(row => row.type === 'IssuesEvent' &&
+                triageTypes.has(row.payload?.action)).length,
+              issueSearchCount: Number.isInteger(searchCount) ? searchCount : null,
+              issueSearchIncomplete: searchIncomplete || search.failed || !search.exhaustedPages,
+              full90DayOperationsCoverage: 'NOT_PROVEN',
+            };
+            emit(`${alias}_discovery`, 'OBSERVED', summary);
+            return { sources, all, summary };
+          }
+
+          emit('scope', 'DIAGNOSTIC_ONLY', { days: 90, maxRequests: 60,
+            maxSubjects: 3, writes: false, rawActivityLogging: false });
+          const schema = await request('contribution_schema', '/graphql', {
+            query: 'query { __type(name: "RepositoryContributionType") { enumValues { name } } }',
+          });
+          const names = schema?.data?.__type?.enumValues?.map(value => value.name);
+          if (Array.isArray(names)) emit('contribution_type_support', 'OBSERVED', {
+            explicitReleaseType: names.includes('RELEASE'), explicitTriageType: names.includes('TRIAGE'),
+          });
+          else if (schema) { failures++; emit('contribution_schema', 'SCHEMA_MISMATCH'); }
+          const targetDiscovery = await discover(target, 'target');
+
+          // The known fixture is consulted only after target discovery finishes.
+          const releases = await restPages('control_release_list', `/repos/${fixture}/releases`, 2);
+          const releaseSamples = releases.items.filter(row => validDate(row.published_at) &&
+            row.draft === false && row.prerelease === false && row.author?.type === 'User' &&
+            loginPattern.test(row.author?.login ?? ''));
+          const releaseSample = releaseSamples.find(row => Date.parse(row.published_at) < end.getTime() - 30 * day)
+            ?? releaseSamples[0];
+          const events = await restPages('control_issue_events', `/repos/${fixture}/issues/events`, 3);
+          const triageSamples = events.items.filter(row => validDate(row.created_at) && triageTypes.has(row.event) &&
+            row.actor?.type === 'User' && loginPattern.test(row.actor?.login ?? '') &&
+            row.issue?.id && row.issue?.user?.id && !row.issue.pull_request &&
+            row.actor.id !== row.issue.user.id);
+          const buckets = new Map();
+          for (const row of triageSamples) {
+            const key = `${row.actor.id}:${row.created_at.slice(0, 10)}`;
+            const bucket = buckets.get(key) ?? { actor: row.actor, issues: new Set(), events: [] };
+            bucket.issues.add(row.issue.id); bucket.events.push(row); buckets.set(key, bucket);
+          }
+          const triageBucket = [...buckets.values()].sort((a, b) => b.issues.size - a.issues.size)[0];
+          emit('known_repository_controls', 'OBSERVED', {
+            humanReleaseRecords90: releaseSamples.length,
+            releaseControlAvailable: Boolean(releaseSample),
+            humanTriageEventRecords90: triageSamples.length,
+            triageControlAvailable: Boolean(triageBucket),
+            triageControlDistinctOtherIssuesInDay: triageBucket?.issues.size ?? 0,
+            releaseListPagesExhausted: releases.exhaustedPages && !releases.failed,
+            issueEventPagesExhausted: events.exhaustedPages && !events.failed,
+            awardEligibilityAndOperationsOnlyStatus: 'NOT_ESTABLISHED',
+          });
+          const subjects = new Map();
+          if (releaseSample) subjects.set(releaseSample.author.login.toLowerCase(), {
+            login: releaseSample.author.login, release: true, triage: false,
+            oldReleaseBeyond30Days: Date.parse(releaseSample.published_at) < end.getTime() - 30 * day,
+          });
+          if (triageBucket) {
+            const key = triageBucket.actor.login.toLowerCase();
+            const subject = subjects.get(key) ?? { login: triageBucket.actor.login, release: false,
+              triage: false, oldReleaseBeyond30Days: false };
+            subject.triage = true; subjects.set(key, subject);
+          }
+          let index = 0;
+          for (const subject of subjects.values()) {
+            const alias = `control_${++index}`;
+            const discovered = subject.login.toLowerCase() === target.toLowerCase()
+              ? targetDiscovery : await discover(subject.login, alias);
+            const discoveryFailed = failures > 0;
+            emit(`${alias}_known_vs_discovered`, discovered.all.has(fixture)
+              ? 'FOUND_KNOWN_OPERATIONS_REPOSITORY'
+              : discoveryFailed ? 'INCONCLUSIVE_API_FAILURE' : 'MISSING_FROM_BOUNDED_DISCOVERY', {
+              knownHumanRelease: subject.release, knownHumanTriageEvent: subject.triage,
+              releaseBeyond30Days: subject.oldReleaseBeyond30Days,
+              sourceMembership: memberships(discovered.sources),
+              operationsOnlyStatus: 'NOT_ESTABLISHED',
+              positiveMatchDoesNotProveGlobalCompleteness: true,
+            });
+          }
+          if (!subjects.size) emit('operations_positive_controls', 'NO_SAMPLE_IN_BOUNDED_FIXTURE');
+          emit('conclusion', failures ? 'INCOMPLETE_TECHNICAL_CHECK' : 'ACCESS_CHECKS_COMPLETE', {
+            requests, technicalFailures: failures, full90DayOperationsCoverage: 'NOT_PROVEN',
+            eventsAreRecentAndCapped: true, fixtureWasNotADiscoverySeed: true,
+            growthOrClassDecisionsMade: false,
+          });
+          process.exitCode = failures ? 1 : 0;
+          NODE
