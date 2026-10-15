@@ -16,6 +16,12 @@ const selection = (extra = {}) => ({ accountId: '1001', factionId: 'bloomguard',
 function savedFiles(name = 'ready-40xp') {
   return Object.fromEntries(['state', 'ledger', 'status'].map(role => [`.commitkin/${role}.json`, new Uint8Array(readFileSync(new URL(`../../../test/fixtures/records/v1/valid/${name}/${role}.json`, import.meta.url)))]));
 }
+function regularFiles() {
+  const files = savedFiles(); const state = JSON.parse(new TextDecoder().decode(files[RECORD_PATHS[0]]));
+  state.class = { id: 'blacksmith', lastChangedOn: '2026-10-15', pending: null, history: [{ classId: 'blacksmith', assignedAt: state.evaluation.evaluatedAt }] };
+  state.observationClock.classLastCountedOn = '2026-10-15'; files[RECORD_PATHS[0]] = bytes(JSON.stringify(state));
+  return files;
+}
 function fixture({ files = {}, metadata = {}, head = HEAD, truncated = false, treeChanges = entry => entry, contentChanges = item => item, history = {}, historicalStates = {}, historicalTreeChanges = entry => entry, historicalContentChanges = item => item, historicalTruncated = false, failure = null, blobFallback = false } = {}) {
   const filesByPath = { 'README.md': bytes('# Profile\n<!-- COMMITKIN:START -->\n<!-- COMMITKIN:END -->\n안녕\n'), '.github/commitkin.yml': bytes('version: 1\nrepositories:\n  additional: []\n  exclude: []\n'), ...files };
   for (const [path, value] of Object.entries(filesByPath)) if (value === null) delete filesByPath[path];
@@ -166,12 +172,12 @@ test('strict UTF-8 rejects invalid source bytes without leaking content', async 
   assert.equal(result.code, 'INSTALLATION_UTF8_INVALID'); assert.equal(Object.hasOwn(result, 'readmeBytes'), false);
 });
 test('fixed SHA blob fallback handles encoding:none without following a supplied download URL', async () => {
-  const mock = fixture({ files: savedFiles(), blobFallback: true });
+  const mock = fixture({ files: regularFiles(), blobFallback: true });
   const result = await acquire(mock, { initialSelection: null }); assert.equal(result.decision, 'acquired');
   assert.equal(mock.calls.some(call => call.path.includes('/git/blobs/')), true); assert.equal(mock.calls.some(call => call.path.includes('download')), false);
 });
 test('refresh validates matched record bytes and preserves fixed faction without new assignment provenance', async () => {
-  const mock = fixture({ files: savedFiles() }); const result = await acquire(mock, { initialSelection: null });
+  const mock = fixture({ files: regularFiles() }); const result = await acquire(mock, { initialSelection: null });
   assert.equal(result.decision, 'acquired'); assert.equal(result.firstInstallVerified, false); assert.equal(result.initialAssignmentVerified, false);
   assert.deepEqual(result.records.state, mock.filesByPath[RECORD_PATHS[0]]); assert.equal(result.initialSelection, null);
   assert.equal(mock.calls.some(call => call.method === 'GET_PAGES'), false);
@@ -208,7 +214,7 @@ test('file byte ceilings and duplicate tree entries fail closed', async () => {
   const duplicate = fixture(); duplicate.entries.push({ ...duplicate.entries[0] }); assert.equal((await acquire(duplicate)).code, 'INSTALLATION_TREE_INVALID');
 });
 test('all contents are acquired by the original SHA even if branch moves after the initial head check', async () => {
-  const mock = fixture({ files: savedFiles() }); const original = mock.client.get; let contentRequests = 0;
+  const mock = fixture({ files: regularFiles() }); const original = mock.client.get; let contentRequests = 0;
   mock.client.get = async path => { if (path.includes('/contents/')) { contentRequests += 1; assert.equal(new URL(path, 'https://api.github.com').searchParams.get('ref'), HEAD); } return original(path); };
   const result = await acquire(mock, { initialSelection: null }); assert.equal(result.expectedHead, HEAD); assert.equal(contentRequests, 5);
 });
@@ -374,9 +380,9 @@ test('historical tree modes, truncation, content identity and lookup failures ca
   ]) assert.equal((await acquire(pendingFixture(changes), { initialSelection: null })).code, 'RECOVERY_REQUIRED');
 });
 
-test('a ready Adventurer with no activity remains a refresh, never a new initial-assignment exception', async () => {
+test('a bare ready Adventurer cannot infer first-class provenance without complete verified origin history', async () => {
   const mock = fixture({ files: savedFiles('ready-empty'), history: { [RECORD_PATHS[0]]: { ok: false } } });
   const result = await acquire(mock, { initialSelection: null });
-  assert.equal(result.decision, 'acquired'); assert.equal(result.initialAssignmentVerified, false); assert.equal(result.firstInstallVerified, false);
-  assert.equal(mock.calls.some(call => call.method === 'GET_PAGES'), false);
+  assert.equal(result.decision, 'hold'); assert.equal(result.code, 'INSTALLATION_HISTORY_INCOMPLETE'); assert.equal(result.initialAssignmentVerified, false); assert.equal(result.firstInstallVerified, false);
+  assert.equal(mock.calls.some(call => call.method === 'GET_PAGES'), true);
 });

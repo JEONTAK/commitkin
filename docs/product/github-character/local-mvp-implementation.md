@@ -4,8 +4,8 @@ Updated 2026-10-15. MVP source / pre-release validation; no release tag or real 
 
 ## Latest local gate
 
-- Runtime: 888/888 native tests; record validator: 295/295. Combined: 1,183 tests, without double-counting schema assertions.
-- Core coverage: 98.75% lines, 93.84% branches, 96.98% functions; configured minimums all 80%.
+- Runtime: 916/916 native tests; record validator: 295/295. Combined: 1,211 tests, without double-counting schema assertions.
+- Core coverage: 98.87% lines, 93.96% branches, 97.16% functions; configured minimums all 80%.
 - 198 protected original artifacts and the original mechanics baseline remained unchanged.
 - Publication uses explicit outcomes: confirmed `true / published`, definitive no-write `false / not_published`, or unconfirmed post-CAS `null / outcome_unknown`. No blind retry.
 - These are local synthetic/injected-HTTP results. The source head's diagnostic run must be checked separately; no actual owner growth write is included.
@@ -20,6 +20,7 @@ Updated 2026-10-15. MVP source / pre-release validation; no release tag or real 
 - Hybrid public repository discovery, optional explicit additions/exclusions, bounded API pagination and fail-closed known-scope collection.
 - Observed-source acquisition/qualification, independent candidate settlement comparison, managed README and original code-native PNG rendering.
 - Default no-write Action composition. Explicit opt-in five-file publisher uses one preserved-base-tree commit and expected-head GraphQL compare-and-swap, then authoritative ref readback. Unknown outcomes require reconciliation, not blind retries.
+- Lazy first regular-class continuity after a successful empty Adventurer analysis: verify the immutable same-owner/faction matched-record origin only when a real candidate exists, then reevaluate without double observations. Maximum 100 state-history entries and bounded requests; missing proof explicitly holds. Ordinary no-candidate growth does not scan this history. Original schemas/record fields and numerical mechanics remain unchanged.
 
 ## Confirmed source semantics
 
@@ -33,7 +34,9 @@ Full changed-file inventories are independently checked against Git trees. Recog
 
 The [initial real Actions run](https://github.com/JEONTAK/commitkin/actions/runs/38712379879) passed 773 then-current native tests, fictional previews and actual basic `GITHUB_TOKEN` known-scope reads, without creating live growth files. This is not proof of subsequent source changes.
 
-The [observed-model diagnostic](https://github.com/JEONTAK/commitkin/actions/runs/38718322531) at `8444e0a3b6f337632e503f9f5b58c54f81387cab` passed its 1,173 tests and completed-day in-memory analysis but held during current-day multi-page file acquisition: GitHub emitted numeric canonical paths. Follow-up code accepts aliases only when bound to verified repository/user IDs, the original endpoint, unchanged filters and consecutive pages. The failed run is not overall success; follow-up source needs its own actual basic-token diagnostic.
+The [observed-model diagnostic](https://github.com/JEONTAK/commitkin/actions/runs/38718322531) at `8444e0a3b6f337632e503f9f5b58c54f81387cab` passed its 1,173 tests and completed-day in-memory analysis but held during current-day multi-page file acquisition: GitHub emitted numeric canonical paths. Follow-up code accepts aliases only when bound to verified repository/user IDs, the original endpoint, unchanged filters and consecutive pages. The failed run is not overall success; its successful follow-up is recorded below.
+
+The follow-up at `f54463901518d36b47c69f1ec740697409e5dd09` passed [actual basic-token diagnostic Actions](https://github.com/JEONTAK/commitkin/actions/runs/38719578588): all 1,183 then-current tests, fictional previews, completed-day in-memory observed collection/qualification/settlement, acquisition-only reads of 454 full-text file pairs, the fixed public closing-issues query and the no-live-record footprint. Observed reads used 439 requests. Current-day activity was not qualified/settled. Linux coverage measured 98.75% lines, 93.78% branches, 96.98% functions. This is known-scope read proof, not populated coverage of every source family or real profile publication.
 
 Newer collection, full Action composition, permanent pending reservation, grouped publication, ownership changes and CAS conflicts are covered with injected HTTP. Current local source gates include both first-party packages; final remote results must match their source head.
 
@@ -48,6 +51,8 @@ The manual `core-validation.yml` workflow has `contents: read` only. Its observe
 - Final hand-painted/AI artwork rights, marketplace/version release or production-scale cost limits.
 
 No real owner growth write or scheduled character publisher has been enabled in this repository.
+
+The runtime now bounds analysis to 900 requests and publication to 30. The final source-validation workflow can explicitly skip repeat public reads only when those six reader/probe files are byte-identical to the successful `f544639` diagnostic. Such skipped steps are not API execution evidence; installation/provenance/write behavior remains injected-HTTP proof, not live profile proof.
 
 ## Distribution and rights
 

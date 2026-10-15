@@ -3,6 +3,11 @@ name: Read-only core validation
 
 "on":
   workflow_dispatch:
+    inputs:
+      public_api_reads:
+        description: Run actual public API probes; disable only when unchanged read adapters already have matching live proof
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -37,14 +42,17 @@ jobs:
           node packages/commitkin/bin/commitkin.mjs demo --faction bloomguard --name ci-bloomguard
           node packages/commitkin/bin/commitkin.mjs demo --faction ashbound --name ci-ashbound
       - name: Verify the built-in token through the actual read-only adapter
+        if: ${{ inputs.public_api_reads }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: node packages/commitkin/bin/commitkin-readonly-probe.mjs
       - name: Verify observed-source reads and unsettled-day file acquisition without writing growth
+        if: ${{ inputs.public_api_reads }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: node packages/commitkin/bin/commitkin-observed-probe.mjs
       - name: Check no live growth record was created
+        if: ${{ always() }}
         run: |
           test ! -e .commitkin
           test ! -e .github/commitkin.yml

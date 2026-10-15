@@ -236,6 +236,44 @@ test('evaluateCharacter composes immutable output and actuallevel appearance wit
   assert.equal(assigned.class.id, 'blacksmith');
   assert.equal(assigned.achievements.find(item => item.seriesId === 'class-codex').earned[0].grade, 'bronze');
 });
+test('verified never-assigned ready Adventurer receives its first regular class while later empty trait slots still need three normal observations', () => {
+  const initial = previous(); const firstDate = shiftDate(D, -14); const emptyRecord = ledger(); emptyRecord.days = []; emptyRecord.coverage[0].endDateExclusive = firstDate;
+  const first = evaluateCharacter({ previousState: initial, ledger: emptyRecord, evaluationDate: firstDate, evaluatedAt: firstDate + 'T01:00:00Z', scopeId: SCOPE, initialAssignmentVerified: true });
+  assert.equal(first.class.id, 'adventurer'); assert.deepEqual(first.class.history, []); assert.equal(first.observationClock.lastNormalEvaluationOn, firstDate);
+  const state = { ...initial, class: first.class, traits: first.traits, observationClock: first.observationClock, achievements: first.achievements };
+  const record = ledger(sequence(12, { kind: 'merged_pr' })); const before = structuredClone({ state, record });
+  const held = evaluateCharacter({ previousState: state, ledger: record, evaluationDate: D, evaluatedAt: AT, scopeId: SCOPE });
+  assert.equal(held.class.id, 'adventurer');
+  let result = evaluateCharacter({ previousState: state, ledger: record, evaluationDate: D, evaluatedAt: AT, scopeId: SCOPE, initialAssignmentVerified: true });
+  assert.equal(result.class.id, 'blacksmith'); assert.deepEqual(result.class.history, [{ classId: 'blacksmith', assignedAt: AT }]); assert.equal(result.class.lastChangedOn, D);
+  assert.equal(result.observationClock.classLastCountedOn, D);
+  for (const [slot, targetId] of [['habit', 'focused'], ['activity', 'finisher']]) {
+    assert.equal(result.traits[slot].currentId, null); assert.equal(result.traits[slot].pending.targetId, targetId); assert.equal(result.traits[slot].pending.count, 1);
+  }
+  assert.deepEqual({ state, record }, before);
+  const advanced = prior => ({ ...state, class: prior.class, traits: prior.traits, observationClock: prior.observationClock, achievements: prior.achievements });
+  const sameDay = evaluateCharacter({ previousState: advanced(result), ledger: record, evaluationDate: D, evaluatedAt: D + 'T02:00:00Z', scopeId: SCOPE, initialAssignmentVerified: true });
+  assert.deepEqual(sameDay.traits, result.traits); assert.deepEqual(sameDay.class.history, result.class.history);
+  for (let day = 1; day <= 2; day += 1) {
+    const date = shiftDate(D, day); const nextRecord = structuredClone(record); nextRecord.coverage[0].endDateExclusive = date;
+    result = evaluateCharacter({ previousState: advanced(result), ledger: nextRecord, evaluationDate: date, evaluatedAt: date + 'T01:00:00Z', scopeId: SCOPE, initialAssignmentVerified: true });
+    for (const [slot, targetId] of [['habit', 'focused'], ['activity', 'finisher']]) {
+      if (day === 1) { assert.equal(result.traits[slot].currentId, null); assert.equal(result.traits[slot].pending.count, 2); }
+      else assert.deepEqual(result.traits[slot], { currentId: targetId, pending: null });
+    }
+    assert.equal(result.class.history.length, 1);
+  }
+});
+test('verified first-class provenance never bypasses regular-class cooldown or turns a later normal analysis into first-normal trait assignment', () => {
+  const stillCoolingDown = change({ previousClass: classState('blacksmith', '2026-10-02', pending()), initialAssignmentVerified: true }).value;
+  assert.equal(stillCoolingDown.id, 'blacksmith'); assert.equal(stillCoolingDown.pending.count, 7);
+  const record = ledger(sequence(12, { kind: 'merged_pr' })); const pristine = previous();
+  const genuinelyFirst = evaluateCharacter({ previousState: pristine, ledger: record, evaluationDate: D, evaluatedAt: AT, scopeId: SCOPE, initialAssignmentVerified: true });
+  assert.deepEqual(genuinelyFirst.traits.habit, { currentId: 'focused', pending: null }); assert.deepEqual(genuinelyFirst.traits.activity, { currentId: 'finisher', pending: null });
+  pristine.observationClock.lastNormalEvaluationOn = shiftDate(D, -1);
+  const later = evaluateCharacter({ previousState: pristine, ledger: record, evaluationDate: D, evaluatedAt: AT, scopeId: SCOPE, initialAssignmentVerified: true });
+  assert.equal(later.class.id, 'blacksmith'); assert.equal(later.traits.habit.currentId, null); assert.equal(later.traits.habit.pending.count, 1); assert.equal(later.traits.activity.currentId, null); assert.equal(later.traits.activity.pending.count, 1);
+});
 test('scope excludesrecentclass/traits but preservescumulativeachievements', () => {
   const record = ledger(sequence(10, { repositoryId: '2', kind: 'merged_pr', family: 'knowledge' }));
   const result = evaluateCharacter({ previousState: previous(), ledger: record, evaluationDate: D, evaluatedAt: AT, scopeId: SCOPE, initialAssignmentVerified: true });

@@ -10,6 +10,8 @@ MVP implementation / pre-release validation. Class, trait, achievement, growth, 
 
 The [initial diagnostic run](https://github.com/JEONTAK/commitkin/actions/runs/38712379879) passed 773 then-current tests and a real basic-token known-scope read probe. Later source changes need separate validation. A green diagnostic is not proof of every endpoint, complete discoverability, live installation or publication.
 
+The [observed-source read diagnostic](https://github.com/JEONTAK/commitkin/actions/runs/38719578588) at `f54463901518d36b47c69f1ec740697409e5dd09` passed 1,183 tests plus actual built-in-token collection, multi-page file acquisition and a fixed public closing-issues query. No growth files were written. Later installation-only fixes have their own source tests; unchanged public probes may be explicitly skipped to conserve quota, never relabeled as executed.
+
 ## How it works
 
 - Choose **Bloomguard**, a cozy fantasy guild, or **Ashbound**, a dark fantasy order. First published choice is permanent.
@@ -74,11 +76,13 @@ IDs, dates, aggregates and hashes are public. Hashes are not encryption or anony
 
 - `hold`: required proof is missing, inaccessible, over budget or contradictory. Preserve the character; inspect the bounded code and resolve the cause.
 - `Analysis pending`: faction confirmed, growth unknown. Retry without faction/confirmation; do not delete files or treat unknown XP as zero.
-- Missing/corrupt/mismatched records: restore **all three JSON files from one valid same-owner commit/backup**, keeping matched revisions. Do not mix snapshots, reset XP, reselect faction or revert unrelated files.
+- Missing/corrupt/mismatched records: restore **all three JSON files from the latest valid same-owner commit/backup**, keeping matched revisions. Restore its card and managed README block as well, preserving unrelated README bytes; same-date no-ops do not repair presentation. Unverifiable restored history still holds for review. Do not mix snapshots, reset XP, reselect faction or revert unrelated files.
 - Competing publication: expected-head compare-and-swap rejects a changed branch. Read authoritative state before retrying; ambiguous writes are never blindly replayed.
 - Uninstall: disable/remove the workflow and optionally the managed block, retaining `.commitkin` and its history. No automatic expiry/deletion; history redaction is a separate explicit user operation.
 
 Rewritten-away user-managed history cannot always be detected. Old uncollected periods remain explicit gaps, not inactivity or guaranteed recoverable history. Required failures never advance successful freshness or growth observations.
+
+First regular assignment after an earlier successful Adventurer analysis requires a verified reachable matched-record lineage (at most 100 state-history entries, also subject to request budget). This scan happens only when there is an actual first-class candidate; ordinary no-candidate XP/traits continue without it. Insufficient origin proof explicitly holds rather than trusting an empty class history or rewriting the faction.
 
 ## Development and validation
 

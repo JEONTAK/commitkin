@@ -28,10 +28,13 @@ See the root [installation guide](../../README.md#installation). The composite [
 - First manual install requires `faction: bloomguard|ashbound` and `confirmation: CONFIRM_PERMANENT_FACTION`. The first published confirmation is permanent. Later runs leave both inputs empty.
 - Incomplete first analysis can reserve only the confirmed faction: XP, class and evaluation remain null, and the card says Analysis pending. This is not a successful zero-XP analysis.
 - Existing failures preserve the last valid character. Deleted/corrupt/incomplete files require recovery, not reinitialization. Pending initial assignment requires verified reachable same-owner pending-state history.
+- A user whose first successful analysis was an empty Adventurer can receive a first regular class later. Only an actual class candidate triggers verified matched-record lineage reads. At most 100 state-history entries are supported; missing/corrupt/over-budget origin proof explicitly holds that assignment/analysis. No-candidate XP and traits do not require this history scan. Empty history alone never grants first-assignment authority.
 
 Publication constructs five blobs, one base-tree-preserving tree and one commit, then applies fixed GraphQL `updateRefs` with `beforeOid=expectedHead` and `force:false`. Authoritative ref readback is required. Concurrent changes hold; ambiguous mutations are reconciled by reads, never blindly retried or downgraded to weaker ref updates. Other profile files and README bytes outside the single managed block remain unchanged.
 
 Write/recovery paths are tested with injected HTTP, not by changing the maintainer's real growth records. Current validation workflows use `contents: read` only. No live profile installation, scheduled growth write, release tag or complete provider-coverage claim is implied.
+
+One analysis is bounded to 900 API requests, with a separately bounded 30-request publisher. This leaves headroom under GitHub's standard [1,000 REST requests/hour/repository allowance for GITHUB_TOKEN](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api#primary-rate-limit-for-github_token-in-github-actions), not a guarantee of available quota. Other workflows, repeated previews and secondary limits can lower availability; exhaustion holds rather than partially paying repositories. A source-validation workflow may skip repeat public probes only when its read adapters are byte-identical to a previously successful live diagnostic; this does not certify skipped API steps or real profile publication.
 
 ## Source model
 
@@ -102,6 +105,6 @@ node packages/commitkin/bin/commitkin.mjs preflight \
 
 No raw source captures, titles, bodies, file contents, emails, tokens or participant lists enter public records. Original IDs are transient ordering inputs; approved hashes, stable repository IDs, dates and aggregates are public, not anonymous or encrypted. Same-date no-ops retain prior successful timestamps rather than falsely binding old snapshots to new captures.
 
-On uninstall, disable the workflow and optionally remove the managed README block; retain growth files. Restore matching state/ledger/status from one valid same-owner commit/backup set. Never mix revisions, delete records to change faction, automatically reset or roll back unrelated files. See [recovery](../../README.md#recovery).
+On uninstall, disable the workflow and optionally remove the managed README block; retain growth files. Restore matching state/ledger/status from the latest valid same-owner commit/backup set, together with its card and managed README content (not unrelated README bytes). Same-date no-ops do not repair independently edited presentation. A restored bundle without sufficient historical provenance still holds for review. Never mix revisions, delete records to change faction, automatically reset or roll back unrelated files. See [recovery](../../README.md#recovery).
 
 First-party code is MIT; dependencies retain their licenses/notices, including canonicalize's Apache-2.0. No external font or AI image is loaded. AI-image rights remain mandatory before future redistribution. See [credits](../../README.md#credits) and [validation status](../../docs/product/github-character/local-mvp-implementation.md).

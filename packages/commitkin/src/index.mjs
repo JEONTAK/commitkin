@@ -38,12 +38,18 @@ function composeRefresh({client,clock,observed}){
   if(!client||typeof client.get!=='function'||typeof client.paginate!=='function'||typeof clock!=='function')throw new TypeError('REFRESH_PORTS_INVALID');
   const validateRecords=createValidator();
   return createRefreshUseCase({
-    acquire:input=>acquireInstallation({...input,client,validateRecords}),
+    acquire:input=>acquireInstallation({...input,client,validateRecords,...(observed?{deferReadyClassOrigin:true}:{})}),
     parse:parseStrictJson,parseSettings,
     discover:input=>discoverRepositories({...input,client}),
     collect:input=>collectPublicSources({...input,client,...(observed?{model:OBSERVED_SOURCE_MODEL}:{})}),
     adapt:adaptPublicCapture,policyRegistry:DEVELOPMENT_POLICY_REGISTRY,policyDescriptors:developmentPolicyDescriptors(),
     ...(observed?{sourceModel:OBSERVED_SOURCE_MODEL,policyRegistry:OBSERVED_POLICY_REGISTRY,qualifyCapture:qualifyObservedCapture,verifyCandidate:createObservedCandidateVerifier({validateRecords}),reserveInitialPending:true}:{}),
+    ...(observed?{verifyInitialClassOrigin:async({workflowContext,expectedHead,expectedOwner})=>{
+      const origin=await acquireInstallation({client,validateRecords,workflowContext,initialSelection:null});
+      if(origin.decision!=='acquired')return{decision:'hold',code:origin.code};
+      return origin.initialAssignmentVerified===true&&origin.expectedHead===expectedHead&&origin.expectedOwner.accountId===expectedOwner.accountId&&origin.expectedOwner.profileRepositoryId===expectedOwner.profileRepositoryId?
+        {decision:'verified'}:{decision:'hold',code:'INITIAL_CLASS_ORIGIN_UNVERIFIED'};
+    }}:{}),
     schema:createEvidenceSchemaRegistry(),clock,evaluate:createSnapshotEvaluator(),verify:createEvidenceVerifier(),updateReadme:updateManagedReadme,
     present:({candidate,username,classificationReason,originalReadme})=>[
       ...['state','ledger','status'].map(role=>({path:'.commitkin/'+role+'.json',content:Buffer.from(JSON.stringify(candidate[role],null,2)+'\n')})),

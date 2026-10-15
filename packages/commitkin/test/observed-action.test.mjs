@@ -31,6 +31,7 @@ function profileHttp({ excludeSelf = true, failCollection = false, prior = null,
   const commits = new Map([[HEAD, { sha: HEAD, tree: { sha: TREE }, parents: [] }]]);
   const blobs = new Map([...initialFiles.values()].map(content => [hash(content), Buffer.from(content)]));
   const histories = new Map(); const requests = []; const controls = { head: HEAD, failCollection, publisherOwnerId, publisherRepositoryId, failCas };
+  if (prior) for (const path of PATHS) histories.set(path, [{ sha: HEAD }]);
   const stored = () => snapshots.get(commits.get(controls.head).tree.sha);
   const contentAt = (sha, path) => snapshots.get(commits.get(sha)?.tree.sha)?.get(path);
   const filesBefore = () => [...stored()].map(([path, content]) => [path, Buffer.from(content)]);

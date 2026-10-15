@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { parseStrictJson } from '../../../../record-validator/src/infrastructure/strict-json.js';
 import { digest } from '../../../../record-validator/src/domain/hash.js';
+import { compareTimestamps } from '../../domain/character/activity.mjs';
 
 const RECORDS = Object.freeze({ state: '.commitkin/state.json', ledger: '.commitkin/ledger.json', status: '.commitkin/status.json' });
 const LIMITS = Object.freeze({ '.commitkin/state.json': 1048576, '.commitkin/ledger.json': 33554432, '.commitkin/status.json': 65536, 'README.md': 1048576, '.github/commitkin.yml': 65536 });
@@ -103,14 +104,88 @@ async function verifyPendingOrigin({ client, root, repositoryId, expectedHead, c
   return previousRevision === 1 ? { ok: true } : { ok: false, code: 'RECOVERY_REQUIRED' };
 }
 
+function unassignedAdventurer(state) {
+  return state.growth.phase === 'ready' && state.class?.id === 'adventurer' && state.class.lastChangedOn === null && state.class.pending === null &&
+    Array.isArray(state.class.history) && state.class.history.length === 0 && state.observationClock.classLastCountedOn === null &&
+    !state.achievements.some(series => series.seriesId === 'class-codex' && series.earned.length > 0);
+}
+
+/** A current empty class is a reason to investigate, never proof of first use. */
+async function verifyAdventurerOrigin({ client, root, repositoryId, expectedHead, current, currentEntries, currentRecords, maxHistoryPages, validateRecords, now }) {
+  if (!unassignedAdventurer(current)) return { ok: false, code: 'RECOVERY_REQUIRED' };
+  const history = await client.paginate(`${root}/commits?` + new URLSearchParams({ path: RECORDS.state, sha: expectedHead, per_page: '100' }), { maxPages: Math.min(maxHistoryPages, 2), repositoryId });
+  if (!history.ok || history.complete !== true || !Array.isArray(history.items) || history.items.length > MAX_PENDING_STATES) return { ok: false, code: 'INSTALLATION_HISTORY_INCOMPLETE' };
+  if (history.items.length === 0) return { ok: false, code: 'RECOVERY_REQUIRED' };
+  const shas = history.items.map(item => item?.sha);
+  if (shas.some(sha => !SHA.test(sha ?? '')) || new Set(shas).size !== shas.length) return { ok: false, code: 'RECOVERY_REQUIRED' };
+  // Reuse only already verified immutable bytes, keyed by role and Git blob OID.
+  // In particular, the common latest-history-SHA===HEAD needs no extra GETs.
+  const byteCache = new Map(Object.entries(RECORDS).map(([role, path]) => [role + ':' + currentEntries.get(path).sha, currentRecords[role]]));
+  let newer = null; let newerHash = null; let pendingSeen = false; let oldest = null;
+  for (const sha of shas) {
+    let entries = currentEntries;
+    if (sha !== expectedHead) {
+      const commit = await client.get(`${root}/git/commits/${sha}`);
+      if (!commit.ok || commit.data?.sha !== sha || !SHA.test(commit.data?.tree?.sha ?? '')) return { ok: false, code: 'RECOVERY_REQUIRED' };
+      const tree = await client.get(`${root}/git/trees/${commit.data.tree.sha}?recursive=1`);
+      if (!tree.ok || tree.data?.sha !== commit.data.tree.sha || tree.data.truncated !== false || !Array.isArray(tree.data.tree)) return { ok: false, code: 'RECOVERY_REQUIRED' };
+      entries = new Map();
+      for (const entry of tree.data.tree) {
+        if (!entry || typeof entry.path !== 'string' || entries.has(entry.path) || entry.path === '.commitkin' && (entry.type !== 'tree' || entry.mode !== '040000')) return { ok: false, code: 'RECOVERY_REQUIRED' };
+        entries.set(entry.path, entry);
+      }
+    }
+    const records = {};
+    for (const [role, path] of Object.entries(RECORDS)) {
+      const entry = entries.get(path);
+      if (!entry || entry.type !== 'blob' || !['100644', '100755'].includes(entry.mode) || !SHA.test(entry.sha ?? '') || !Number.isSafeInteger(entry.size) || entry.size < 0 || entry.size > LIMITS[path]) return { ok: false, code: 'RECOVERY_REQUIRED' };
+      const key = role + ':' + entry.sha;
+      if (!byteCache.has(key)) {
+        const content = await client.get(`${root}/contents/${path}?` + new URLSearchParams({ ref: sha }));
+        if (!content.ok || content.data?.type !== 'file' || content.data.path !== path || content.data.sha !== entry.sha || content.data.size !== entry.size) return { ok: false, code: 'RECOVERY_REQUIRED' };
+        let data = content.data;
+        if (data.encoding === 'none') {
+          const blob = await client.get(`${root}/git/blobs/${entry.sha}`);
+          if (!blob.ok) return { ok: false, code: 'RECOVERY_REQUIRED' };
+          data = blob.data;
+        }
+        try { byteCache.set(key, decodeFile(data, entry.sha, entry.size, path)); }
+        catch { return { ok: false, code: 'RECOVERY_REQUIRED' }; }
+      }
+      records[role] = byteCache.get(key);
+      if (records[role].byteLength !== entry.size) return { ok: false, code: 'RECOVERY_REQUIRED' };
+    }
+    const checked = validateRecords(records, { expectedOwner: current.owner, now, operation: 'normal' });
+    if (!checked?.recordValid || !['ACCEPT', 'ANALYSIS_PENDING', 'RETAIN_SUCCESS'].includes(checked.code)) return { ok: false, code: 'RECOVERY_REQUIRED' };
+    let state;
+    try { state = parseStrictJson(records.state, 'state'); } catch { return { ok: false, code: 'RECOVERY_REQUIRED' }; }
+    if (state.schemaVersion !== 1 || state.rulesetVersion !== '1.0.0' || digest(state.owner) !== digest(current.owner) || digest(state.faction) !== digest(current.faction) || state.growth.startDate !== current.growth.startDate) return { ok: false, code: 'RECOVERY_REQUIRED' };
+    if (state.growth.phase === 'ready') {
+      if (pendingSeen || !unassignedAdventurer(state)) return { ok: false, code: 'RECOVERY_REQUIRED' };
+    } else pendingSeen = true;
+    const semanticHash = digest(state);
+    if (newer === null && (entries.get(RECORDS.state).sha !== currentEntries.get(RECORDS.state).sha || semanticHash !== digest(current))) return { ok: false, code: 'RECOVERY_REQUIRED' };
+    if (newer !== null) {
+      if (semanticHash !== newerHash && state.recordRevision >= newer.recordRevision || state.settings.filePreviouslyUsed && !newer.settings.filePreviouslyUsed) return { ok: false, code: 'RECOVERY_REQUIRED' };
+      if (state.growth.phase === 'ready' && newer.growth.phase === 'ready' && (BigInt(state.growth.totalXp) > BigInt(newer.growth.totalXp) || compareTimestamps(state.evaluation.evaluatedAt, newer.evaluation.evaluatedAt) > 0)) return { ok: false, code: 'RECOVERY_REQUIRED' };
+    }
+    oldest = state; newer = state; newerHash = semanticHash;
+  }
+  // A successful first run prepares pending revision 1 in memory and persists
+  // ready revision 2 directly. It must not require a nonexistent pending commit.
+  const pendingOrigin = oldest.growth.phase === 'pending' && oldest.recordRevision === 1;
+  const readyOrigin = oldest.growth.phase === 'ready' && oldest.recordRevision === 2 && oldest.evaluation.lastSuccessfulRevision === 2 && oldest.evaluation.activityCutoffExclusive === oldest.faction.confirmedAt.slice(0, 10);
+  return pendingOrigin || readyOrigin ? { ok: true } : { ok: false, code: 'RECOVERY_REQUIRED' };
+}
+
 /**
  * Acquire immutable-head setup inputs through a supplied GET-only client.
  * The workflow context is provided by the trusted runner, never read from files
  * or inferred from submitted records. No network globals, writes or resets.
  */
-export async function acquireInstallation({ client, workflowContext, initialSelection = null, validateRecords, maxHistoryPages = 10 }) {
+export async function acquireInstallation({ client, workflowContext, initialSelection = null, validateRecords, maxHistoryPages = 10, deferReadyClassOrigin = false }) {
   try {
-    if (!client || typeof client.get !== 'function' || typeof client.paginate !== 'function' || !validContext(workflowContext) || !Number.isSafeInteger(maxHistoryPages) || maxHistoryPages < 1 || maxHistoryPages > 100) return hold('INSTALLATION_CONTEXT_INVALID');
+    if (!client || typeof client.get !== 'function' || typeof client.paginate !== 'function' || !validContext(workflowContext) || !Number.isSafeInteger(maxHistoryPages) || maxHistoryPages < 1 || maxHistoryPages > 100 || typeof deferReadyClassOrigin !== 'boolean') return hold('INSTALLATION_CONTEXT_INVALID');
     const context = { ...workflowContext };
     const selection = initialSelection === null ? null : structuredClone(initialSelection);
     const repository = context.repository;
@@ -161,7 +236,7 @@ export async function acquireInstallation({ client, workflowContext, initialSele
     }
     const records = Object.fromEntries(Object.entries(RECORDS).map(([role, path]) => [role, contents[path]]));
     const expectedOwner = { accountId: context.ownerAccountId, profileRepositoryId: context.repositoryId };
-    let firstInstallVerified = false; let pendingOriginVerified = false;
+    let firstInstallVerified = false; let pendingOriginVerified = false; let adventurerOriginVerified = false; let initialClassOriginDeferred = false;
     if (recordCount === 0) {
       // This proves absence only in history reachable from this captured default
       // head. Complete removal/rewrite of all history cannot be detected perfectly.
@@ -183,6 +258,13 @@ export async function acquireInstallation({ client, workflowContext, initialSele
         const pending = await verifyPendingOrigin({ client, root, repositoryId: context.repositoryId, expectedHead, current, currentBlob: entries.get(RECORDS.state).sha, maxHistoryPages });
         if (!pending.ok) return hold(pending.code);
         pendingOriginVerified = true;
+      } else if (current.growth?.phase === 'ready' && current.class?.id === 'adventurer') {
+        if (deferReadyClassOrigin) initialClassOriginDeferred = true;
+        else {
+          const origin = await verifyAdventurerOrigin({ client, root, repositoryId: context.repositoryId, expectedHead, current, currentEntries: entries, currentRecords: records, maxHistoryPages, validateRecords, now: context.startedAt });
+          if (!origin.ok) return hold(origin.code);
+          adventurerOriginVerified = true;
+        }
       }
     }
     return {
@@ -190,10 +272,11 @@ export async function acquireInstallation({ client, workflowContext, initialSele
       expectedOwner, expectedHead, defaultBranch: actual.default_branch, login: actual.owner.login,
       repository: { id: context.repositoryId, name: actual.name, fullName: actual.full_name, ownerAccountId: context.ownerAccountId, ownerLogin: actual.owner.login, visibility: 'public' },
       records, readmeBytes: contents['README.md'], settingsBytes: contents['.github/commitkin.yml'], settingsFileUsed: contents['.github/commitkin.yml'] !== null,
-      firstInstallVerified, initialAssignmentVerified: firstInstallVerified || pendingOriginVerified,
+      firstInstallVerified, initialAssignmentVerified: firstInstallVerified || pendingOriginVerified || adventurerOriginVerified,
+      initialClassOriginDeferred,
       initialSelection: firstInstallVerified ? { accountId: expectedOwner.accountId, factionId: selection.factionId } : null,
       provenance: { source: 'fixed-head-repository-read', expectedHead, treeSha: commit.data.tree.sha, historyScope: 'reachable-default-branch-at-expected-head', historicalAuthenticity: 'not_checked', perfectPriorInstallationDetection: false,
-        initialAssignmentSource: firstInstallVerified ? 'first-install-empty-history' : pendingOriginVerified ? 'reachable-pending-state-chain' : null },
+        initialAssignmentSource: firstInstallVerified ? 'first-install-empty-history' : pendingOriginVerified ? 'reachable-pending-state-chain' : adventurerOriginVerified ? 'reachable-adventurer-state-chain' : null },
       progressionAuthorized: false, publicationAuthorized: false,
     };
   } catch (error) {

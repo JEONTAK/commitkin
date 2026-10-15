@@ -51,6 +51,8 @@ export function evaluateCharacter({ previousState, ledger, evaluationDate, evalu
     traits: { habit: habit.value, activity: activity.value },
     observationClock: { lastNormalEvaluationOn: evaluationDate, classLastCountedOn: classResult.countedOn, habitLastCountedOn: habit.countedOn, activityLastCountedOn: activity.countedOn },
     achievements, level, appearance, classificationReason,
+    // Internal orchestration hint only; never a public record or trust flag.
+    classCandidateId: selection.candidateId,
     displayedAchievements: selectAchievementBadges(achievements),
   };
 }

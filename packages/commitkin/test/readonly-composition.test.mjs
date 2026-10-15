@@ -31,7 +31,7 @@ function fixture({ prior = null, bom = false } = {}) {
       const file = path.slice(('/repos/' + name + '/contents/').length), content = stored.get(file);
       assert.ok(content); data = { type: 'file', path: file, sha: hash(content), size: content.length, encoding: 'base64', content: content.toString('base64') };
     }
-    else if (path === '/repos/' + name + '/commits') { assert.ok(parsed.searchParams.get('path')); data = []; }
+    else if (path === '/repos/' + name + '/commits') { assert.ok(parsed.searchParams.get('path')); data = prior ? [{ sha: head }] : []; }
     else if (path === '/users/HeroA/repos') data = [metadata];
     else if (path === '/users/HeroA/events/public') data = [];
     else throw new TypeError('UNEXPECTED_MOCK_REQUEST');
@@ -57,7 +57,7 @@ test('actual fixed-head refresh reuses valid records and retains same-date succe
   const result = await createReadonlyRefresh({ client: next.client, clock: () => '2026-10-15T02:01:00Z' })({ workflowContext: { ...workflowContext, startedAt: '2026-10-15T02:00:00Z' } });
   assert.equal(result.decision, 'unchanged', JSON.stringify(result)); assert.deepEqual(result.files, []);
   assert.deepEqual(result.candidate, initial.candidate); assert.equal(result.progressionAuthorized, false);
-  assert.ok(next.requests.every(url => !url.includes('?path=')));
+  const origin = next.requests.filter(url => url.includes('?path=')); assert.equal(origin.length, 1); assert.ok(origin[0].includes('path=.commitkin%2Fstate.json'));
 });
 test('composition needs an explicit injected read-only client and clock', () => {
   for (const options of [{}, { client: {} }, { client: { get() {}, paginate() {} }, clock: null }]) assert.throws(() => createReadonlyRefresh(options), /REFRESH_PORTS_INVALID/);

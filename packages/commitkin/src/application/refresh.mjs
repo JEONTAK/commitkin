@@ -72,8 +72,19 @@ export function createRefreshUseCase(ports) {
       if (qualification.decision !== 'qualified') return (qualification.decision === 'hold' ? reservePending(qualification.code) : null) ?? held('qualification', qualification.code);
       const priorKeys = new Set(base.ledger.facts.map(fact => fact.eventKey));
       const repositoryRows = reconcileRepositoryTracking({ previousRows: base.ledger.repositories, repositories: discovery.repositories, tracked: discovery.tracked, subjectAccountId: installation.expectedOwner.accountId, observedAt: completedAt });
-      const evaluated = ports.evaluate({ previous: base, expectedOwner: installation.expectedOwner, activities: qualification.activities, priorActivities: qualification.activities.filter(item => priorKeys.has(item.fact.eventKey)), reviewHistoryFacts: qualification.reviewHistoryFacts, repositoryIds, repositoryRows, settings, settingsFileUsed: installation.settingsFileUsed, evaluationStartedAt: startedAt, evaluatedAt: completedAt, initialAssignmentVerified: installation.initialAssignmentVerified });
+      const evaluationInput = { previous: base, expectedOwner: installation.expectedOwner, activities: qualification.activities, priorActivities: qualification.activities.filter(item => priorKeys.has(item.fact.eventKey)), reviewHistoryFacts: qualification.reviewHistoryFacts, repositoryIds, repositoryRows, settings, settingsFileUsed: installation.settingsFileUsed, evaluationStartedAt: startedAt, evaluatedAt: completedAt, initialAssignmentVerified: installation.initialAssignmentVerified };
+      let evaluated = ports.evaluate(evaluationInput);
       if (!['proposed', 'unchanged'].includes(evaluated.decision)) return held('evaluation', evaluated.code);
+      // A long-lived Adventurer without a class candidate still earns ordinary
+      // XP/traits. Expensive initial-class history is required only when its
+      // first actual regular assignment would otherwise be suppressed.
+      if (installation.initialClassOriginDeferred === true && !installation.initialAssignmentVerified && evaluated.character.classCandidateId) {
+        if (typeof ports.verifyInitialClassOrigin !== 'function') return held('class_origin', 'INITIAL_CLASS_ORIGIN_UNVERIFIED');
+        const origin = await ports.verifyInitialClassOrigin({ workflowContext, expectedHead: installation.expectedHead, expectedOwner: installation.expectedOwner });
+        if (origin.decision !== 'verified') return held('class_origin', origin.code);
+        evaluated = ports.evaluate({ ...evaluationInput, initialAssignmentVerified: true });
+        if (!['proposed', 'unchanged'].includes(evaluated.decision)) return held('evaluation', evaluated.code);
+      }
       const summary = { firstInstallation: installation.firstInstallVerified, classId: evaluated.candidate.state.class.id, totalXp: evaluated.candidate.state.growth.totalXp, deltaXp: evaluated.deltaXp, knownRepositories: repositoryIds.length };
       // A same-date no-op is not a newly evaluated historical snapshot. Its old
       // successful timestamp must stay old; do not relabel it as after this new

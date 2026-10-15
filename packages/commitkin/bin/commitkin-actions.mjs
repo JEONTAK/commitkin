@@ -13,7 +13,9 @@ export async function executeAction({ environment, fetchImpl, clock = () => new 
     const workflowContext = { serverUrl: env.GITHUB_SERVER_URL, apiUrl: env.GITHUB_API_URL, eventName: env.GITHUB_EVENT_NAME, repository: env.GITHUB_REPOSITORY, repositoryId: env.GITHUB_REPOSITORY_ID, ownerAccountId: env.GITHUB_REPOSITORY_OWNER_ID, actorAccountId: env.GITHUB_ACTOR_ID, ref: env.GITHUB_REF, sha: env.GITHUB_SHA, startedAt: clock() };
     const factionId = env.COMMITKIN_FACTION ?? '', confirmation = env.COMMITKIN_CONFIRMATION ?? '';
     const initialSelection = factionId || confirmation ? { accountId: env.GITHUB_REPOSITORY_OWNER_ID, factionId, confirmation } : null;
-    const options = { token: env.GITHUB_TOKEN, requestBudget: 500, timeoutMs: 10000, maxResponseBytes: 8 * 1024 * 1024, maxRetries: 1 };
+    // One bounded daily analysis stays below the standard 1,000/hour per-repo
+    // basic-token allowance, reserving room for publication and other checks.
+    const options = { token: env.GITHUB_TOKEN, requestBudget: 900, timeoutMs: 10000, maxResponseBytes: 8 * 1024 * 1024, maxRetries: 1 };
     const client = createGithubClient({ ...options, fetchImpl: readOnlyGithubFetch(fetchImpl) });
     // Dry-run construction has no writer at all. Publication remains a separate
     // capability and can run only after exact owner/source/safety gates pass.
