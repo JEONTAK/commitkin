@@ -134,3 +134,44 @@ test('shared HTTP budget and second-page rate limit cannot return successful sub
   const budget = setup([() => response(payload(), { link: nextLink(2) })], { requestBudget: 1 }); failure(await budget.client.commitFiles(input), 'REQUEST_BUDGET_EXHAUSTED');
   const rate = setup([() => response(payload(), { link: nextLink(2) }), () => response({ message: TOKEN }, { 'x-ratelimit-remaining': '0' }, 403)]); failure(await rate.client.commitFiles(input), 'RATE_LIMITED');
 });
+
+test('verified repository ID permits only the actual canonical numeric alias for the exact commit endpoint', async () => {
+  const repositoryId = '1420061458';
+  const canonical = `/repositories/${repositoryId}/commits/${sha}?per_page=100&page=2`;
+  const first = payload(Array.from({ length: 100 }, (_, index) => file(index)));
+  const { client, calls } = setup([() => response(first, { link: `<https://api.github.com${canonical}>; rel="next", <https://api.github.com/repositories/${repositoryId}/commits/${sha}?per_page=100&page=5>; rel="last"` }), payload([file(100)])]);
+  const result = await client.commitFiles({ repository: 'JEONTAK/commitkin', repositoryId, oid: sha });
+  assert.equal(result.ok, true, result.code); assert.equal(result.receivedItems, 101);
+  assert.equal(calls[0].url, `https://api.github.com/repos/JEONTAK/commitkin/commits/${sha}?per_page=100`);
+  assert.equal(calls[1].url, 'https://api.github.com' + canonical); assert.equal(result.pageSnapshots[1].requestPath, canonical);
+});
+
+test('canonical commit alias cannot be enabled by a response alone or swap its repository/OID/query/page', async () => {
+  for (const [binding, target, code] of [
+    [{}, `/repositories/9001/commits/${sha}?per_page=100&page=2`, 'PAGINATION_DESTINATION_REJECTED'],
+    [{ repositoryId: '9001' }, `/repositories/9002/commits/${sha}?per_page=100&page=2`, 'PAGINATION_DESTINATION_REJECTED'],
+    [{ repositoryId: '9001' }, `/repositories/9001/commits/${parent}?per_page=100&page=2`, 'PAGINATION_DESTINATION_REJECTED'],
+    [{ repositoryId: '9001' }, `/repositories/9001/commits/${sha}/pulls?per_page=100&page=2`, 'PAGINATION_DESTINATION_REJECTED'],
+    [{ repositoryId: '9001' }, `/repositories/9001/commits/${sha}?per_page=99&page=2`, 'PAGINATION_QUERY_CHANGED'],
+    [{ repositoryId: '9001' }, `/repositories/9001/commits/${sha}?per_page=100&page=3`, 'PAGINATION_PAGE_INVALID'],
+    [{ repositoryId: '9001' }, `/repositories/9001/commits/${sha}?per_page=100&page=2&page=2`, 'PAGINATION_PAGE_INVALID'],
+    [{ repositoryId: '9001' }, `/repositories/9001/commits/${sha}?per_page=100&after=cursor`, 'PAGINATION_QUERY_CHANGED'],
+  ]) {
+    const { client, calls } = setup([() => response(payload(), { link: `<https://api.github.com${target}>; rel="next"` })]);
+    failure(await client.commitFiles({ ...input, ...binding }), code); assert.equal(calls.length, 1);
+  }
+  for (const repositoryId of [9001, '09001', '0', '../9001', null]) {
+    const { client, calls } = setup(); failure(await client.commitFiles({ ...input, repositoryId }), 'COMMIT_FILES_INPUT_INVALID'); assert.equal(calls.length, 0);
+  }
+});
+
+test('numeric commit continuation retains the initial named binding through a third page', async () => {
+  const numeric = `/repositories/9001/commits/${sha}?per_page=100`;
+  const { client, calls } = setup([
+    () => response(payload([file(0)]), { link: `<https://api.github.com${numeric}&page=2>; rel="next"` }),
+    () => response(payload([file(1)]), { link: `<https://api.github.com${numeric}&page=3>; rel="next", <https://api.github.com${path}&page=1>; rel="first"` }),
+    payload([file(2)]),
+  ]);
+  const result = await client.commitFiles({ ...input, repositoryId: '9001' }); assert.equal(result.ok, true, result.code); assert.equal(result.pages, 3);
+  assert.equal(calls[2].url, 'https://api.github.com' + numeric + '&page=3');
+});

@@ -82,10 +82,41 @@ export function createTransport({ token, fetchImpl, requestBudget = 300, timeout
   return Object.freeze({ request, budget: () => ({ used, remaining: requestBudget - used, limit: requestBudget }) });
 }
 
-export function checkedNextLink(header, previousPath) {
+function paginationPathnames(previous, binding) {
+  if (binding === undefined) return new Set([previous.pathname]);
+  if (!binding || typeof binding !== 'object' || Array.isArray(binding) || Object.keys(binding).some(key => !['initialPath', 'repositoryId', 'subjectAccountId'].includes(key))) return null;
+  const initial = pathUrl(binding.initialPath);
+  if (!initial || (binding.repositoryId !== undefined) === (binding.subjectAccountId !== undefined)) return null;
+  const id = binding.repositoryId ?? binding.subjectAccountId;
+  if (typeof id !== 'string' || !/^[1-9][0-9]{0,127}$/.test(id)) return null;
+  let alias;
+  if (binding.repositoryId !== undefined) {
+    const named = /^\/repos\/[a-z0-9][a-z0-9-]{0,38}\/[a-z0-9_.-]{1,100}(\/.+)$/i.exec(initial.pathname);
+    const numeric = /^\/repositories\/([1-9][0-9]*)(\/.+)$/.exec(initial.pathname);
+    if (named) alias = '/repositories/' + id + named[1];
+    else if (numeric && numeric[1] === id) alias = initial.pathname;
+    else return null;
+  } else {
+    // These are the two public per-user list endpoints used by discovery. A
+    // stable user ID does not authorize aliases for arbitrary account APIs.
+    const named = /^\/users\/[a-z0-9][a-z0-9-]{0,38}(\/repos|\/events\/public)$/i.exec(initial.pathname);
+    const numeric = /^\/user\/([1-9][0-9]*)(\/repos|\/events\/public)$/.exec(initial.pathname);
+    if (named) alias = '/user/' + id + named[1];
+    else if (numeric && numeric[1] === id) alias = initial.pathname;
+    else return null;
+  }
+  const allowed = new Set([initial.pathname, alias]);
+  return allowed.has(previous.pathname) ? allowed : null;
+}
+
+/** Optional aliases bind a previously verified stable ID to one initial suffix. */
+export function checkedNextLink(header, previousPath, binding) {
+  const previous = pathUrl(previousPath);
+  if (!previous) return safeFailure('PAGINATION_DESTINATION_REJECTED');
+  const allowedPaths = paginationPathnames(previous, binding);
+  if (!allowedPaths) return safeFailure('PAGINATION_BINDING_INVALID');
   if (header === null || header === '') return { ok: true, next: null };
   if (typeof header !== 'string' || header.length > 16384) return safeFailure('PAGINATION_INVALID');
-  const previous = pathUrl(previousPath);
   const entries = header.split(/,\s*(?=<)/);
   let next = null;
   for (const entry of entries) {
@@ -93,12 +124,16 @@ export function checkedNextLink(header, previousPath) {
     if (!match) return safeFailure('PAGINATION_INVALID');
     let url;
     try { url = new URL(match[1]); } catch { return safeFailure('PAGINATION_INVALID'); }
-    if (url.origin !== API || url.username || url.password || url.hash || url.pathname !== previous.pathname || !pathUrl(url.pathname + url.search)) return safeFailure('PAGINATION_DESTINATION_REJECTED');
-    const changing = ['page', 'cursor', 'after', 'before'];
+    if (url.origin !== API || url.username || url.password || url.hash || !allowedPaths.has(url.pathname) || !pathUrl(url.pathname + url.search)) return safeFailure('PAGINATION_DESTINATION_REJECTED');
+    const changing = binding === undefined ? ['page', 'cursor', 'after', 'before'] : ['page'];
     for (const [key, value] of previous.searchParams) if (!changing.includes(key) && (url.searchParams.getAll(key).length !== 1 || url.searchParams.get(key) !== value)) return safeFailure('PAGINATION_QUERY_CHANGED');
     for (const [key, value] of url.searchParams) if (!changing.includes(key) && (previous.searchParams.getAll(key).length !== 1 || previous.searchParams.get(key) !== value)) return safeFailure('PAGINATION_QUERY_CHANGED');
     if (match[2].split(' ').includes('next')) {
       if (next !== null) return safeFailure('PAGINATION_INVALID');
+      if (binding !== undefined) {
+        const oldPages = previous.searchParams.getAll('page'); const newPages = url.searchParams.getAll('page');
+        if (oldPages.length > 1 || oldPages.length === 1 && !/^[1-9][0-9]{0,5}$/.test(oldPages[0]) || newPages.length !== 1 || !/^[1-9][0-9]{0,5}$/.test(newPages[0]) || Number(newPages[0]) !== Number(oldPages[0] ?? '1') + 1) return safeFailure('PAGINATION_PAGE_INVALID');
+      }
       next = url.pathname + url.search;
     }
   }

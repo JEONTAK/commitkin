@@ -10,8 +10,8 @@ function metadata(value, via) {
 }
 
 /** Discovery is bounded and non-exhaustive; never interprets a 404 as private/deleted. */
-export async function discoverRepositories({ client, login, additional = [], exclude = [], tracked = [] }) {
-  if (!client || typeof client.get !== 'function' || typeof client.paginate !== 'function' || typeof login !== 'string' || !/^[a-z0-9](?:[a-z0-9-]{0,38})$/i.test(login) || !Array.isArray(additional) || !Array.isArray(exclude) || !Array.isArray(tracked) || ![...additional, ...exclude].every(normalizeName) || !tracked.every(item => stableId(item?.id) && (item.discoveredVia === undefined || Array.isArray(item.discoveredVia) && item.discoveredVia.length >= 1 && item.discoveredVia.length <= 2 && item.discoveredVia.every(via => ['automatic', 'additional'].includes(via))))) return { decision: 'hold', code: 'DISCOVERY_INPUT_INVALID', repositories: [], tracked: [], codes: ['DISCOVERY_INPUT_INVALID'], limitations: ['KNOWN_SCOPE_ONLY'] };
+export async function discoverRepositories({ client, login, subjectAccountId, additional = [], exclude = [], tracked = [] }) {
+  if (!client || typeof client.get !== 'function' || typeof client.paginate !== 'function' || typeof login !== 'string' || !/^[a-z0-9](?:[a-z0-9-]{0,38})$/i.test(login) || subjectAccountId !== undefined && (typeof subjectAccountId !== 'string' || !ID.test(subjectAccountId)) || !Array.isArray(additional) || !Array.isArray(exclude) || !Array.isArray(tracked) || ![...additional, ...exclude].every(normalizeName) || !tracked.every(item => stableId(item?.id) && (item.discoveredVia === undefined || Array.isArray(item.discoveredVia) && item.discoveredVia.length >= 1 && item.discoveredVia.length <= 2 && item.discoveredVia.every(via => ['automatic', 'additional'].includes(via))))) return { decision: 'hold', code: 'DISCOVERY_INPUT_INVALID', repositories: [], tracked: [], codes: ['DISCOVERY_INPUT_INVALID'], limitations: ['KNOWN_SCOPE_ONLY'] };
   const found = new Map(); const blocked = new Set(); const codes = new Set();
   const excludedNames = new Set(exclude.map(normalizeName));
   const trackedIds = new Set(tracked.map(item => stableId(item.id)));
@@ -30,10 +30,11 @@ export async function discoverRepositories({ client, login, additional = [], exc
       if (item) excludedIds.add(item.id); else codes.add('REPOSITORY_METADATA_INVALID');
     } else if (response.code !== 'REPOSITORY_UNAVAILABLE') codes.add(response.code);
   }
-  const owned = await client.paginate(`/users/${login}/repos?type=owner&sort=full_name&per_page=100`, { maxPages: 100 });
+  const userBinding = subjectAccountId === undefined ? {} : { subjectAccountId };
+  const owned = await client.paginate(`/users/${login}/repos?type=owner&sort=full_name&per_page=100`, { maxPages: 100, ...userBinding });
   if (!owned.ok) codes.add(owned.code);
   for (const item of owned.items ?? []) merge(item, 'automatic');
-  const events = await client.paginate(`/users/${login}/events/public?per_page=100`, { maxPages: 3 });
+  const events = await client.paginate(`/users/${login}/events/public?per_page=100`, { maxPages: 3, ...userBinding });
   if (!events.ok && events.code !== 'PAGE_LIMIT_REACHED') codes.add(events.code);
   const eventIds = new Set();
   for (const event of events.items ?? []) {

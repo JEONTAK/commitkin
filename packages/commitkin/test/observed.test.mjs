@@ -243,6 +243,46 @@ test('permutation/replay and frozen inputs preserve exact facts without exposing
 
 test('page arrays use explicit sequence and offsets rather than array position, without mutation', () => {
   const capture = empty(); const query = capture.queries[0]; query.pages = 2;
-  query.pageSnapshots = [{ sequence: 2, requestPath: '/repos/owner/project/pulls?page=2', nextPath: null, itemCount: 0, startIndex: 0, endIndexExclusive: 0 }, { sequence: 1, requestPath: '/repos/owner/project/pulls?state=all', nextPath: '/repos/owner/project/pulls?page=2', itemCount: 0, startIndex: 0, endIndexExclusive: 0 }];
+  query.pageSnapshots = [{ sequence: 2, requestPath: '/repos/owner/project/pulls?state=all&page=2', nextPath: null, itemCount: 0, startIndex: 0, endIndexExclusive: 0 }, { sequence: 1, requestPath: '/repos/owner/project/pulls?state=all', nextPath: '/repos/owner/project/pulls?state=all&page=2', itemCount: 0, startIndex: 0, endIndexExclusive: 0 }];
   const before = clone(capture); okay(freeze(capture)); assert.deepEqual(capture, before);
+});
+
+function aliasPages(capture, { suffix = 'pulls', initialQuery = 'state=all&per_page=100', nextPath = '/repositories/' + REPO + '/pulls?state=all&per_page=100&page=2' } = {}) {
+  const query = capture.queries[0]; query.pages = 2;
+  query.pageSnapshots = [{ sequence: 1, requestPath: '/repos/owner/project/' + suffix + '?' + initialQuery, itemCount: 0, nextPath, startIndex: 0, endIndexExclusive: 0 }, { sequence: 2, requestPath: nextPath, itemCount: 0, nextPath: null, startIndex: 0, endIndexExclusive: 0 }];
+  return capture;
+}
+test('canonical repository-ID Link alias closes only the same verified repository endpoint and filters', () => {
+  const capture = aliasPages(empty()); const before = clone(capture); assert.equal(okay(freeze(capture)).activities.length, 0); assert.deepEqual(capture, before);
+  const reorderedQuery = aliasPages(empty(), { nextPath: '/repositories/' + REPO + '/pulls?page=2&per_page=100&state=all' }); okay(reorderedQuery);
+  const threePages = aliasPages(empty()); const query = threePages.queries[0]; query.pages = 3;
+  query.pageSnapshots[1].nextPath = '/repos/owner/project/pulls?state=all&per_page=100&page=3';
+  query.pageSnapshots.push({ sequence: 3, requestPath: query.pageSnapshots[1].nextPath, itemCount: 0, nextPath: null, startIndex: 0, endIndexExclusive: 0 }); okay(threePages);
+});
+
+test('repository-ID pagination aliases cannot switch repository, host, endpoint, query, or traverse paths', () => {
+  const invalid = [
+    '/repositories/9999/pulls?state=all&per_page=100&page=2',
+    '/repositories/09001/pulls?state=all&per_page=100&page=2',
+    '/repositories/' + REPO + '/issues?state=all&per_page=100&page=2',
+    '/repositories/' + REPO + '/pulls/17?state=all&per_page=100&page=2',
+    'https://api.github.com/repositories/' + REPO + '/pulls?state=all&per_page=100&page=2',
+    '//evil.invalid/repositories/' + REPO + '/pulls?state=all&per_page=100&page=2',
+    '/repositories/' + REPO + '/pulls?state=closed&per_page=100&page=2',
+    '/repositories/' + REPO + '/pulls?state=all&per_page=1&page=2',
+    '/repositories/' + REPO + '/pulls?per_page=100&page=2',
+    '/repositories/' + REPO + '/pulls?state=all&per_page=100&page=2&extra=true',
+    '/repositories/' + REPO + '/pulls?state=all&per_page=100&page=3',
+    '/repositories/' + REPO + '/pulls?state=all&per_page=100&page=2&page=2',
+    '/repositories/' + REPO + '/pulls?state=all&per_page=100&after=opaque',
+    '/repositories/' + REPO + '/x/../pulls?state=all&per_page=100&page=2',
+    '/repositories/' + REPO + '/%2e%2e/' + REPO + '/pulls?state=all&per_page=100&page=2',
+    '/repositories/' + REPO + '/pulls%2f..%2freleases?state=all&per_page=100&page=2',
+    '/repositories/' + REPO + '/pulls?state=all&per_page=100&page=2#fragment',
+    '/repositories/' + REPO + '/pulls%00?state=all&per_page=100&page=2',
+    '/repositories/' + REPO + '/pulls%ZZ?state=all&per_page=100&page=2',
+    '/repos/another/project/pulls?state=all&per_page=100&page=2',
+  ];
+  for (const nextPath of invalid) held(aliasPages(empty(), { nextPath }), 'OBSERVED_PAGE_PROVENANCE_INVALID');
+  const noNamedBinding = aliasPages(empty()); noNamedBinding.queries[0].pageSnapshots[0].requestPath = '/repositories/' + REPO + '/pulls?state=all&per_page=100'; held(noNamedBinding, 'OBSERVED_PAGE_PROVENANCE_INVALID');
 });

@@ -55,9 +55,9 @@ function supportedPendingState(state, current) {
     PENDING_INVARIANTS.every(field => digest(state[field]) === digest(current[field]));
 }
 
-async function verifyPendingOrigin({ client, root, expectedHead, current, currentBlob, maxHistoryPages }) {
+async function verifyPendingOrigin({ client, root, repositoryId, expectedHead, current, currentBlob, maxHistoryPages }) {
   const path = RECORDS.state;
-  const history = await client.paginate(`${root}/commits?` + new URLSearchParams({ path, sha: expectedHead, per_page: '100' }), { maxPages: Math.min(maxHistoryPages, 2) });
+  const history = await client.paginate(`${root}/commits?` + new URLSearchParams({ path, sha: expectedHead, per_page: '100' }), { maxPages: Math.min(maxHistoryPages, 2), repositoryId });
   if (!history.ok || history.complete !== true || !Array.isArray(history.items)) return { ok: false, code: 'INSTALLATION_HISTORY_INCOMPLETE' };
   if (history.items.length === 0) return { ok: false, code: 'RECOVERY_REQUIRED' };
   if (history.items.length > MAX_PENDING_STATES) return { ok: false, code: 'INSTALLATION_HISTORY_INCOMPLETE' };
@@ -166,7 +166,7 @@ export async function acquireInstallation({ client, workflowContext, initialSele
       // This proves absence only in history reachable from this captured default
       // head. Complete removal/rewrite of all history cannot be detected perfectly.
       for (const path of Object.values(RECORDS)) {
-        const history = await client.paginate(`${root}/commits?` + new URLSearchParams({ path, sha: expectedHead, per_page: '100' }), { maxPages: maxHistoryPages });
+        const history = await client.paginate(`${root}/commits?` + new URLSearchParams({ path, sha: expectedHead, per_page: '100' }), { maxPages: maxHistoryPages, repositoryId: context.repositoryId });
         if (!history.ok || history.complete !== true || !Array.isArray(history.items)) return hold('INSTALLATION_HISTORY_INCOMPLETE');
         if (history.items.length > 0) return hold('RECOVERY_REQUIRED');
       }
@@ -180,7 +180,7 @@ export async function acquireInstallation({ client, workflowContext, initialSele
       if (!report || report.recordValid !== true || !['ACCEPT', 'ANALYSIS_PENDING', 'RETAIN_SUCCESS'].includes(report.code)) return hold('INSTALLATION_RECORD_INVALID');
       const current = parseStrictJson(records.state, 'state');
       if (current.growth?.phase === 'pending') {
-        const pending = await verifyPendingOrigin({ client, root, expectedHead, current, currentBlob: entries.get(RECORDS.state).sha, maxHistoryPages });
+        const pending = await verifyPendingOrigin({ client, root, repositoryId: context.repositoryId, expectedHead, current, currentBlob: entries.get(RECORDS.state).sha, maxHistoryPages });
         if (!pending.ok) return hold(pending.code);
         pendingOriginVerified = true;
       }

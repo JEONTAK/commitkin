@@ -39,6 +39,32 @@ function labels(values, requireNames = false) {
 function unique(rows, key, code = 'DUPLICATE_SOURCE_IDENTITY') { const map = new Map(); for (const row of rows) { const value = key(row); need(!map.has(value), code); map.set(value, row); } return map; }
 function numericOrder(a, b) { return BigInt(a) < BigInt(b) ? -1 : BigInt(a) > BigInt(b) ? 1 : 0; }
 
+function restPagePath(value) {
+  need(typeof value === 'string' && value.startsWith('/') && !value.startsWith('//') && !/[\s#\\\u0000-\u001f\u007f]/u.test(value), 'OBSERVED_PAGE_PROVENANCE_INVALID');
+  let url;
+  try {
+    url = new URL(value, 'https://api.github.com');
+    need(url.origin === 'https://api.github.com' && url.pathname === value.split('?')[0], 'OBSERVED_PAGE_PROVENANCE_INVALID');
+    for (const segment of url.pathname.slice(1).split('/')) {
+      const decoded = decodeURIComponent(segment);
+      need(decoded.length > 0 && !['.', '..'].includes(decoded) && !/[\/\\\u0000-\u001f\u007f]/u.test(decoded), 'OBSERVED_PAGE_PROVENANCE_INVALID');
+    }
+  } catch { throw new ObservedFailure('OBSERVED_PAGE_PROVENANCE_INVALID'); }
+  return url;
+}
+function restPageBinding(firstPath, repositoryId) {
+  const first = restPagePath(firstPath);
+  const named = first.pathname.match(/^\/repos\/[^/]+\/[^/]+(\/.+)$/u);
+  need(named, 'OBSERVED_PAGE_PROVENANCE_INVALID');
+  const query = url => canonicalize([...url.searchParams].filter(([key]) => key !== 'page').sort(([ak, av], [bk, bv]) => ak < bk ? -1 : ak > bk ? 1 : av < bv ? -1 : av > bv ? 1 : 0));
+  const initialQuery = query(first); const aliasPath = '/repositories/' + repositoryId + named[1];
+  return (value, sequence) => {
+    const url = restPagePath(value); const pages = url.searchParams.getAll('page');
+    need((url.pathname === first.pathname || url.pathname === aliasPath) && query(url) === initialQuery, 'OBSERVED_PAGE_PROVENANCE_INVALID');
+    need(sequence === 1 ? pages.length === 0 || pages.length === 1 && pages[0] === '1' : pages.length === 1 && pages[0] === String(sequence), 'OBSERVED_PAGE_PROVENANCE_INVALID');
+  };
+}
+
 function checkQuery(q) {
   shape(q, ['kind', 'repositoryId', 'filters', 'receivedItems', 'pages', 'closed', 'pageSnapshots'], ['parentId', 'includedItems', 'excludedPrivateCount', 'totalCount']);
   const filterKeys = {
@@ -67,6 +93,7 @@ function checkQuery(q) {
   else { count(q.includedItems); count(q.excludedPrivateCount); need(q.includedItems + q.excludedPrivateCount === q.receivedItems && (q.totalCount === undefined || q.totalCount === q.receivedItems), 'OBSERVED_QUERY_COUNT_MISMATCH'); }
   need(q.closed === true && count(q.pages) >= 1 && q.pages <= 100 && Array.isArray(q.pageSnapshots) && q.pageSnapshots.length === q.pages, 'OBSERVED_QUERY_INCOMPLETE'); count(q.receivedItems);
   const snapshots = [...q.pageSnapshots].sort((a, b) => a.sequence - b.sequence); let offset = 0; let next = null; let included = 0; let excluded = 0; const paths = new Set();
+  const checkRestPath = q.kind === 'observed_closing_issues' ? null : restPageBinding(snapshots[0]?.requestPath, q.repositoryId);
   for (let index = 0; index < snapshots.length; index += 1) {
     const page = snapshots[index]; const graphql = q.kind === 'observed_closing_issues';
     shape(page, graphql ? ['sequence', 'requestCursor', 'endCursor', 'hasNextPage', 'itemCount', 'startIndex', 'endIndexExclusive', 'includedCount', 'excludedPrivateCount'] : ['sequence', 'requestPath', 'itemCount', 'nextPath', 'startIndex', 'endIndexExclusive']);
@@ -78,8 +105,11 @@ function checkQuery(q) {
       else { need(page.hasNextPage === true && typeof page.endCursor === 'string' && page.endCursor.length > 0 && !paths.has(page.endCursor), 'OBSERVED_PAGE_PROVENANCE_INVALID'); paths.add(page.endCursor); }
       next = page.endCursor;
     } else {
-      need(typeof page.requestPath === 'string' && page.requestPath.startsWith('/repos/') && !page.requestPath.includes('://') && !/[\s#\\]/u.test(page.requestPath) && !paths.has(page.requestPath) && (index === 0 || page.requestPath === next), 'OBSERVED_PAGE_PROVENANCE_INVALID'); paths.add(page.requestPath);
-      need(index === snapshots.length - 1 ? page.nextPath === null : typeof page.nextPath === 'string' && page.nextPath.startsWith('/repos/'), 'OBSERVED_PAGE_PROVENANCE_INVALID'); next = page.nextPath;
+      checkRestPath(page.requestPath, index + 1);
+      need(!paths.has(page.requestPath) && (index === 0 || page.requestPath === next), 'OBSERVED_PAGE_PROVENANCE_INVALID'); paths.add(page.requestPath);
+      if (index === snapshots.length - 1) need(page.nextPath === null, 'OBSERVED_PAGE_PROVENANCE_INVALID');
+      else checkRestPath(page.nextPath, index + 2);
+      next = page.nextPath;
     }
   }
   need(offset === q.receivedItems && (q.kind !== 'observed_closing_issues' || included === q.includedItems && excluded === q.excludedPrivateCount), 'OBSERVED_PAGE_PROVENANCE_INVALID');

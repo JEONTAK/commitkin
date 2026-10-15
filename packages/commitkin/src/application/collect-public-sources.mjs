@@ -28,6 +28,7 @@ const SAFE_CODES = new Set([
   'UNSAFE_JSON_INTEGER', 'REDIRECT_REJECTED', 'REMOTE_CONFLICT',
   'COMMIT_FILE_LIMIT_REACHED', 'DUPLICATE_COMMIT_FILE', 'COMMIT_FILES_METADATA_CHANGED',
   'COMMIT_FILES_RESPONSE_INVALID', 'COMMIT_FILES_PAGINATION_INVALID', 'COMMIT_FILE_METADATA_INVALID',
+  'PAGINATION_BINDING_INVALID', 'PAGINATION_PAGE_INVALID',
 ]);
 class CollectionFailure extends Error { constructor(code) { super(code); this.code = code; } }
 function requireThat(condition, code = 'CAPTURE_SHAPE_INVALID') { if (!condition) throw new CollectionFailure(code); }
@@ -97,7 +98,7 @@ export async function collectPublicSources({ client, repositories, subjectAccoun
       capture.queries.push({ ...query, pages: result.pages, receivedItems, closed: true, pageSnapshots: structuredClone(result.pageSnapshots) });
     }
     async function enumerate(path, query, maxPages = 100) {
-      budgetAvailable(); const result = await client.paginate(path, { maxPages });
+      budgetAvailable(); const result = await client.paginate(path, { maxPages, repositoryId: query.repositoryId });
       requireThat(result?.ok === true && result.complete === true, SAFE_CODES.has(result?.code) ? result.code : 'INCOMPLETE_COLLECTION');
       requireThat(Array.isArray(result.items), 'CAPTURE_CLOSURE_INVALID');
       recordPages(result, result.items.length, path, query, maxPages);
@@ -258,7 +259,7 @@ export async function collectPublicSources({ client, repositories, subjectAccoun
     async function acquireCommitFiles(prefix, projection) {
       requireThat(typeof client.commitFiles === 'function', 'COMMIT_FILES_CAPABILITY_UNAVAILABLE');
       budgetAvailable();
-      const result = await client.commitFiles({ repository: prefix.slice('/repos/'.length), oid: projection.oid, maxPages: 30 });
+      const result = await client.commitFiles({ repository: prefix.slice('/repos/'.length), repositoryId: projection.repositoryId, oid: projection.oid, maxPages: 30 });
       requireThat(result?.ok === true && result.complete === true, SAFE_CODES.has(result?.code) ? result.code : 'COMMIT_FILES_UNAVAILABLE');
       const detail = result.metadata;
       requireThat(detail && oid(detail.oid) === projection.oid && Array.isArray(detail.parentOids) && detail.parentOids.every(value => OID.test(value)) && Array.isArray(result.files), 'COMMIT_DETAIL_INVALID');

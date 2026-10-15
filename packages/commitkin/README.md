@@ -49,9 +49,39 @@ Changed-file inventories are complete and independently checked against fixed Gi
 
 ## Mechanics and presentation
 
-25 classes: Adventurer plus six families of four regular classes. Twelve traits, twelve achievement series with Bronze/Silver/Gold tiers, uncapped numeric levels, 100 daily XP maximum and appearance milestones every five levels through 50. Classification keeps its original thresholds, seven eligible observations and change cooldown; traits use three observations. Missing days are not simulated observations.
+25 classes: Adventurer plus six families of four regular classes. Twelve traits, twelve achievement series with Bronze/Silver/Gold tiers, uncapped numeric levels, 100 daily XP maximum and appearance milestones every five levels through 50. A verified first regular assignment can happen immediately when qualified; subsequent changes require seven eligible observations and the 14-date cooldown. Traits use three observations after the first-analysis exception. Missing days are not simulated observations.
 
 English 880 × 416 static PNG and accessible README share one verified snapshot. The original code-native renderer provides 530 appearances: 24 regular classes × two factions × eleven stages (Lv.1–4 base, then 5…50), plus two fixed Adventurers. These are programmatic fallback pixels and bitmap lettering, not cleared AI concept sheets, external fonts or 530 hand-painted assets.
+
+### Classes and traits
+
+| Activity family | Own / focused | Own / distributed | Other / focused | Other / distributed |
+|---|---|---|---|---|
+| Craft | Blacksmith | Machinist | Runesmith | Golemancer |
+| Guard | Warden | Shield Knight | Paladin | Wardkeeper |
+| Knowledge | Scribe | Librarian | Chronicler | Lorekeeper |
+| Verification | Sentinel | Wardweaver | Rune Examiner | Sealbinder |
+| Recovery | Healer | Alchemist | Purifier | Restorer |
+| Operations | Herald | Quartermaster | Guild Steward | Guild Commander |
+
+Adventurer means no established regular-class pattern, not inactivity or low ability. Eligible 90-day family units are weighted 1.0/0.6/0.3 across the three 30-day bands. Family minima, score >=45 and >=8 lead apply; own/other needs >=60%, focused >=65%, distributed >=2 effective repositories and maximum <=55%. Boundary cases do not force an assignment. A cross-family change additionally needs a >=12 lead over the current family. See [exact classification](src/domain/character/classification.mjs).
+
+Habit traits: Rekindled, Versatile, Focused, Roaming, Steadfast (priority in that order). Activity traits: Collaborative, Documenting, Testing, Mending, Finisher, Shipping, Organizing. At most one of each is displayed. Class-related activity traits take precedence; otherwise latest qualifying activity and the fixed tie-break apply. Eligibility uses verified recent activity, not AI personality inference. [Exact conditions](src/domain/character/traits.mjs).
+
+### XP and achievements
+
+| Reward | XP | Daily item limit |
+|---|---:|---|
+| Valid activity day | 10 | Once |
+| Authored eligible PR/direct-contribution day | 10 | Once |
+| Qualified triage day | 10 | Once |
+| Merged PR | 20 | 3 |
+| First eligible other-person review per PR | 15 | 3 |
+| Published eligible release | 25 | 1 |
+
+The first three common bonuses allocate first. Remaining items share the remaining 100-XP cap in original timestamp/ID order, with partial final payment allowed. Review history suppresses duplicate rewards. Item limits and capped/unpaid facts do not disappear from legitimate retained history. [Exact settlement](src/domain/growth/settlement.mjs).
+
+Achievement series (Bronze / Silver / Gold thresholds): Footprints 10/30/100 activity dates; Enduring Flame 4/12/26 completed weeks with at least three active dates (not necessarily consecutive); Completed Works 1/10/50 merged PRs; Ally’s Shield 1/10/50 reviewed PRs; Knowledge Vault 5/25/100 knowledge units; Raised Wards 5/25/100 verification units; Healing Hands 1/10/30 qualifying recovery PRs; Launch Bell 1/5/20 releases; Orderly Guild 3/15/50 triage dates; Far Horizons 2/5/15 repositories with at least two active dates each; Old Hearth 4/12/26 completed weeks containing activity in one repository; Class Codex 1/6/24 distinct regular classes. Earned tiers persist; badge selection is automatic. [Exact counting/coverage rules](src/domain/character/achievements.mjs).
 
 ## Offline evidence inspection
 

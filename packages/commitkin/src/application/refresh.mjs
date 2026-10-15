@@ -30,7 +30,7 @@ export function createRefreshUseCase(ports) {
         firstInstallVerified: installation.firstInstallVerified,
         defaultsPreviouslyAccepted: previous?.state.settings.filePreviouslyUsed === false && previous.state.settings.lastAcceptedHash === digest(defaults),
       });
-      const discovery = await ports.discover({ login: installation.login, additional: settings.repositories.additional, exclude: settings.repositories.exclude, tracked: previous?.ledger.repositories ?? [] });
+      const discovery = await ports.discover({ login: installation.login, subjectAccountId: installation.expectedOwner.accountId, additional: settings.repositories.additional, exclude: settings.repositories.exclude, tracked: previous?.ledger.repositories ?? [] });
       if (discovery.decision !== 'ready') return held('discovery', discovery.code);
       const startedAt = workflowContext.startedAt, cutoffDate = startedAt.slice(0, 10);
       const initial = previous ? null : prepareInitialSnapshot({ installation, discovery, settings, settingsFileUsed: installation.settingsFileUsed, startedAt, evaluatedAt: ports.clock() });

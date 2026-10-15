@@ -17,7 +17,7 @@ const response = (data, headers = {}, status = 200) => new Response(JSON.stringi
 const clone = value => structuredClone(value);
 
 /** All requests terminate in this local mock. The real GitHub client/collector run. */
-function fixture({ ownBug = false, linkedBug = true, unknownLinkedIssue = false } = {}) {
+function fixture({ ownBug = false, linkedBug = true, unknownLinkedIssue = false, numericAliases = false } = {}) {
   const routes = new Map(); const calls = []; const metadata = { id: REPO, full_name: 'owner/project', owner: { id: ACCOUNT, type: 'User' }, private: false, visibility: 'public', fork: false, archived: false, default_branch: 'main' };
   const put = (path, data) => routes.set(path, clone(data));
   const addBlob = text => { const sha = blobOid(text); put(PREFIX + '/git/blobs/' + sha, { sha, encoding: 'base64', size: Buffer.byteLength(text), content: Buffer.from(text).toString('base64') }); return sha; };
@@ -48,6 +48,9 @@ function fixture({ ownBug = false, linkedBug = true, unknownLinkedIssue = false 
   put(PREFIX + '/git/trees/' + DIRECT_TREE + '?recursive=1', { sha: DIRECT_TREE, truncated: false, tree: directFiles.map(file => ({ path: file.filename, sha: file.sha, type: 'blob', mode: '100644' })) });
   const directDetail = { sha: DIRECT, parents: [], commit: { tree: { sha: DIRECT_TREE }, committer: { date: '2026-10-14T10:00:00Z' } } };
   const filePath = PREFIX + '/commits/' + DIRECT + '?per_page=100';
+  const numericFilePath = '/repositories/' + REPO + '/commits/' + DIRECT + '?per_page=100';
+  const pullPath = PREFIX + '/pulls?state=all&sort=created&direction=asc&per_page=100';
+  const numericPullPath = '/repositories/' + REPO + '/pulls?state=all&sort=created&direction=asc&per_page=100&page=2';
   put('/repositories/9901', { id: '9901', full_name: 'external/issue-repository', private: false, visibility: 'public' });
   put('/repos/external/issue-repository/issues/8', { id: '88', number: 8, state: 'open', user: { id: '2002', type: 'User' }, created_at: '2020-01-01T00:00:00Z', labels: [], body: 'RAW_BODY' });
   put('/repos/external/issue-repository/issues/8/labels?per_page=100', linkedBug ? [{ id: '608', name: 'BUG' }] : []);
@@ -64,9 +67,11 @@ function fixture({ ownBug = false, linkedBug = true, unknownLinkedIssue = false 
     }
     assert.equal(init.method, 'GET');
     if (unknownLinkedIssue && path === '/repos/external/issue-repository/issues/8') return response({ message: 'RAW_PRIVATE_ERROR' }, {}, 404);
-    if (path === filePath || path === filePath + '&page=2') {
+    if (numericAliases && path === pullPath) return response(routes.get(pullPath), { link: `<https://api.github.com${numericPullPath}>; rel="next"` });
+    if (numericAliases && path === numericPullPath) return response([]);
+    if (path === filePath || path === filePath + '&page=2' || numericAliases && path === numericFilePath + '&page=2') {
       const second = path.endsWith('&page=2');
-      return response({ ...directDetail, files: directFiles.slice(second ? 100 : 0, second ? 101 : 100) }, second ? {} : { link: `<https://api.github.com${filePath}&page=2>; rel="next"` });
+      return response({ ...directDetail, files: directFiles.slice(second ? 100 : 0, second ? 101 : 100) }, second ? {} : { link: `<https://api.github.com${numericAliases ? numericFilePath : filePath}&page=2>; rel="next"` });
     }
     assert.ok(routes.has(path), 'Unexpected local fixture request: ' + path); return response(routes.get(path));
   } });
@@ -117,4 +122,18 @@ test('missing public linked detail or removed actual file-page proof cannot sett
   const acquired = await collect(fixture()); assert.equal(acquired.decision, 'ready', acquired.code);
   acquired.capture.queries = acquired.capture.queries.filter(query => query.kind !== 'commit_files');
   const result = qualify(acquired.capture); assert.equal(result.decision, 'hold'); assert.equal(result.code, 'OBSERVED_REQUIRED_QUERY_MISSING'); assert.deepEqual(result.activities, []); assert.equal(result.progressionAuthorized, false);
+});
+
+test('actual named-to-verified-numeric Link aliases survive collection and strict qualification without rewriting page provenance', async () => {
+  const mock = fixture({ numericAliases: true }); const acquired = await collect(mock); assert.equal(acquired.decision, 'ready', acquired.code);
+  for (const kind of ['pull_requests', 'commit_files']) {
+    const query = acquired.capture.queries.find(item => item.kind === kind); assert.equal(query.pages, 2);
+    assert.ok(query.pageSnapshots[0].requestPath.startsWith('/repos/owner/project/'));
+    assert.ok(query.pageSnapshots[0].nextPath.startsWith('/repositories/9001/'));
+    assert.equal(query.pageSnapshots[1].requestPath, query.pageSnapshots[0].nextPath); assert.equal(query.pageSnapshots[1].nextPath, null);
+  }
+  const result = qualify(acquired.capture); assert.equal(result.decision, 'qualified', result.code); assert.equal(result.activities.length, 3);
+  assert.equal(settleQualifiedActivities({ activities: result.activities }).totalXp, '65'); assert.equal(result.progressionAuthorized, false);
+  assert.ok(mock.calls.some(call => call.path.startsWith('/repositories/9001/commits/')));
+  assert.ok(mock.calls.some(call => call.path.startsWith('/repositories/9001/pulls?')));
 });

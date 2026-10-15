@@ -4,8 +4,8 @@ Updated 2026-10-15. MVP source / pre-release validation; no release tag or real 
 
 ## Latest local gate
 
-- Runtime: 878/878 native tests; record validator: 295/295. Combined: 1,173 tests, without double-counting schema assertions.
-- Core coverage: 98.73% lines, 93.82% branches, 96.95% functions; configured minimums all 80%.
+- Runtime: 888/888 native tests; record validator: 295/295. Combined: 1,183 tests, without double-counting schema assertions.
+- Core coverage: 98.75% lines, 93.84% branches, 96.98% functions; configured minimums all 80%.
 - 198 protected original artifacts and the original mechanics baseline remained unchanged.
 - Publication uses explicit outcomes: confirmed `true / published`, definitive no-write `false / not_published`, or unconfirmed post-CAS `null / outcome_unknown`. No blind retry.
 - These are local synthetic/injected-HTTP results. The source head's diagnostic run must be checked separately; no actual owner growth write is included.
@@ -32,6 +32,8 @@ Full changed-file inventories are independently checked against Git trees. Recog
 ## Evidence boundaries
 
 The [initial real Actions run](https://github.com/JEONTAK/commitkin/actions/runs/38712379879) passed 773 then-current native tests, fictional previews and actual basic `GITHUB_TOKEN` known-scope reads, without creating live growth files. This is not proof of subsequent source changes.
+
+The [observed-model diagnostic](https://github.com/JEONTAK/commitkin/actions/runs/38718322531) at `8444e0a3b6f337632e503f9f5b58c54f81387cab` passed its 1,173 tests and completed-day in-memory analysis but held during current-day multi-page file acquisition: GitHub emitted numeric canonical paths. Follow-up code accepts aliases only when bound to verified repository/user IDs, the original endpoint, unchanged filters and consecutive pages. The failed run is not overall success; follow-up source needs its own actual basic-token diagnostic.
 
 Newer collection, full Action composition, permanent pending reservation, grouped publication, ownership changes and CAS conflicts are covered with injected HTTP. Current local source gates include both first-party packages; final remote results must match their source head.
 

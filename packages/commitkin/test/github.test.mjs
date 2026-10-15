@@ -101,6 +101,46 @@ test('pagination follows bounded verified sameendpoint Links and preservescaptur
   ]);
   assert.equal(JSON.stringify(result.pageSnapshots).includes('id'), false);
 });
+
+test('verified repository/user pagination follows only their bound canonical numeric aliases', async () => {
+  for (const [path, binding, canonical] of [
+    ['/repos/cli/cli/pulls?state=closed&per_page=1', { repositoryId: '212613049' }, '/repositories/212613049/pulls?state=closed&per_page=1&page=2'],
+    ['/users/JEONTAK/repos?type=owner&sort=full_name&per_page=1', { subjectAccountId: '76037656' }, '/user/76037656/repos?type=owner&sort=full_name&per_page=1&page=2'],
+  ]) {
+    const calls = [];
+    const client = createGithubClient(options(async url => { calls.push(url); return calls.length === 1 ? response([{ id: '1' }], 200, { link: `<https://api.github.com${canonical}>; rel="next"` }) : response([{ id: '2' }]); }));
+    const result = await client.paginate(path, binding); assert.equal(result.ok, true, result.code); assert.equal(result.items.length, 2);
+    assert.equal(calls[1], 'https://api.github.com' + canonical); assert.equal(result.pageSnapshots[1].requestPath, canonical);
+  }
+});
+
+test('numeric aliases require a verified string ID and never authorize other paths, hosts, subjects or filters', async () => {
+  const initial = '/users/JEONTAK/repos?type=owner&sort=full_name&per_page=100';
+  for (const [binding, target, code] of [
+    [{}, '/user/76037656/repos?type=owner&sort=full_name&per_page=100&page=2', 'PAGINATION_DESTINATION_REJECTED'],
+    [{ subjectAccountId: '76037656' }, '/user/76037657/repos?type=owner&sort=full_name&per_page=100&page=2', 'PAGINATION_DESTINATION_REJECTED'],
+    [{ subjectAccountId: '76037656' }, '/user/76037656/events/public?type=owner&sort=full_name&per_page=100&page=2', 'PAGINATION_DESTINATION_REJECTED'],
+    [{ subjectAccountId: '76037656' }, '/users/someone/repos?type=owner&sort=full_name&per_page=100&page=2', 'PAGINATION_DESTINATION_REJECTED'],
+    [{ subjectAccountId: '76037656' }, '/user/76037656/repos?type=member&sort=full_name&per_page=100&page=2', 'PAGINATION_QUERY_CHANGED'],
+    [{ subjectAccountId: '76037656' }, '/user/76037656/repos?type=owner&sort=full_name&per_page=100&page=4', 'PAGINATION_PAGE_INVALID'],
+    [{ subjectAccountId: '76037656' }, '/user/76037656/repos?type=owner&sort=full_name&per_page=100&cursor=next', 'PAGINATION_QUERY_CHANGED'],
+  ]) {
+    const calls = []; const client = createGithubClient(options(async url => { calls.push(url); return response([], 200, { link: `<https://api.github.com${target}>; rel="next"` }); }));
+    const result = await client.paginate(initial, binding); assert.equal(result.ok, false); assert.equal(result.code, code); assert.equal(calls.length, 1);
+  }
+  for (const binding of [{ subjectAccountId: 76037656 }, { subjectAccountId: '076037656' }, { subjectAccountId: null }, { subjectAccountId: '76037656', repositoryId: '9001' }, { repositoryId: '9001' }]) {
+    let calls = 0; const client = createGithubClient(options(async () => { calls += 1; return response([]); }));
+    assert.equal((await client.paginate(initial, binding)).code, 'PAGINATION_BINDING_INVALID'); assert.equal(calls, 0);
+  }
+});
+
+test('bound user public-events alias keeps its exact suffix and real page paths', async () => {
+  const initial = '/users/owner/events/public?per_page=100'; const canonical = '/user/1001/events/public?per_page=100&page=2';
+  let calls = 0; const client = createGithubClient(options(async () => ++calls === 1 ? response([], 200, { link: `<https://api.github.com${canonical}>; rel="next"` }) : response([])));
+  const result = await client.paginate(initial, { subjectAccountId: '1001' }); assert.equal(result.ok, true, result.code); assert.equal(result.pageSnapshots[1].requestPath, canonical);
+  const arbitrary = createGithubClient(options(async () => { throw new Error('must not request arbitrary alias API'); }));
+  assert.equal((await arbitrary.paginate('/users/owner/keys', { subjectAccountId: '1001' })).code, 'PAGINATION_BINDING_INVALID');
+});
 test('pagination rejects external link/path swap/query rewrite/cycle and invalidsyntax', async () => {
   const cases = [
     ['<https://evil.test/users/owner/repos?page=2>; rel="next"', 'PAGINATION_DESTINATION_REJECTED'],
@@ -193,6 +233,22 @@ test('discovery refusesURLs/wildcards/noncanonicalIDs before requests', async ()
   const mock = discoveryMock();
   for (const input of [{ additional: ['https://github.com/org/repo'] }, { exclude: ['org/*'] }, { tracked: [{ id: 9007199254740992 }] }, { login: '../user' }]) assert.equal((await discoverRepositories({ client: mock.client, login: 'owner', ...input })).code, 'DISCOVERY_INPUT_INVALID');
   assert.equal(mock.calls.length, 0);
+});
+
+test('discovery forwards an installation-verified subject ID to both public user lists', async () => {
+  const calls = []; let repoPages = 0;
+  const client = createGithubClient(options(async (url, init) => {
+    assert.equal(init.method, 'GET'); const parsed = new URL(url); calls.push(parsed.pathname);
+    if (parsed.pathname === '/users/owner/repos') { repoPages += 1; return response([repo(1)], 200, { link: '<https://api.github.com/user/1001/repos?type=owner&sort=full_name&per_page=100&page=2>; rel="next"' }); }
+    if (parsed.pathname === '/user/1001/repos') { repoPages += 1; return response([repo(2, 'owner/second')]); }
+    if (parsed.pathname === '/users/owner/events/public') return response([], 200, { link: '<https://api.github.com/user/1001/events/public?per_page=100&page=2>; rel="next"' });
+    if (parsed.pathname === '/user/1001/events/public') return response([]);
+    assert.fail('Unexpected discovery alias request');
+  }));
+  const result = await discoverRepositories({ client, login: 'owner', subjectAccountId: '1001' });
+  assert.equal(result.decision, 'ready', JSON.stringify(result.codes)); assert.equal(repoPages, 2); assert.deepEqual(result.repositories.map(item => item.id), ['1', '2']);
+  assert.ok(calls.includes('/user/1001/events/public'));
+  const bad = discoveryMock(); assert.equal((await discoverRepositories({ client: bad.client, login: 'owner', subjectAccountId: 1001 })).code, 'DISCOVERY_INPUT_INVALID'); assert.equal(bad.calls.length, 0);
 });
 
 test('grouped publication creates five blobs, one base tree, one parent commit and atomic expected-head mutation', async () => {

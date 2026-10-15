@@ -122,6 +122,7 @@ test('first verified installation composes real schema/domain/record/evidence/pr
   assert.equal(result.candidate.state.class.id, 'adventurer'); assert.deepEqual(result.candidate.ledger.facts, []);
   assert.equal(result.candidate.state.growth.startDate, '2026-07-17');
   assert.equal(mock.calls.discover.length, 1); assert.equal(mock.calls.collect.length, 1); assert.equal(mock.calls.verify.length, 1); assert.equal(mock.calls.present.length, 1);
+  assert.equal(mock.calls.discover[0].subjectAccountId, OWNER.accountId);
 });
 
 test('qualifying documentation PR produces40XP and retained real identity without pretending full source authenticity', async () => {

@@ -41,8 +41,13 @@ function graphqlErrorCode(errors) {
 export function createGithubClient(options) {
   const transport = createTransport(options);
   async function get(path) { return transport.request('GET', path); }
-  async function paginate(path, { maxPages = 10 } = {}) {
+  async function paginate(path, { maxPages = 10, repositoryId, subjectAccountId } = {}) {
     if (!Number.isSafeInteger(maxPages) || maxPages < 1 || maxPages > 100) return { ok: false, complete: false, code: 'PAGINATION_OPTIONS_INVALID', items: [] };
+    const binding = repositoryId === undefined && subjectAccountId === undefined ? undefined : { initialPath: path, ...(repositoryId === undefined ? {} : { repositoryId }), ...(subjectAccountId === undefined ? {} : { subjectAccountId }) };
+    if (binding !== undefined) {
+      const checked = checkedNextLink(null, path, binding);
+      if (!checked.ok) return { ...checked, complete: false, items: [] };
+    }
     let next = path;
     const seen = new Set(); const items = []; const pageSnapshots = [];
     for (let page = 0; page < maxPages; page += 1) {
@@ -53,7 +58,7 @@ export function createGithubClient(options) {
       if (!Array.isArray(result.data)) return { ok: false, complete: false, code: 'PAGINATION_RESPONSE_INVALID', items, pageSnapshots };
       const startIndex = items.length;
       items.push(...result.data);
-      const link = checkedNextLink(result.link, next);
+      const link = checkedNextLink(result.link, next, binding);
       if (!link.ok) return { ...link, complete: false, items, pageSnapshots };
       pageSnapshots.push({ sequence: page + 1, requestPath: next, itemCount: result.data.length, nextPath: link.next, startIndex, endIndexExclusive: items.length });
       if (link.next === null) return { ok: true, complete: true, code: 'CAPTURED', items, pages: page + 1, pageSnapshots };
@@ -63,10 +68,11 @@ export function createGithubClient(options) {
   }
   /** One fixed JSON object pagination contract, never a caller-selected field. */
   async function commitFiles(input) {
-    if (!record(input) || Object.keys(input).some(key => !['repository', 'oid', 'maxPages'].includes(key)) || !repositoryName(input.repository) || typeof input.oid !== 'string' || !GIT_OID.test(input.oid)) return commitFailure('COMMIT_FILES_INPUT_INVALID');
-    const { repository, oid, maxPages = 30 } = input;
+    if (!record(input) || Object.keys(input).some(key => !['repository', 'repositoryId', 'oid', 'maxPages'].includes(key)) || !repositoryName(input.repository) || typeof input.oid !== 'string' || !GIT_OID.test(input.oid) || input.repositoryId !== undefined && !databaseId(input.repositoryId)) return commitFailure('COMMIT_FILES_INPUT_INVALID');
+    const { repository, repositoryId, oid, maxPages = 30 } = input;
     if (!Number.isSafeInteger(maxPages) || maxPages < 1 || maxPages > 30) return commitFailure('PAGINATION_OPTIONS_INVALID');
     let next = '/repos/' + repository + '/commits/' + oid + '?per_page=100';
+    const binding = repositoryId === undefined ? undefined : { initialPath: next, repositoryId };
     const files = []; const pageSnapshots = []; const paths = new Set(); const requests = new Set(); let metadata = null;
     for (let page = 0; page < maxPages; page += 1) {
       if (requests.has(next)) return commitFailure('PAGINATION_CYCLE', page);
@@ -91,7 +97,7 @@ export function createGithubClient(options) {
       // The documented 3000-file provider ceiling cannot certify completeness,
       // even when the final response omits its continuation header.
       if (files.length >= 3000) return commitFailure('COMMIT_FILE_LIMIT_REACHED', page + 1);
-      const link = checkedNextLink(result.link, next);
+      const link = checkedNextLink(result.link, next, binding);
       if (!link.ok) return commitFailure(link.code, page + 1);
       if (link.next !== null) {
         const destination = new URL(link.next, 'https://api.github.com');

@@ -86,6 +86,7 @@ test('genuine first-use inputs require immutable-head absence, complete empty hi
   assert.equal(result.publicationAuthorized, false); assert.equal(result.progressionAuthorized, false);
   assert.equal(result.provenance.perfectPriorInstallationDetection, false);
   assert.equal(mock.calls.filter(call => call.method === 'GET_PAGES').length, 3);
+  assert.equal(mock.calls.filter(call => call.method === 'GET_PAGES').every(call => call.options.repositoryId === '9001'), true);
 });
 test('README and settings bytes remain lossless UTF-8 inputs, not rewritten public outputs', async () => {
   const mock = fixture(); const result = await acquire(mock);
