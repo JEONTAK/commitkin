@@ -44,6 +44,7 @@ jobs:
           const from = new Date(end.getTime() - 90 * day);
           const to = new Date(end.getTime() - 1);
           const fixture = 'cli/cli';
+          const releaseFixture = 'nodejs/node';
           const triageTypes = new Set([
             'labeled', 'unlabeled', 'assigned', 'unassigned', 'milestoned', 'demilestoned',
           ]);
@@ -125,8 +126,8 @@ jobs:
           }
           const publicRepos = rows => new Set(rows.map(row =>
             row?.isPrivate === false ? repoKey(row.nameWithOwner) : null).filter(Boolean));
-          const memberships = sources => Object.fromEntries(Object.entries(sources)
-            .map(([name, values]) => [name, values.has(fixture)]));
+          const memberships = (sources, repository) => Object.fromEntries(Object.entries(sources)
+            .map(([name, values]) => [name, values.has(repository)]));
           async function discover(login, alias) {
             // No fixture owner/repository is supplied to any discovery request.
             const sources = { owned: new Set(), contributed: new Set(), recent: new Set(),
@@ -234,7 +235,7 @@ jobs:
           const targetDiscovery = await discover(target, 'target');
 
           // The known fixture is consulted only after target discovery finishes.
-          const releases = await restPages('control_release_list', `/repos/${fixture}/releases`, 2);
+          const releases = await restPages('control_release_list', `/repos/${releaseFixture}/releases`, 2);
           const releaseSamples = releases.items.filter(row => validDate(row.published_at) &&
             row.draft === false && row.prerelease === false && row.author?.type === 'User' &&
             loginPattern.test(row.author?.login ?? ''));
@@ -278,16 +279,18 @@ jobs:
             const alias = `control_${++index}`;
             const discovered = subject.login.toLowerCase() === target.toLowerCase()
               ? targetDiscovery : await discover(subject.login, alias);
-            const discoveryFailed = failures > 0;
-            emit(`${alias}_known_vs_discovered`, discovered.all.has(fixture)
-              ? 'FOUND_KNOWN_OPERATIONS_REPOSITORY'
-              : discoveryFailed ? 'INCONCLUSIVE_API_FAILURE' : 'MISSING_FROM_BOUNDED_DISCOVERY', {
-              knownHumanRelease: subject.release, knownHumanTriageEvent: subject.triage,
-              releaseBeyond30Days: subject.oldReleaseBeyond30Days,
-              sourceMembership: memberships(discovered.sources),
-              operationsOnlyStatus: 'NOT_ESTABLISHED',
-              positiveMatchDoesNotProveGlobalCompleteness: true,
-            });
+            for (const kind of ['release', 'triage']) if (subject[kind]) {
+              const repository = kind === 'release' ? releaseFixture : fixture;
+              emit(`${alias}_${kind}_known_vs_discovered`, discovered.all.has(repository)
+                ? 'FOUND_KNOWN_OPERATIONS_REPOSITORY'
+                : failures > 0 ? 'INCONCLUSIVE_API_FAILURE' : 'MISSING_FROM_BOUNDED_DISCOVERY', {
+                knownHumanRelease: kind === 'release', knownHumanTriageEvent: kind === 'triage',
+                releaseBeyond30Days: kind === 'release' && subject.oldReleaseBeyond30Days,
+                sourceMembership: memberships(discovered.sources, repository),
+                operationsOnlyStatus: 'NOT_ESTABLISHED',
+                positiveMatchDoesNotProveGlobalCompleteness: true,
+              });
+            }
           }
           if (!subjects.size) emit('operations_positive_controls', 'NO_SAMPLE_IN_BOUNDED_FIXTURE');
           emit('conclusion', failures ? 'INCOMPLETE_TECHNICAL_CHECK' : 'ACCESS_CHECKS_COMPLETE', {
