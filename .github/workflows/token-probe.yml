@@ -1,0 +1,183 @@
+# SPDX-License-Identifier: MIT
+# Diagnostic only. Do not dispatch during repository initialization.
+name: Read-only GITHUB_TOKEN probe
+
+"on":
+  workflow_dispatch:
+    inputs:
+      username:
+        description: Public GitHub username to probe (never enter credentials)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check public API access without repository writes
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PROBE_USERNAME: ${{ inputs.username }}
+          PROBE_API_URL: ${{ github.api_url }}
+        run: |
+          node --input-type=module <<'NODE'
+          const token = process.env.GITHUB_TOKEN;
+          const username = (process.env.PROBE_USERNAME ?? '').trim();
+          const api = process.env.PROBE_API_URL;
+          const repository = process.env.GITHUB_REPOSITORY ?? '';
+          const loginPattern = /^[a-z\d](?:[a-z\d-]{0,37}[a-z\d])?$/i;
+          if (process.env.GITHUB_ACTIONS !== 'true' ||
+              process.env.GITHUB_EVENT_NAME !== 'workflow_dispatch' || !token ||
+              api !== 'https://api.github.com' || !loginPattern.test(username) ||
+              !/^[a-z\d-]+\/[a-z\d_.-]+$/i.test(repository)) {
+            console.log('CONFIGURATION_ERROR: requires a manual GitHub.com Actions job and valid username.');
+            process.exit(1);
+          }
+
+          const day = 86_400_000;
+          const end = new Date();
+          end.setUTCHours(0, 0, 0, 0);
+          const start = new Date(end.getTime() - 90 * day);
+          const until = new Date(end.getTime() - 1);
+          const fixture = '/repos/cli/cli';
+          const pr = `${fixture}/pulls/14485`;
+          let exhausted = false;
+          let failures = 0;
+          const allowedErrorTypes = new Set([
+            'FORBIDDEN', 'NOT_FOUND', 'RATE_LIMITED', 'UNAUTHORIZED',
+            'INSUFFICIENT_SCOPES', 'GRAPHQL_VALIDATION_FAILED',
+          ]);
+          const report = (label, result, details = {}) => {
+            console.log(JSON.stringify({ probe: label, result, ...details }));
+            if (result !== 'PASS' && result !== 'PASS_EMPTY') failures++;
+          };
+          const collection = (items, valid) => {
+            if (!Array.isArray(items)) return 'NO_SAMPLE_OR_SCHEMA_MISMATCH';
+            if (items.length === 0) return 'PASS_EMPTY';
+            return items.every(valid) ? 'PASS' : 'NO_SAMPLE_OR_SCHEMA_MISMATCH';
+          };
+          const present = value => value !== null && value !== undefined;
+          async function probe(label, path, validate, graphql) {
+            if (exhausted) {
+              report(label, 'SKIP_RATE_LIMIT');
+              return;
+            }
+            try {
+              const response = await fetch(`${api}${path}`, {
+                method: graphql ? 'POST' : 'GET',
+                redirect: 'error',
+                signal: AbortSignal.timeout(15_000),
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/vnd.github+json',
+                  'X-GitHub-Api-Version': '2022-11-28',
+                  'User-Agent': 'commitkin-read-only-token-probe',
+                  ...(graphql ? { 'Content-Type': 'application/json' } : {}),
+                },
+                ...(graphql ? { body: JSON.stringify(graphql) } : {}),
+              });
+              const rawRemaining = response.headers.get('x-ratelimit-remaining');
+              const remaining = rawRemaining !== null && /^\d+$/.test(rawRemaining)
+                ? Number(rawRemaining) : null;
+              const details = { http: response.status, remaining };
+              if (remaining === 0 || response.status === 429) exhausted = true;
+              if (!response.ok) {
+                report(label, 'FAIL_HTTP', details);
+                return;
+              }
+              const data = await response.json();
+              if (graphql && Array.isArray(data.errors) && data.errors.length) {
+                const types = [...new Set(data.errors.map(error => {
+                  const type = error?.type ?? error?.extensions?.code;
+                  return allowedErrorTypes.has(type) ? type : 'OTHER';
+                }))];
+                if (types.includes('RATE_LIMITED')) exhausted = true;
+                report(label, 'FAIL_GRAPHQL', { ...details, types });
+                return;
+              }
+              report(label, validate(data), details);
+            } catch {
+              report(label, 'NETWORK_OR_RESPONSE_ERROR');
+            }
+          }
+
+          const repositoryShape = data => data?.private === false && present(data?.id)
+            ? 'PASS' : 'NO_SAMPLE_OR_SCHEMA_MISMATCH';
+          await probe('own_public_repository', `/repos/${repository}`, repositoryShape);
+          await probe('external_public_repository', fixture, repositoryShape);
+          await probe('external_merged_pr', pr, data =>
+            data?.number === 14485 && present(data?.merged_at) &&
+            present(data?.user?.id) && Number.isInteger(data?.changed_files)
+              ? 'PASS' : 'NO_SAMPLE_OR_SCHEMA_MISMATCH');
+          await probe('external_pr_files', `${pr}/files?per_page=1`, data =>
+            collection(data, item => typeof item?.filename === 'string'));
+          await probe('external_pr_reviews', `${pr}/reviews?per_page=100`, data =>
+            collection(data, item => present(item?.user?.id) &&
+              present(item?.submitted_at) && present(item?.commit_id)));
+          await probe('external_releases', `${fixture}/releases?per_page=1`, data =>
+            collection(data, item => present(item?.author?.id) && present(item?.published_at)));
+          await probe('external_issue_events', `${fixture}/issues/events?per_page=1`, data =>
+            collection(data, item => present(item?.actor?.id) && present(item?.created_at)));
+          await probe('external_commits', `${fixture}/commits?per_page=1`, data =>
+            collection(data, item => typeof item?.sha === 'string'));
+          const search = new URLSearchParams({
+            q: `is:pr is:merged is:public author:${username} merged:${start.toISOString().slice(0, 10)}..${until.toISOString().slice(0, 10)}`,
+            per_page: '1',
+          });
+          await probe('public_merged_pr_search', `/search/issues?${search}`, data =>
+            Number.isInteger(data?.total_count) && data?.incomplete_results === false
+              ? collection(data?.items, item => present(item?.pull_request) && present(item?.user?.id))
+              : 'NO_SAMPLE_OR_SCHEMA_MISMATCH');
+
+          await probe('external_graphql_pr', '/graphql', data => {
+            const repo = data?.data?.repository;
+            return repo?.isPrivate === false && present(repo?.pullRequest?.mergedAt)
+              ? 'PASS' : 'NO_SAMPLE_OR_SCHEMA_MISMATCH';
+          }, {
+            query: `query {
+              repository(owner: "cli", name: "cli") {
+                isPrivate
+                pullRequest(number: 14485) { mergedAt }
+              }
+            }`,
+          });
+          await probe('public_contribution_sample', '/graphql', data => {
+            const user = data?.data?.user;
+            const c = user?.contributionsCollection;
+            if (!present(user?.databaseId) || !c) return 'NO_SAMPLE_OR_SCHEMA_MISMATCH';
+            const results = [
+              collection(c.commitContributionsByRepository, item => item?.repository?.isPrivate === false),
+              collection(c.pullRequestContributions?.nodes, item => item?.isRestricted === false &&
+                item?.pullRequest?.repository?.isPrivate === false),
+              collection(c.pullRequestReviewContributions?.nodes, item => item?.isRestricted === false &&
+                item?.repository?.isPrivate === false),
+            ];
+            if (results.includes('NO_SAMPLE_OR_SCHEMA_MISMATCH')) return 'NO_SAMPLE_OR_SCHEMA_MISMATCH';
+            return results.includes('PASS_EMPTY') ? 'PASS_EMPTY' : 'PASS';
+          }, {
+            query: `query($login: String!, $from: DateTime!, $to: DateTime!) {
+              user(login: $login) {
+                databaseId
+                contributionsCollection(from: $from, to: $to) {
+                  commitContributionsByRepository(maxRepositories: 1) {
+                    repository { isPrivate }
+                  }
+                  pullRequestContributions(first: 1) {
+                    nodes { isRestricted pullRequest { repository { isPrivate } } }
+                  }
+                  pullRequestReviewContributions(first: 1) {
+                    nodes { isRestricted repository { isPrivate } }
+                  }
+                }
+              }
+            }`,
+            variables: { login: username, from: start.toISOString(), to: until.toISOString() },
+          });
+          console.log('Scope: sampled public API access only; completeness and write access remain unverified.');
+          process.exitCode = failures ? 1 : 0;
+          NODE
