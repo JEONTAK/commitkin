@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "recordType": "status",
+  "rulesetVersion": "1.0.0",
+  "recordRevision": 2,
+  "owner": {
+    "accountId": "1001",
+    "profileRepositoryId": "9001"
+  },
+  "lastSuccessfulRevision": 2,
+  "state": "ok",
+  "reasonCode": null,
+  "changedAt": "2026-10-15T01:00:00Z",
+  "collectionPending": [],
+  "unobservedGaps": []
+}

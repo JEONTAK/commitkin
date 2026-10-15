@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commitkin:schemas:v1:status",
+  "title": "Commitkin v1 status",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "recordType": {
+      "const": "status"
+    },
+    "rulesetVersion": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/rulesetVersion"
+    },
+    "recordRevision": {
+      "anyOf": [
+        {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/revision"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "owner": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/owner"
+    },
+    "lastSuccessfulRevision": {
+      "anyOf": [
+        {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/revision"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "state": {
+      "enum": [
+        "ok",
+        "partial",
+        "analysis_pending",
+        "configuration_error",
+        "recovery_required"
+      ]
+    },
+    "reasonCode": {
+      "anyOf": [
+        {
+          "enum": [
+            "SOURCE_TIMEOUT",
+            "SOURCE_FORBIDDEN",
+            "REPOSITORY_UNAVAILABLE",
+            "INCOMPLETE_PAGINATION",
+            "EXECUTION_BUDGET_EXCEEDED",
+            "SETTINGS_INVALID",
+            "SETTINGS_MISSING",
+            "RECORD_MISSING",
+            "RECORD_INVALID",
+            "RECORD_MISMATCH",
+            "OWNER_MISMATCH",
+            "INITIAL_ANALYSIS_PENDING"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "changedAt": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+    },
+    "collectionPending": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:commitkin:schemas:v1:common#/$defs/range"
+      }
+    },
+    "unobservedGaps": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:commitkin:schemas:v1:common#/$defs/unobservedRange"
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "recordType",
+    "rulesetVersion",
+    "recordRevision",
+    "owner",
+    "lastSuccessfulRevision",
+    "state",
+    "reasonCode",
+    "changedAt",
+    "collectionPending",
+    "unobservedGaps"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reasonCode": {
+            "type": "null"
+          },
+          "recordRevision": {
+            "$ref": "urn:commitkin:schemas:v1:common#/$defs/revision"
+          },
+          "lastSuccessfulRevision": {
+            "$ref": "urn:commitkin:schemas:v1:common#/$defs/revision"
+          },
+          "collectionPending": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "const": "partial"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reasonCode": {
+            "enum": [
+              "SOURCE_TIMEOUT",
+              "SOURCE_FORBIDDEN",
+              "REPOSITORY_UNAVAILABLE",
+              "INCOMPLETE_PAGINATION",
+              "EXECUTION_BUDGET_EXCEEDED"
+            ]
+          },
+          "recordRevision": {
+            "$ref": "urn:commitkin:schemas:v1:common#/$defs/revision"
+          },
+          "lastSuccessfulRevision": {
+            "$ref": "urn:commitkin:schemas:v1:common#/$defs/revision"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "const": "analysis_pending"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reasonCode": {
+            "enum": [
+              "INITIAL_ANALYSIS_PENDING",
+              "SOURCE_TIMEOUT",
+              "SOURCE_FORBIDDEN",
+              "REPOSITORY_UNAVAILABLE",
+              "INCOMPLETE_PAGINATION",
+              "EXECUTION_BUDGET_EXCEEDED"
+            ]
+          },
+          "lastSuccessfulRevision": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "const": "configuration_error"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reasonCode": {
+            "enum": [
+              "SETTINGS_INVALID",
+              "SETTINGS_MISSING"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "const": "recovery_required"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reasonCode": {
+            "enum": [
+              "RECORD_MISSING",
+              "RECORD_INVALID",
+              "RECORD_MISMATCH",
+              "OWNER_MISMATCH"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,784 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commitkin:schemas:evidence:v1:collections",
+  "title": "Commitkin v1 offline capture projections",
+  "$defs": {
+    "page": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "capturedAt": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+        },
+        "requestCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "response": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "const": "success"
+                },
+                "httpStatus": {
+                  "const": 200
+                },
+                "itemRefs": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+                  },
+                  "minItems": 0,
+                  "uniqueItems": true
+                },
+                "pagination": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "state": {
+                          "const": "more"
+                        },
+                        "nextCursor": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        }
+                      },
+                      "required": [
+                        "state",
+                        "nextCursor"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "state": {
+                          "const": "end"
+                        },
+                        "nextCursor": {
+                          "type": "null"
+                        }
+                      },
+                      "required": [
+                        "state",
+                        "nextCursor"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "state": {
+                          "const": "unknown"
+                        }
+                      },
+                      "required": [
+                        "state"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "truncation": {
+                  "type": "string",
+                  "enum": [
+                    "not_reported",
+                    "reported",
+                    "unknown"
+                  ]
+                },
+                "total": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "const": "provided"
+                        },
+                        "value": {
+                          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/count"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "const": "not_provided"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "httpStatus",
+                "itemRefs",
+                "pagination",
+                "truncation",
+                "total"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "const": "failure"
+                },
+                "transport": {
+                  "const": "http"
+                },
+                "httpStatus": {
+                  "type": "integer",
+                  "minimum": 400,
+                  "maximum": 599
+                },
+                "reason": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/reason"
+                }
+              },
+              "required": [
+                "status",
+                "transport",
+                "httpStatus",
+                "reason"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "const": "failure"
+                },
+                "transport": {
+                  "const": "no_response"
+                },
+                "httpStatus": {
+                  "type": "null"
+                },
+                "reason": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/reason"
+                }
+              },
+              "required": [
+                "status",
+                "transport",
+                "httpStatus",
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "ref",
+        "sequence",
+        "capturedAt",
+        "requestCursor",
+        "response"
+      ],
+      "additionalProperties": false
+    },
+    "collection": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ref": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+            },
+            "resourceType": {
+              "type": "string",
+              "enum": [
+                "repository",
+                "pull_request",
+                "commit",
+                "review",
+                "release",
+                "issue",
+                "issue_event",
+                "file_change",
+                "pr_association",
+                "label_history"
+              ]
+            },
+            "target": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "repository"
+                    },
+                    "repositoryId": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "repositoryId"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "resource"
+                    },
+                    "repositoryId": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+                    },
+                    "resourceRef": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "repositoryId",
+                    "resourceRef"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "purpose": {
+              "type": "string",
+              "enum": [
+                "metadata",
+                "activity",
+                "history",
+                "changes",
+                "relations"
+              ]
+            },
+            "window": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "snapshot"
+                    },
+                    "observedAt": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "observedAt"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "interval"
+                    },
+                    "startAt": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+                    },
+                    "endAtExclusive": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "startAt",
+                    "endAtExclusive"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "history"
+                    },
+                    "throughExclusive": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "throughExclusive"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "filters": {
+              "type": "object"
+            },
+            "state": {
+              "const": "captured"
+            },
+            "pages": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:evidence:v1:collections#/$defs/page"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "ref",
+            "resourceType",
+            "target",
+            "purpose",
+            "window",
+            "filters",
+            "state",
+            "pages"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ref": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+            },
+            "resourceType": {
+              "type": "string",
+              "enum": [
+                "repository",
+                "pull_request",
+                "commit",
+                "review",
+                "release",
+                "issue",
+                "issue_event",
+                "file_change",
+                "pr_association",
+                "label_history"
+              ]
+            },
+            "target": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "repository"
+                    },
+                    "repositoryId": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "repositoryId"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "resource"
+                    },
+                    "repositoryId": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+                    },
+                    "resourceRef": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "repositoryId",
+                    "resourceRef"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "purpose": {
+              "type": "string",
+              "enum": [
+                "metadata",
+                "activity",
+                "history",
+                "changes",
+                "relations"
+              ]
+            },
+            "window": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "snapshot"
+                    },
+                    "observedAt": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "observedAt"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "interval"
+                    },
+                    "startAt": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+                    },
+                    "endAtExclusive": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "startAt",
+                    "endAtExclusive"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "history"
+                    },
+                    "throughExclusive": {
+                      "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "throughExclusive"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "filters": {
+              "type": "object"
+            },
+            "state": {
+              "const": "not_collected"
+            },
+            "pages": {
+              "type": "array",
+              "maxItems": 0
+            },
+            "reason": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/reason"
+            }
+          },
+          "required": [
+            "ref",
+            "resourceType",
+            "target",
+            "purpose",
+            "window",
+            "filters",
+            "state",
+            "pages",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "repository"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "pull_request"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {
+                  "states": {
+                    "const": "all"
+                  }
+                },
+                "required": [
+                  "states"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "commit"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {
+                  "branch": {
+                    "const": "default"
+                  }
+                },
+                "required": [
+                  "branch"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "review"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {
+                  "states": {
+                    "const": "all"
+                  }
+                },
+                "required": [
+                  "states"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "release"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "issue"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {
+                  "includePullRequests": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "includePullRequests"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "issue_event"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {
+                  "actions": {
+                    "const": "triage"
+                  }
+                },
+                "required": [
+                  "actions"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "file_change"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "pr_association"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceType": {
+                "const": "label_history"
+              }
+            },
+            "required": [
+              "resourceType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "filters": {
+                "type": "object",
+                "properties": {
+                  "labels": {
+                    "const": "all"
+                  }
+                },
+                "required": [
+                  "labels"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

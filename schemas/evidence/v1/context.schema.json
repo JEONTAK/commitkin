@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commitkin:schemas:evidence:v1:context",
+  "title": "Commitkin v1 external preflight context",
+  "description": "Supplied comparison expectations, not authentication. Byte/depth limits and cross-file/temporal semantics are outside this schema.",
+  "type": "object",
+  "properties": {
+    "contextVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "operation": {
+      "type": "string",
+      "const": "normal"
+    },
+    "expected": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "object",
+          "properties": {
+            "accountId": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+            },
+            "profileRepositoryId": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+            }
+          },
+          "required": [
+            "accountId",
+            "profileRepositoryId"
+          ],
+          "additionalProperties": false
+        },
+        "evidenceVersion": {
+          "type": "integer",
+          "const": 1
+        },
+        "rulesetVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "adapter": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "const": "github.com"
+            },
+            "version": {
+              "type": "string",
+              "const": "1"
+            }
+          },
+          "required": [
+            "id",
+            "version"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "subject",
+        "evidenceVersion",
+        "rulesetVersion",
+        "adapter"
+      ],
+      "additionalProperties": false
+    },
+    "evaluation": {
+      "type": "object",
+      "properties": {
+        "startedAt": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+        },
+        "inspectedAt": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+        }
+      },
+      "required": [
+        "startedAt",
+        "inspectedAt"
+      ],
+      "additionalProperties": false
+    },
+    "normalizedSettings": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "repositories": {
+          "type": "object",
+          "properties": {
+            "additional": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/[a-z0-9._-]+$",
+                "not": {
+                  "pattern": "\\s"
+                }
+              },
+              "uniqueItems": true
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/[a-z0-9._-]+$",
+                "not": {
+                  "pattern": "\\s"
+                }
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "additional",
+            "exclude"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "version",
+        "repositories"
+      ],
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "repositoryIds": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "repositoryIds"
+      ],
+      "additionalProperties": false
+    },
+    "comparison": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "snapshot_only",
+            "with_previous"
+          ]
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contextVersion",
+    "operation",
+    "expected",
+    "evaluation",
+    "normalizedSettings",
+    "scope",
+    "comparison"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,43 @@
+{
+  "fixtureVersion": 1,
+  "checkedOn": "2026-10-15",
+  "scope": "Local schema/raw-boundary/fixture-digest checks only; not a product verifier report.",
+  "runtime": {
+    "node": "24.8.0",
+    "ajv": "8.20.0",
+    "ajvFormats": "3.0.1",
+    "canonicalize": "5.1.0",
+    "jsoncParser": "3.3.1",
+    "independent": {
+      "jsonschema": "4.26.0",
+      "referencing": "0.37.0",
+      "rfc8785": "0.1.4"
+    }
+  },
+  "schemaSelfValidation": 4,
+  "envelopeCases": 59,
+  "rawCases": 7,
+  "structuralProbes": 879,
+  "reverseReplays": 945,
+  "recordSchemaChecks": 39,
+  "fixtureDigests": 41,
+  "boundaryProbes": 6,
+  "independentSchemaChecks": 977,
+  "independentDigests": 41,
+  "failures": 0,
+  "originalProtectedFilesUnchanged": 115,
+  "originalSchemaRecordJsonUnchanged": 93,
+  "mechanicsSections": "6–12",
+  "mechanicsSha256": "28dda8df16176dd5e3c650c4bd8efaaf429942515b78db6d2ac032b25576f941",
+  "checkStatus": {
+    "sourceEligibility": "not_run",
+    "coverageConsistency": "not_run",
+    "rewardOrder": "not_run",
+    "rewardAllocation": "not_run",
+    "sourceAuthenticity": "not_checked"
+  },
+  "progressionAuthorized": false,
+  "githubChanged": false,
+  "actionsExecuted": false,
+  "dependenciesChanged": false
+}

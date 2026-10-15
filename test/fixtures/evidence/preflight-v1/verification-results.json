@@ -1,0 +1,22 @@
+{
+  "schemasCompiled": 6,
+  "additiveSchemas": 2,
+  "caseCount": 59,
+  "caseSchemaAssertions": 177,
+  "contextProbes": 131,
+  "catalogProbes": 307,
+  "probeAssertions": 438,
+  "reverseAssertions": 615,
+  "rawChecks": 8,
+  "boundaryChecks": 9,
+  "recordSchemaAssertions": 195,
+  "ledgerDigestChecks": 65,
+  "externalRefRejected": true,
+  "inputFilesUnchanged": 156,
+  "failures": [],
+  "semanticExecution": "not_run",
+  "sourceAuthenticity": "not_checked",
+  "progressionAuthorized": false,
+  "protectedOriginalFiles": 173,
+  "protectedOriginalFilesChanged": []
+}

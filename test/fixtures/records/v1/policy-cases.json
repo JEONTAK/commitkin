@@ -1,0 +1,1667 @@
+{
+  "fixtureVersion": 1,
+  "confirmedOn": "2026-10-15",
+  "description": "Synthetic finite contract examples for the four approved refinements. No actual validator, evaluator, collector or state-transition implementation.",
+  "hashConstruction": {
+    "algorithm": "RFC 8785 JCS UTF-8 -> SHA-256; prefix v1:sha256:",
+    "settingsInput": {
+      "version": 1,
+      "repositories": {
+        "additional": [],
+        "exclude": []
+      }
+    },
+    "settingsHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e",
+    "analysisConfigInput": {
+      "rulesetVersion": "1.0.0",
+      "publicOnly": true
+    },
+    "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+    "scopeInput": {
+      "rulesetVersion": "1.0.0",
+      "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+      "repositoryIds": [
+        "9001"
+      ]
+    },
+    "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+    "identityInputs": [
+      {
+        "name": "prA",
+        "input": {
+          "kind": "pull_request",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "17"
+        },
+        "expectedHash": "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422"
+      },
+      {
+        "name": "prEventA",
+        "input": {
+          "kind": "merged_pr",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "17"
+        },
+        "expectedHash": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c"
+      },
+      {
+        "name": "prB",
+        "input": {
+          "kind": "pull_request",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "18"
+        },
+        "expectedHash": "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+      },
+      {
+        "name": "prEventB",
+        "input": {
+          "kind": "merged_pr",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "18"
+        },
+        "expectedHash": "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe"
+      },
+      {
+        "name": "prC",
+        "input": {
+          "kind": "pull_request",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "19"
+        },
+        "expectedHash": "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9"
+      },
+      {
+        "name": "prEventC",
+        "input": {
+          "kind": "merged_pr",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "19"
+        },
+        "expectedHash": "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153"
+      },
+      {
+        "name": "reviewPrA",
+        "input": {
+          "kind": "pull_request",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "31"
+        },
+        "expectedHash": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+      },
+      {
+        "name": "reviewEventA",
+        "input": {
+          "kind": "submitted_review",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "21"
+        },
+        "expectedHash": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5"
+      },
+      {
+        "name": "reviewCommitA",
+        "input": {
+          "kind": "reviewed_commit",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": {
+            "pullRequestId": "31",
+            "commitOid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "expectedHash": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+      },
+      {
+        "name": "reviewPrB",
+        "input": {
+          "kind": "pull_request",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "32"
+        },
+        "expectedHash": "v1:sha256:03aed442c7ed185f975d89f14f336f02a342568500b01c060847679663c35487"
+      },
+      {
+        "name": "reviewEventB",
+        "input": {
+          "kind": "submitted_review",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "22"
+        },
+        "expectedHash": "v1:sha256:673648563c718127bddd23f4a21e6d5f3b98137c1c8bd3eb1af091d6a760a3c3"
+      },
+      {
+        "name": "reviewCommitB",
+        "input": {
+          "kind": "reviewed_commit",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": {
+            "pullRequestId": "32",
+            "commitOid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        },
+        "expectedHash": "v1:sha256:40811624f45256166cb517636ec773467e39271ed315ea6b1de1948e0dd79bfb"
+      },
+      {
+        "name": "reviewPrC",
+        "input": {
+          "kind": "pull_request",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "33"
+        },
+        "expectedHash": "v1:sha256:8f3d19203afd3c820fa519e03817f77b669a1371f03fd5a2cc3ca9127945ae24"
+      },
+      {
+        "name": "reviewEventC",
+        "input": {
+          "kind": "submitted_review",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "23"
+        },
+        "expectedHash": "v1:sha256:ebc324236cfe6c4cf58c162ed84002f41d4424fccabc54fbeb635dc872affe3f"
+      },
+      {
+        "name": "reviewCommitC",
+        "input": {
+          "kind": "reviewed_commit",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": {
+            "pullRequestId": "33",
+            "commitOid": "cccccccccccccccccccccccccccccccccccccccc"
+          }
+        },
+        "expectedHash": "v1:sha256:c0e344077eb5ef01573e6ab4c5bd251e51f3efcc16660c97dba47d3a57d3b9ee"
+      },
+      {
+        "name": "releaseA",
+        "input": {
+          "kind": "release",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "41"
+        },
+        "expectedHash": "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+      },
+      {
+        "name": "releaseEventA",
+        "input": {
+          "kind": "published_release",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "41"
+        },
+        "expectedHash": "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a"
+      },
+      {
+        "name": "releaseEarlier",
+        "input": {
+          "kind": "release",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "40"
+        },
+        "expectedHash": "v1:sha256:c10d7d1ca820e18747f6ce2247bca6faf3b40ab8b6fdde149d3b7965eb2aeb77"
+      },
+      {
+        "name": "releaseEventEarlier",
+        "input": {
+          "kind": "published_release",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "40"
+        },
+        "expectedHash": "v1:sha256:f35004d8bef962c72f32c23e55d8986ccc88237e3724ff8d2c513c4837abb6ce"
+      },
+      {
+        "name": "triageEvent",
+        "input": {
+          "kind": "triage_day",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "2026-10-14"
+        },
+        "expectedHash": "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086"
+      },
+      {
+        "name": "issue51",
+        "input": {
+          "kind": "issue",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "51"
+        },
+        "expectedHash": "v1:sha256:88511068563f6cd90535cbebd4324be721b777fcb7b96d7b257643b73623fa1a"
+      },
+      {
+        "name": "issue52",
+        "input": {
+          "kind": "issue",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "52"
+        },
+        "expectedHash": "v1:sha256:52c4a93309c88415a397eb14e6c1e8c890c71d9358227bae7fa36288fe2fbb21"
+      },
+      {
+        "name": "issue53",
+        "input": {
+          "kind": "issue",
+          "accountId": "1001",
+          "repositoryId": "9001",
+          "sourceId": "53"
+        },
+        "expectedHash": "v1:sha256:216e89a3291010cf665e391fcb4318c9f17a902950fcc0b142468e635470eea1"
+      }
+    ]
+  },
+  "dates": [
+    {
+      "caseId": "frozen-midnight-cutoff",
+      "kind": "window",
+      "anchorUtc": "2026-10-15T23:59:59Z",
+      "finishedAt": "2026-10-16T00:00:01Z",
+      "expected": {
+        "evaluationDate": "2026-10-15",
+        "classStart": "2026-07-17",
+        "traitStart": "2026-09-15",
+        "endExclusive": "2026-10-15"
+      }
+    },
+    {
+      "caseId": "two-date-gap-preserves",
+      "kind": "gap",
+      "lastNormalOn": "2026-10-01",
+      "evaluationDate": "2026-10-03",
+      "expected": {
+        "days": 2,
+        "reset": false
+      }
+    },
+    {
+      "caseId": "three-date-gap-resets",
+      "kind": "gap",
+      "lastNormalOn": "2026-10-01",
+      "evaluationDate": "2026-10-04",
+      "expected": {
+        "days": 3,
+        "reset": true
+      }
+    },
+    {
+      "caseId": "thirteen-date-cooldown-holds",
+      "kind": "cooldown",
+      "lastChangedOn": "2026-10-01",
+      "evaluationDate": "2026-10-14",
+      "expected": {
+        "days": 13,
+        "eligible": false
+      }
+    },
+    {
+      "caseId": "fourteen-date-cooldown-allows",
+      "kind": "cooldown",
+      "lastChangedOn": "2026-10-01",
+      "evaluationDate": "2026-10-15",
+      "expected": {
+        "days": 14,
+        "eligible": true
+      }
+    },
+    {
+      "caseId": "fourteen-complete-rest-dates",
+      "kind": "rest",
+      "activityAnchor": "2026-09-30",
+      "returnDate": "2026-10-15",
+      "allRestDatesObserved": true,
+      "expected": {
+        "inactiveDates": 14,
+        "restEligible": true
+      }
+    },
+    {
+      "caseId": "thirteen-rest-dates-insufficient",
+      "kind": "rest",
+      "activityAnchor": "2026-09-30",
+      "returnDate": "2026-10-14",
+      "allRestDatesObserved": true,
+      "expected": {
+        "inactiveDates": 13,
+        "restEligible": false
+      }
+    },
+    {
+      "caseId": "missing-coverage-is-not-rest",
+      "kind": "rest",
+      "activityAnchor": "2026-09-30",
+      "returnDate": "2026-10-15",
+      "allRestDatesObserved": false,
+      "expected": {
+        "inactiveDates": 14,
+        "restEligible": false
+      }
+    }
+  ],
+  "observations": [
+    {
+      "caseId": "class-six-to-seven",
+      "rule": "advance",
+      "slot": "class",
+      "previousCount": 6,
+      "previousNormalOn": "2026-10-14",
+      "previousCountedOn": "2026-10-14",
+      "evaluationDate": "2026-10-15",
+      "startedOn": "2026-10-09",
+      "lastChangedOn": "2026-10-05",
+      "expected": {
+        "count": 7,
+        "pending": true,
+        "lastCountedOn": "2026-10-15",
+        "startedOn": "2026-10-09",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "class-seven-saturates",
+      "rule": "advance",
+      "slot": "class",
+      "previousCount": 7,
+      "previousNormalOn": "2026-10-14",
+      "previousCountedOn": "2026-10-14",
+      "evaluationDate": "2026-10-15",
+      "startedOn": "2026-10-08",
+      "lastChangedOn": "2026-10-05",
+      "expected": {
+        "count": 7,
+        "pending": true,
+        "lastCountedOn": "2026-10-15",
+        "startedOn": "2026-10-08",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "class-seven-and-fourteen-days",
+      "rule": "apply-class",
+      "slot": "class",
+      "previousCount": 7,
+      "previousNormalOn": "2026-10-14",
+      "previousCountedOn": "2026-10-14",
+      "evaluationDate": "2026-10-15",
+      "lastChangedOn": "2026-10-01",
+      "candidateAndCrossFamilyConditionsVerified": true,
+      "expected": {
+        "count": null,
+        "pending": false,
+        "apply": true,
+        "lastChangedOn": "2026-10-15"
+      }
+    },
+    {
+      "caseId": "same-date-repeat-no-count",
+      "rule": "same-date",
+      "slot": "class",
+      "previousCount": 5,
+      "previousNormalOn": "2026-10-15",
+      "previousCountedOn": "2026-10-15",
+      "evaluationDate": "2026-10-15",
+      "expected": {
+        "count": 5,
+        "pending": true,
+        "lastCountedOn": "2026-10-15",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "same-date-new-candidate-no-second-count",
+      "rule": "same-date-reset",
+      "slot": "class",
+      "previousCount": 5,
+      "previousNormalOn": "2026-10-15",
+      "previousCountedOn": "2026-10-15",
+      "evaluationDate": "2026-10-15",
+      "candidateChanged": true,
+      "expected": {
+        "count": null,
+        "pending": false,
+        "lastCountedOn": "2026-10-15",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "same-date-scope-reset-no-second-count",
+      "rule": "same-date-reset",
+      "slot": "class",
+      "previousCount": 5,
+      "previousNormalOn": "2026-10-15",
+      "previousCountedOn": "2026-10-15",
+      "evaluationDate": "2026-10-15",
+      "materialScopeChanged": true,
+      "expected": {
+        "count": null,
+        "pending": false,
+        "lastCountedOn": "2026-10-15",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "new-date-new-scope-starts-one",
+      "rule": "restart",
+      "slot": "class",
+      "previousCount": 5,
+      "previousNormalOn": "2026-10-14",
+      "previousCountedOn": "2026-10-14",
+      "evaluationDate": "2026-10-15",
+      "materialScopeChanged": true,
+      "expected": {
+        "count": 1,
+        "pending": true,
+        "lastCountedOn": "2026-10-15",
+        "startedOn": "2026-10-15",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "normal-after-three-date-gap-starts-one",
+      "rule": "restart",
+      "slot": "class",
+      "previousCount": 7,
+      "previousNormalOn": "2026-10-12",
+      "previousCountedOn": "2026-10-12",
+      "evaluationDate": "2026-10-15",
+      "expected": {
+        "count": 1,
+        "pending": true,
+        "lastCountedOn": "2026-10-15",
+        "startedOn": "2026-10-15",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "failed-attempt-does-not-reset-or-count",
+      "rule": "failed",
+      "slot": "class",
+      "previousCount": 7,
+      "previousNormalOn": "2026-10-12",
+      "previousCountedOn": "2026-10-12",
+      "evaluationDate": "2026-10-15",
+      "expected": {
+        "count": 7,
+        "pending": true,
+        "lastCountedOn": "2026-10-12",
+        "lastNormalOn": "2026-10-12",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "ambiguous-normal-clears-candidate",
+      "rule": "ambiguous",
+      "slot": "class",
+      "previousCount": 4,
+      "previousNormalOn": "2026-10-14",
+      "previousCountedOn": "2026-10-14",
+      "evaluationDate": "2026-10-15",
+      "expected": {
+        "count": null,
+        "pending": false,
+        "lastCountedOn": "2026-10-14",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "scope-change-alone-does-not-reset-trait",
+      "rule": "advance",
+      "slot": "habit",
+      "previousCount": 1,
+      "previousNormalOn": "2026-10-14",
+      "previousCountedOn": "2026-10-14",
+      "evaluationDate": "2026-10-15",
+      "startedOn": "2026-10-14",
+      "materialScopeChanged": true,
+      "expected": {
+        "count": 2,
+        "pending": true,
+        "lastCountedOn": "2026-10-15",
+        "startedOn": "2026-10-14",
+        "apply": false
+      }
+    },
+    {
+      "caseId": "third-trait-observation-applies",
+      "rule": "apply-trait",
+      "slot": "activity",
+      "previousCount": 2,
+      "previousNormalOn": "2026-10-14",
+      "previousCountedOn": "2026-10-14",
+      "evaluationDate": "2026-10-15",
+      "targetId": "documenting",
+      "expected": {
+        "count": null,
+        "pending": false,
+        "currentId": "documenting",
+        "apply": true
+      }
+    },
+    {
+      "caseId": "third-removal-observation-clears-slot",
+      "rule": "apply-trait",
+      "slot": "habit",
+      "previousCount": 2,
+      "previousNormalOn": "2026-10-14",
+      "previousCountedOn": "2026-10-14",
+      "evaluationDate": "2026-10-15",
+      "targetId": null,
+      "expected": {
+        "count": null,
+        "pending": false,
+        "currentId": null,
+        "apply": true
+      }
+    },
+    {
+      "caseId": "empty-used-slot-is-not-first-assignment",
+      "rule": "used-empty",
+      "slot": "activity",
+      "currentId": null,
+      "firstAssignmentVerified": false,
+      "previousNormalOn": "2026-10-14",
+      "evaluationDate": "2026-10-15",
+      "targetId": "documenting",
+      "expected": {
+        "count": 1,
+        "pending": true,
+        "currentId": null,
+        "apply": false
+      }
+    },
+    {
+      "caseId": "verified-first-class-remains-immediate",
+      "rule": "first-assignment",
+      "slot": "class",
+      "firstAssignmentVerified": true,
+      "targetId": "blacksmith",
+      "candidateConditionsVerified": true,
+      "expected": {
+        "count": null,
+        "pending": false,
+        "currentId": "blacksmith",
+        "apply": true
+      }
+    },
+    {
+      "caseId": "verified-first-trait-remains-immediate",
+      "rule": "first-assignment",
+      "slot": "habit",
+      "firstAssignmentVerified": true,
+      "targetId": "steadfast",
+      "candidateConditionsVerified": true,
+      "expected": {
+        "count": null,
+        "pending": false,
+        "currentId": "steadfast",
+        "apply": true
+      }
+    }
+  ],
+  "allocations": [
+    {
+      "caseId": "allocation-160-to-100",
+      "fixture": "ready-100xp-capped",
+      "baseBonuses": {
+        "validDay": 10,
+        "authoredContributionDay": 10,
+        "triage": 10
+      },
+      "eventCandidates": [
+        {
+          "label": "prA",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "17",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "prB",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "18",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T10:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "reviewA",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "21",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T11:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "releaseA",
+          "kind": "published_release",
+          "sourceIdType": "numeric",
+          "sourceId": "41",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T12:00:00Z",
+          "nominalXp": 25
+        },
+        {
+          "label": "prC",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "19",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T13:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "reviewB",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "22",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T14:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "reviewC",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "23",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T15:00:00Z",
+          "nominalXp": 15
+        }
+      ],
+      "expectedOrder": [
+        "prA",
+        "prB",
+        "reviewA",
+        "releaseA",
+        "prC",
+        "reviewB",
+        "reviewC"
+      ],
+      "expectedPaidByLabel": {
+        "prA": 20,
+        "prB": 20,
+        "reviewA": 15,
+        "releaseA": 15,
+        "prC": 0,
+        "reviewB": 0,
+        "reviewC": 0
+      },
+      "expectedDayXp": {
+        "validDay": 10,
+        "authoredContributionDay": 10,
+        "mergedPrs": 40,
+        "reviews": 15,
+        "releases": 15,
+        "triage": 10,
+        "total": 100
+      },
+      "expectedCreditedKeys": {
+        "mergedPrs": [
+          "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+          "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+        ],
+        "reviews": [
+          "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+        ],
+        "releases": [
+          "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+        ]
+      },
+      "expectedEvidenceEventKeys": [
+        "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+        "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+        "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+        "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+        "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153",
+        "v1:sha256:673648563c718127bddd23f4a21e6d5f3b98137c1c8bd3eb1af091d6a760a3c3",
+        "v1:sha256:ebc324236cfe6c4cf58c162ed84002f41d4424fccabc54fbeb635dc872affe3f",
+        "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086"
+      ]
+    },
+    {
+      "caseId": "allocation-95-before-late",
+      "fixture": "ready-95xp-before-late-release",
+      "baseBonuses": {
+        "validDay": 10,
+        "authoredContributionDay": 10,
+        "triage": 0
+      },
+      "eventCandidates": [
+        {
+          "label": "prA",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "17",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "prB",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "18",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T10:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "reviewA",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "21",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T11:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "prC",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "19",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T13:00:00Z",
+          "nominalXp": 20
+        }
+      ],
+      "expectedOrder": [
+        "prA",
+        "prB",
+        "reviewA",
+        "prC"
+      ],
+      "expectedPaidByLabel": {
+        "prA": 20,
+        "prB": 20,
+        "reviewA": 15,
+        "prC": 20
+      },
+      "expectedDayXp": {
+        "validDay": 10,
+        "authoredContributionDay": 10,
+        "mergedPrs": 60,
+        "reviews": 15,
+        "releases": 0,
+        "triage": 0,
+        "total": 95
+      },
+      "expectedCreditedKeys": {
+        "mergedPrs": [
+          "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+          "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b",
+          "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9"
+        ],
+        "reviews": [
+          "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+        ],
+        "releases": []
+      },
+      "expectedEvidenceEventKeys": [
+        "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+        "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+        "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+        "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153"
+      ]
+    },
+    {
+      "caseId": "allocation-late-release-adds-five",
+      "fixture": "ready-100xp-after-late-release",
+      "baseBonuses": {
+        "validDay": 10,
+        "authoredContributionDay": 10,
+        "triage": 0
+      },
+      "eventCandidates": [
+        {
+          "label": "prA",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "17",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "prB",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "18",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T10:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "reviewA",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "21",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T11:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "releaseA",
+          "kind": "published_release",
+          "sourceIdType": "numeric",
+          "sourceId": "41",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T12:00:00Z",
+          "nominalXp": 25
+        },
+        {
+          "label": "prC",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "19",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T13:00:00Z",
+          "nominalXp": 20
+        }
+      ],
+      "expectedOrder": [
+        "prA",
+        "prB",
+        "reviewA",
+        "releaseA",
+        "prC"
+      ],
+      "expectedPaidByLabel": {
+        "prA": 20,
+        "prB": 20,
+        "reviewA": 15,
+        "releaseA": 25,
+        "prC": 0
+      },
+      "expectedDayXp": {
+        "validDay": 10,
+        "authoredContributionDay": 10,
+        "mergedPrs": 40,
+        "reviews": 15,
+        "releases": 25,
+        "triage": 0,
+        "total": 100
+      },
+      "expectedCreditedKeys": {
+        "mergedPrs": [
+          "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+          "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+        ],
+        "reviews": [
+          "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+        ],
+        "releases": [
+          "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+        ]
+      },
+      "expectedEvidenceEventKeys": [
+        "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+        "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+        "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+        "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+        "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153"
+      ],
+      "beforeFixture": "ready-95xp-before-late-release",
+      "expectedDelta": 5
+    },
+    {
+      "caseId": "allocation-earlier-release-redistributes-without-xp",
+      "fixture": "ready-100xp-reallocated",
+      "baseBonuses": {
+        "validDay": 10,
+        "authoredContributionDay": 10,
+        "triage": 10
+      },
+      "eventCandidates": [
+        {
+          "label": "prA",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "17",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "prB",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "18",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T10:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "reviewA",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "21",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T11:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "releaseA",
+          "kind": "published_release",
+          "sourceIdType": "numeric",
+          "sourceId": "41",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T12:00:00Z",
+          "nominalXp": 25
+        },
+        {
+          "label": "prC",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "19",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T13:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "reviewB",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "22",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T14:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "reviewC",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "23",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T15:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "releaseEarlier",
+          "kind": "published_release",
+          "sourceIdType": "numeric",
+          "sourceId": "40",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:30:00Z",
+          "nominalXp": 25
+        }
+      ],
+      "expectedOrder": [
+        "prA",
+        "releaseEarlier",
+        "prB",
+        "reviewA",
+        "prC",
+        "reviewB",
+        "reviewC"
+      ],
+      "expectedPaidByLabel": {
+        "prA": 20,
+        "releaseEarlier": 25,
+        "prB": 20,
+        "reviewA": 5,
+        "releaseA": 0,
+        "prC": 0,
+        "reviewB": 0,
+        "reviewC": 0
+      },
+      "expectedDayXp": {
+        "validDay": 10,
+        "authoredContributionDay": 10,
+        "mergedPrs": 40,
+        "reviews": 5,
+        "releases": 25,
+        "triage": 10,
+        "total": 100
+      },
+      "expectedCreditedKeys": {
+        "mergedPrs": [
+          "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+          "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+        ],
+        "reviews": [
+          "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+        ],
+        "releases": [
+          "v1:sha256:c10d7d1ca820e18747f6ce2247bca6faf3b40ab8b6fdde149d3b7965eb2aeb77"
+        ]
+      },
+      "expectedEvidenceEventKeys": [
+        "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+        "v1:sha256:f35004d8bef962c72f32c23e55d8986ccc88237e3724ff8d2c513c4837abb6ce",
+        "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+        "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+        "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+        "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153",
+        "v1:sha256:673648563c718127bddd23f4a21e6d5f3b98137c1c8bd3eb1af091d6a760a3c3",
+        "v1:sha256:ebc324236cfe6c4cf58c162ed84002f41d4424fccabc54fbeb635dc872affe3f",
+        "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086"
+      ],
+      "beforeFixture": "ready-100xp-capped",
+      "expectedDelta": 0
+    }
+  ],
+  "ordering": [
+    {
+      "caseId": "timestamp-not-input-order",
+      "events": [
+        {
+          "label": "releaseA",
+          "kind": "published_release",
+          "sourceIdType": "numeric",
+          "sourceId": "41",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T12:00:00Z",
+          "nominalXp": 25
+        },
+        {
+          "label": "prA",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "17",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z",
+          "nominalXp": 20
+        }
+      ],
+      "expectedOrder": [
+        "prA",
+        "releaseA"
+      ]
+    },
+    {
+      "caseId": "numeric-id-two-before-ten",
+      "events": [
+        {
+          "label": "ten",
+          "sourceId": "10",
+          "sourceIdType": "numeric",
+          "kind": "merged_pr",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        },
+        {
+          "label": "two",
+          "sourceId": "2",
+          "sourceIdType": "numeric",
+          "kind": "merged_pr",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        }
+      ],
+      "expectedOrder": [
+        "two",
+        "ten"
+      ]
+    },
+    {
+      "caseId": "numeric-id-before-opaque",
+      "events": [
+        {
+          "label": "opaque",
+          "sourceId": "A",
+          "sourceIdType": "opaque",
+          "kind": "merged_pr",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        },
+        {
+          "label": "numeric",
+          "sourceId": "2",
+          "sourceIdType": "numeric",
+          "kind": "merged_pr",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        }
+      ],
+      "expectedOrder": [
+        "numeric",
+        "opaque"
+      ]
+    },
+    {
+      "caseId": "opaque-utf8-not-locale-order",
+      "events": [
+        {
+          "label": "lowercase",
+          "sourceId": "a",
+          "sourceIdType": "opaque",
+          "kind": "merged_pr",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        },
+        {
+          "label": "uppercase",
+          "sourceId": "Z",
+          "sourceIdType": "opaque",
+          "kind": "merged_pr",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        }
+      ],
+      "expectedOrder": [
+        "uppercase",
+        "lowercase"
+      ]
+    },
+    {
+      "caseId": "kind-tie-pr-review-release",
+      "events": [
+        {
+          "label": "release",
+          "sourceId": "7",
+          "sourceIdType": "numeric",
+          "kind": "published_release",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        },
+        {
+          "label": "review",
+          "sourceId": "7",
+          "sourceIdType": "numeric",
+          "kind": "submitted_review",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        },
+        {
+          "label": "pr",
+          "sourceId": "7",
+          "sourceIdType": "numeric",
+          "kind": "merged_pr",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        }
+      ],
+      "expectedOrder": [
+        "pr",
+        "review",
+        "release"
+      ]
+    },
+    {
+      "caseId": "repository-id-final-tie",
+      "events": [
+        {
+          "label": "repo10",
+          "sourceId": "7",
+          "sourceIdType": "numeric",
+          "kind": "merged_pr",
+          "repositoryId": "10",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        },
+        {
+          "label": "repo2",
+          "sourceId": "7",
+          "sourceIdType": "numeric",
+          "kind": "merged_pr",
+          "repositoryId": "2",
+          "occurredAt": "2026-10-14T09:00:00Z"
+        }
+      ],
+      "expectedOrder": [
+        "repo2",
+        "repo10"
+      ]
+    },
+    {
+      "caseId": "hash-does-not-order-rewards",
+      "events": [
+        {
+          "label": "prB",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "18",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T10:00:00Z",
+          "nominalXp": 20,
+          "eventKey": "v1:sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "label": "prA",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "17",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z",
+          "nominalXp": 20,
+          "eventKey": "v1:sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      "expectedOrder": [
+        "prA",
+        "prB"
+      ]
+    },
+    {
+      "caseId": "pr-item-limit-before-daily-cap",
+      "events": [
+        {
+          "label": "pr4",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "4",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T12:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "pr3",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "3",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T11:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "pr2",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "2",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T10:00:00Z",
+          "nominalXp": 20
+        },
+        {
+          "label": "pr1",
+          "kind": "merged_pr",
+          "sourceIdType": "numeric",
+          "sourceId": "1",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z",
+          "nominalXp": 20
+        }
+      ],
+      "expectedOrder": [
+        "pr1",
+        "pr2",
+        "pr3",
+        "pr4"
+      ],
+      "expectedSelected": [
+        "pr1",
+        "pr2",
+        "pr3"
+      ],
+      "expectedEligibleCount": 4,
+      "baseXp": 20,
+      "expectedTotalXp": 80
+    },
+    {
+      "caseId": "review-item-limit-before-daily-cap",
+      "events": [
+        {
+          "label": "review4",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "4",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T12:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "review3",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "3",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T11:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "review2",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "2",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T10:00:00Z",
+          "nominalXp": 15
+        },
+        {
+          "label": "review1",
+          "kind": "submitted_review",
+          "sourceIdType": "numeric",
+          "sourceId": "1",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z",
+          "nominalXp": 15
+        }
+      ],
+      "expectedOrder": [
+        "review1",
+        "review2",
+        "review3",
+        "review4"
+      ],
+      "expectedSelected": [
+        "review1",
+        "review2",
+        "review3"
+      ],
+      "expectedEligibleCount": 4,
+      "baseXp": 10,
+      "expectedTotalXp": 55
+    },
+    {
+      "caseId": "release-item-limit-before-daily-cap",
+      "events": [
+        {
+          "label": "release2",
+          "kind": "published_release",
+          "sourceIdType": "numeric",
+          "sourceId": "2",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T10:00:00Z",
+          "nominalXp": 25
+        },
+        {
+          "label": "release1",
+          "kind": "published_release",
+          "sourceIdType": "numeric",
+          "sourceId": "1",
+          "repositoryId": "9001",
+          "occurredAt": "2026-10-14T09:00:00Z",
+          "nominalXp": 25
+        }
+      ],
+      "expectedOrder": [
+        "release1",
+        "release2"
+      ],
+      "expectedSelected": [
+        "release1"
+      ],
+      "expectedEligibleCount": 2,
+      "baseXp": 10,
+      "expectedTotalXp": 35
+    }
+  ],
+  "scopes": [
+    {
+      "caseId": "settings-case-order-duplicates",
+      "left": {
+        "version": 1,
+        "repositories": {
+          "additional": [
+            "Owner/Repo",
+            "x/y",
+            "owner/repo"
+          ],
+          "exclude": []
+        }
+      },
+      "right": {
+        "version": 1,
+        "repositories": {
+          "additional": [
+            "x/y",
+            "owner/repo"
+          ],
+          "exclude": []
+        }
+      },
+      "expectedSettingsHashEqual": true
+    },
+    {
+      "caseId": "verified-rename-settings-differ-scope-same",
+      "leftSettings": {
+        "version": 1,
+        "repositories": {
+          "additional": [
+            "owner/old"
+          ],
+          "exclude": []
+        }
+      },
+      "rightSettings": {
+        "version": 1,
+        "repositories": {
+          "additional": [
+            "owner/new"
+          ],
+          "exclude": []
+        }
+      },
+      "leftRepositoryIds": [
+        "9001"
+      ],
+      "rightRepositoryIds": [
+        "9001"
+      ],
+      "expectedSettingsHashEqual": false,
+      "expectedScopeHashEqual": true
+    },
+    {
+      "caseId": "tracked-remains-after-additional-removal",
+      "leftRepositoryIds": [
+        "9001"
+      ],
+      "rightRepositoryIds": [
+        "9001"
+      ],
+      "expectedScopeHashEqual": true
+    },
+    {
+      "caseId": "material-addition-changes-scope",
+      "leftRepositoryIds": [
+        "9001"
+      ],
+      "rightRepositoryIds": [
+        "9001",
+        "9002"
+      ],
+      "expectedScopeHashEqual": false
+    },
+    {
+      "caseId": "repository-order-and-duplicates-irrelevant",
+      "leftRepositoryIds": [
+        "10",
+        "2",
+        "10"
+      ],
+      "rightRepositoryIds": [
+        "2",
+        "10"
+      ],
+      "expectedScopeHashEqual": true
+    },
+    {
+      "caseId": "effective-exclusion-changes-scope",
+      "leftRepositoryIds": [
+        "9001",
+        "9002"
+      ],
+      "rightRepositoryIds": [
+        "9001"
+      ],
+      "expectedScopeHashEqual": false
+    }
+  ],
+  "identities": [
+    {
+      "caseId": "login-run-date-rules-not-identity",
+      "leftPayload": {
+        "kind": "merged_pr",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "17"
+      },
+      "rightPayload": {
+        "kind": "merged_pr",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "17"
+      },
+      "leftContext": {
+        "login": "old-name",
+        "executionDate": "2026-10-15",
+        "rulesetVersion": "1.0.0"
+      },
+      "rightContext": {
+        "login": "new-name",
+        "executionDate": "2026-11-15",
+        "rulesetVersion": "1.1.0"
+      },
+      "expectedEqual": true
+    },
+    {
+      "caseId": "review-event-distinct-from-pr-key",
+      "leftPayload": {
+        "kind": "submitted_review",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "21"
+      },
+      "rightPayload": {
+        "kind": "pull_request",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "31"
+      },
+      "expectedEqual": false
+    },
+    {
+      "caseId": "new-reviewed-commit-new-key",
+      "leftPayload": {
+        "kind": "reviewed_commit",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": {
+          "pullRequestId": "31",
+          "commitOid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      },
+      "rightPayload": {
+        "kind": "reviewed_commit",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": {
+          "pullRequestId": "31",
+          "commitOid": "dddddddddddddddddddddddddddddddddddddddd"
+        }
+      },
+      "expectedEqual": false
+    },
+    {
+      "caseId": "original-triage-date-not-execution-date",
+      "leftPayload": {
+        "kind": "triage_day",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "2026-10-14"
+      },
+      "rightPayload": {
+        "kind": "triage_day",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "2026-10-14"
+      },
+      "leftContext": {
+        "executionDate": "2026-10-15"
+      },
+      "rightContext": {
+        "executionDate": "2026-10-20"
+      },
+      "expectedEqual": true
+    },
+    {
+      "caseId": "kind-separates-pr-and-release",
+      "leftPayload": {
+        "kind": "pull_request",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "17"
+      },
+      "rightPayload": {
+        "kind": "release",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "17"
+      },
+      "expectedEqual": false
+    }
+  ],
+  "evidence": [
+    {
+      "caseId": "record-only-missing-source-proof",
+      "purpose": "record",
+      "sourceProofAvailable": false,
+      "previousSnapshotAvailable": false,
+      "expected": {
+        "recordChecks": "available",
+        "sourceChecks": "not_checked",
+        "newProgressionAllowed": false
+      }
+    },
+    {
+      "caseId": "new-award-missing-source-proof",
+      "purpose": "new-award",
+      "sourceProofAvailable": false,
+      "previousSnapshotAvailable": true,
+      "expected": {
+        "decision": "preserve",
+        "code": "EVIDENCE_REQUIRED"
+      }
+    },
+    {
+      "caseId": "transition-without-previous-snapshot",
+      "purpose": "transition",
+      "sourceProofAvailable": true,
+      "previousSnapshotAvailable": false,
+      "expected": {
+        "decision": "preserve",
+        "code": "PREVIOUS_SNAPSHOT_REQUIRED"
+      }
+    },
+    {
+      "caseId": "used-empty-slot-history-unknown",
+      "purpose": "first-assignment",
+      "firstAssignmentVerified": false,
+      "expected": {
+        "decision": "preserve",
+        "code": "FIRST_ASSIGNMENT_PROOF_REQUIRED"
+      }
+    },
+    {
+      "caseId": "late-evidence-reverses-settled-date",
+      "purpose": "reconciliation",
+      "beforeDayXp": 40,
+      "candidateDayXp": 25,
+      "expected": {
+        "decision": "hold",
+        "code": "SETTLEMENT_CONFLICT_REVIEW_REQUIRED"
+      }
+    },
+    {
+      "caseId": "capped-first-review-not-first-again",
+      "purpose": "review-revisit",
+      "firstEligibleReviewObserved": true,
+      "firstReviewPaidXp": 0,
+      "newReviewedCommit": true,
+      "expected": {
+        "validDayEligible": true,
+        "additionalReviewBonus": 0,
+        "additionalDistinctPrCredit": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "recordType": "ledger",
+  "rulesetVersion": "1.0.0",
+  "recordRevision": 2,
+  "owner": {
+    "accountId": "1001",
+    "profileRepositoryId": "9001"
+  },
+  "repositories": [
+    {
+      "id": "9001",
+      "firstObservedAt": "2026-10-15T00:55:00Z",
+      "ownershipAtFirstObservation": "self",
+      "tracking": "active",
+      "discoveredVia": [
+        "automatic"
+      ]
+    }
+  ],
+  "scopes": [
+    {
+      "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+      "rulesetVersion": "1.0.0",
+      "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+      "repositoryIds": [
+        "9001"
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "startDate": "2026-07-17",
+      "endDateExclusive": "2026-10-15",
+      "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+      "complete": true,
+      "observedAt": "2026-10-15T02:00:00Z"
+    }
+  ],
+  "facts": [
+    {
+      "eventKey": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+      "kind": "merged_pr",
+      "repositoryId": "9001",
+      "occurredAt": "2026-10-14T09:00:00Z",
+      "families": [
+        "knowledge"
+      ],
+      "prKey": "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+      "bugEvidenced": false
+    },
+    {
+      "eventKey": "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+      "kind": "merged_pr",
+      "repositoryId": "9001",
+      "occurredAt": "2026-10-14T10:00:00Z",
+      "families": [
+        "knowledge"
+      ],
+      "prKey": "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b",
+      "bugEvidenced": false
+    },
+    {
+      "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+      "kind": "submitted_review",
+      "repositoryId": "9001",
+      "occurredAt": "2026-10-14T11:00:00Z",
+      "families": [
+        "guard"
+      ],
+      "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+      "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+    },
+    {
+      "eventKey": "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+      "kind": "published_release",
+      "repositoryId": "9001",
+      "occurredAt": "2026-10-14T12:00:00Z",
+      "families": [
+        "operations"
+      ],
+      "releaseKey": "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+    },
+    {
+      "eventKey": "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153",
+      "kind": "merged_pr",
+      "repositoryId": "9001",
+      "occurredAt": "2026-10-14T13:00:00Z",
+      "families": [
+        "knowledge"
+      ],
+      "prKey": "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9",
+      "bugEvidenced": false
+    }
+  ],
+  "days": [
+    {
+      "date": "2026-10-14",
+      "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+      "byRepository": [
+        {
+          "repositoryId": "9001",
+          "familyUnits": {
+            "craft": 0,
+            "guard": 1,
+            "knowledge": 1,
+            "verification": 0,
+            "recovery": 0,
+            "operations": 1
+          }
+        }
+      ],
+      "xp": {
+        "validDay": 10,
+        "authoredContributionDay": 10,
+        "mergedPrs": 40,
+        "reviews": 15,
+        "releases": 25,
+        "triage": 0,
+        "total": 100
+      },
+      "creditedKeys": {
+        "mergedPrs": [
+          "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+          "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+        ],
+        "reviews": [
+          "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+        ],
+        "releases": [
+          "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+        ]
+      }
+    }
+  ],
+  "corrections": []
+}

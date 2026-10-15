@@ -1,0 +1,5 @@
+{
+  "encoding": "hex",
+  "bytes": "c328",
+  "description": "Synthetic invalid UTF-8 sequence; decode bytes, not this descriptor, for raw-input checking."
+}

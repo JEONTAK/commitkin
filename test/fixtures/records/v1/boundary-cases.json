@@ -1,0 +1,152 @@
+{
+  "fixtureVersion": 1,
+  "description": "Generate raw inputs in memory; byte/depth cases assert parser-stage acceptance only. No oversized files are persisted.",
+  "cases": [
+    {
+      "caseId": "state-bytes-below",
+      "kind": "byte-limit",
+      "role": "state",
+      "delta": -1,
+      "expectedCode": "PARSER_ACCEPT"
+    },
+    {
+      "caseId": "state-bytes-at",
+      "kind": "byte-limit",
+      "role": "state",
+      "delta": 0,
+      "expectedCode": "PARSER_ACCEPT"
+    },
+    {
+      "caseId": "state-bytes-above",
+      "kind": "byte-limit",
+      "role": "state",
+      "delta": 1,
+      "expectedCode": "INPUT_TOO_LARGE"
+    },
+    {
+      "caseId": "ledger-bytes-below",
+      "kind": "byte-limit",
+      "role": "ledger",
+      "delta": -1,
+      "expectedCode": "PARSER_ACCEPT"
+    },
+    {
+      "caseId": "ledger-bytes-at",
+      "kind": "byte-limit",
+      "role": "ledger",
+      "delta": 0,
+      "expectedCode": "PARSER_ACCEPT"
+    },
+    {
+      "caseId": "ledger-bytes-above",
+      "kind": "byte-limit",
+      "role": "ledger",
+      "delta": 1,
+      "expectedCode": "INPUT_TOO_LARGE"
+    },
+    {
+      "caseId": "status-bytes-below",
+      "kind": "byte-limit",
+      "role": "status",
+      "delta": -1,
+      "expectedCode": "PARSER_ACCEPT"
+    },
+    {
+      "caseId": "status-bytes-at",
+      "kind": "byte-limit",
+      "role": "status",
+      "delta": 0,
+      "expectedCode": "PARSER_ACCEPT"
+    },
+    {
+      "caseId": "status-bytes-above",
+      "kind": "byte-limit",
+      "role": "status",
+      "delta": 1,
+      "expectedCode": "INPUT_TOO_LARGE"
+    },
+    {
+      "caseId": "depth-15",
+      "kind": "depth",
+      "role": "state",
+      "depth": 15,
+      "expectedCode": "PARSER_ACCEPT"
+    },
+    {
+      "caseId": "depth-16",
+      "kind": "depth",
+      "role": "state",
+      "depth": 16,
+      "expectedCode": "PARSER_ACCEPT"
+    },
+    {
+      "caseId": "depth-17",
+      "kind": "depth",
+      "role": "state",
+      "depth": 17,
+      "expectedCode": "INPUT_TOO_DEEP"
+    },
+    {
+      "caseId": "day-total-99",
+      "kind": "day-total",
+      "total": 99,
+      "expectedCode": "SCHEMA_ACCEPT",
+      "note": "Field-schema bound only; 99 is not proof of an attainable settled day."
+    },
+    {
+      "caseId": "day-total-100",
+      "kind": "day-total",
+      "total": 100,
+      "expectedCode": "SCHEMA_ACCEPT",
+      "note": "Field-schema bound only; 99 is not proof of an attainable settled day."
+    },
+    {
+      "caseId": "day-total-101",
+      "kind": "day-total",
+      "total": 101,
+      "expectedCode": "SCHEMA_INVALID",
+      "note": "Field-schema bound only; 99 is not proof of an attainable settled day."
+    },
+    {
+      "caseId": "leap-date",
+      "kind": "date",
+      "value": "2024-02-29",
+      "expectedCode": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "non-leap-date",
+      "kind": "date",
+      "value": "2026-02-29",
+      "expectedCode": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "impossible-date",
+      "kind": "date",
+      "value": "2026-02-30",
+      "expectedCode": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "utc-midnight",
+      "kind": "timestamp",
+      "value": "2026-10-15T00:00:00Z",
+      "expectedCode": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "utc-before-midnight",
+      "kind": "timestamp",
+      "value": "2026-10-14T23:59:59Z",
+      "expectedCode": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "non-z-offset",
+      "kind": "timestamp",
+      "value": "2026-10-15T09:00:00+09:00",
+      "expectedCode": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "offline-unknown-ref",
+      "kind": "unknown-ref",
+      "expectedCode": "UNRESOLVABLE_BUNDLED_REF"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "recordType": "status",
+  "rulesetVersion": "1.0.0",
+  "recordRevision": 1,
+  "owner": {
+    "accountId": "1001",
+    "profileRepositoryId": "9001"
+  },
+  "lastSuccessfulRevision": null,
+  "state": "analysis_pending",
+  "reasonCode": "INITIAL_ANALYSIS_PENDING",
+  "changedAt": "2026-10-15T01:00:00Z",
+  "collectionPending": [
+    {
+      "startDate": "2026-07-17",
+      "endDateExclusive": "2026-10-15",
+      "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+    }
+  ],
+  "unobservedGaps": []
+}

@@ -1,0 +1,752 @@
+{
+  "fixtureVersion": 1,
+  "description": "Synthetic offline contract fixtures, not GitHub exports or a production validator.",
+  "context": {
+    "expectedOwner": {
+      "accountId": "1001",
+      "profileRepositoryId": "9001"
+    },
+    "supportedSchemaVersions": [
+      1
+    ],
+    "supportedRulesetVersions": [
+      "1.0.0"
+    ],
+    "now": "2026-10-15T02:00:00Z",
+    "network": "disabled",
+    "limitsBytes": {
+      "state": 1048576,
+      "ledger": 33554432,
+      "status": 65536
+    },
+    "maximumContainerDepth": 16,
+    "confirmedPolicyRevision": "2026-10-15-four-rules"
+  },
+  "cases": [
+    {
+      "caseId": "ready-empty",
+      "baseFixture": "valid/ready-empty",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "ACCEPT",
+        "decision": "accept",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "ready-40xp",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "ACCEPT",
+        "decision": "accept",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "first-analysis-pending",
+      "baseFixture": "valid/first-analysis-pending",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "ANALYSIS_PENDING",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "partial-retain-success",
+      "baseFixture": "valid/partial-retain-success",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "RETAIN_SUCCESS",
+        "decision": "preserve",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "metadata-only-revision",
+      "baseFixture": "valid/metadata-only-revision",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "RETAIN_SUCCESS",
+        "decision": "preserve",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "status-only-rebuild",
+      "baseFixture": "valid/status-only-rebuild",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "STATUS_REBUILD_ALLOWED",
+        "decision": "status-only-recovery",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "unknown-root-field",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/unknown-root-field/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "unknown-nested-field",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/unknown-nested-field/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "numeric-id",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/numeric-id/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "numeric-xp",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/numeric-xp/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "fractional-observation",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/fractional-observation/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "negative-xp-string",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/negative-xp-string/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "leading-zero-xp-string",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/leading-zero-xp-string/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "exponent-xp-string",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/exponent-xp-string/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "whitespace-id",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/whitespace-id/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "impossible-date",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/impossible-date/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "non-utc-timestamp",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/non-utc-timestamp/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "wrong-trait-slot",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/wrong-trait-slot/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "unknown-class",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/unknown-class/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "unknown-grade",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/unknown-grade/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "invalid-hash-format",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/invalid-hash-format/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "ready-with-null-xp",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/ready-with-null-xp/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "pending-with-final-xp",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/pending-with-final-xp/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "invalid-status-reason",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "status": "invalid/invalid-status-reason/status.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "null-pending-count",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/null-pending-count/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "xp-over-daily-cap",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "ledger": "invalid/xp-over-daily-cap/ledger.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "owner-mismatch",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/owner-mismatch/state.json"
+      },
+      "expected": {
+        "stage": "cross-file",
+        "code": "OWNER_MISMATCH",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "revision-mismatch",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/revision-mismatch/state.json"
+      },
+      "expected": {
+        "stage": "cross-file",
+        "code": "REVISION_MISMATCH",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "future-success-revision",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/future-success-revision/state.json"
+      },
+      "expected": {
+        "stage": "cross-file",
+        "code": "SUCCESS_REVISION_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "status-revision-mismatch",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "status": "invalid/status-revision-mismatch/status.json"
+      },
+      "expected": {
+        "stage": "cross-file",
+        "code": "STATUS_REFERENCE_MISMATCH",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "ledger-hash-mismatch",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/ledger-hash-mismatch/state.json"
+      },
+      "expected": {
+        "stage": "integrity",
+        "code": "LEDGER_HASH_MISMATCH",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "xp-total-mismatch",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/xp-total-mismatch/state.json"
+      },
+      "expected": {
+        "stage": "semantic",
+        "code": "XP_TOTAL_MISMATCH",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "day-xp-sum-mismatch",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/day-xp-sum-mismatch/state.json",
+        "ledger": "invalid/day-xp-sum-mismatch/ledger.json"
+      },
+      "expected": {
+        "stage": "semantic",
+        "code": "DAY_XP_SUM_MISMATCH",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "duplicate-event-key",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/duplicate-event-key/state.json",
+        "ledger": "invalid/duplicate-event-key/ledger.json"
+      },
+      "expected": {
+        "stage": "semantic",
+        "code": "DUPLICATE_EVENT_KEY",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "duplicate-earned-grade",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/duplicate-earned-grade/state.json"
+      },
+      "expected": {
+        "stage": "semantic",
+        "code": "DUPLICATE_EARNED_GRADE",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "missing-evidence-reference",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/missing-evidence-reference/state.json",
+        "ledger": "invalid/missing-evidence-reference/ledger.json"
+      },
+      "expected": {
+        "stage": "semantic",
+        "code": "MISSING_EVIDENCE_REFERENCE",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "unknown-repository-reference",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/unknown-repository-reference/state.json",
+        "ledger": "invalid/unknown-repository-reference/ledger.json"
+      },
+      "expected": {
+        "stage": "semantic",
+        "code": "UNKNOWN_REPOSITORY_REFERENCE",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "invalid-range",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/invalid-range/state.json",
+        "ledger": "invalid/invalid-range/ledger.json"
+      },
+      "expected": {
+        "stage": "semantic",
+        "code": "INVALID_DATE_RANGE",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "newer-schema",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/newer-schema/state.json"
+      },
+      "expected": {
+        "stage": "compatibility",
+        "code": "UPDATE_REQUIRED",
+        "decision": "preserve",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "unsupported-ruleset",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/unsupported-ruleset/state.json"
+      },
+      "expected": {
+        "stage": "compatibility",
+        "code": "UNSUPPORTED_RULESET",
+        "decision": "preserve",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "missing-schema-version",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/missing-schema-version/state.json"
+      },
+      "expected": {
+        "stage": "compatibility",
+        "code": "RECORD_VERSION_MISSING",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "malformed-json",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/malformed-json/state.json"
+      },
+      "expected": {
+        "stage": "parse",
+        "code": "JSON_SYNTAX",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "duplicate-object-key",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/duplicate-object-key/state.json"
+      },
+      "expected": {
+        "stage": "parse",
+        "code": "DUPLICATE_OBJECT_KEY",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "json-comment",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/json-comment/state.json"
+      },
+      "expected": {
+        "stage": "parse",
+        "code": "JSON_SYNTAX",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "non-finite-number",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/non-finite-number/state.json"
+      },
+      "expected": {
+        "stage": "parse",
+        "code": "JSON_NON_FINITE",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "invalid-utf8",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {},
+      "rawInput": {
+        "role": "state",
+        "descriptor": "invalid/invalid-utf8/bytes.json"
+      },
+      "expected": {
+        "stage": "raw",
+        "code": "INVALID_UTF8",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "ready-100xp-capped",
+      "baseFixture": "valid/ready-100xp-capped",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "ACCEPT",
+        "decision": "accept",
+        "inputFilesUnchanged": true
+      },
+      "policyContext": "allocation-160-to-100"
+    },
+    {
+      "caseId": "ready-95xp-before-late-release",
+      "baseFixture": "valid/ready-95xp-before-late-release",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "ACCEPT",
+        "decision": "accept",
+        "inputFilesUnchanged": true
+      },
+      "policyContext": "allocation-95-before-late"
+    },
+    {
+      "caseId": "ready-100xp-after-late-release",
+      "baseFixture": "valid/ready-100xp-after-late-release",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "ACCEPT",
+        "decision": "accept",
+        "inputFilesUnchanged": true
+      },
+      "policyContext": "allocation-late-release-adds-five"
+    },
+    {
+      "caseId": "ready-100xp-reallocated",
+      "baseFixture": "valid/ready-100xp-reallocated",
+      "overrides": {},
+      "expected": {
+        "stage": "decision",
+        "code": "ACCEPT",
+        "decision": "accept",
+        "inputFilesUnchanged": true
+      },
+      "policyContext": "allocation-earlier-release-redistributes-without-xp"
+    },
+    {
+      "caseId": "class-count-overflow",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/class-count-overflow/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "habit-count-overflow",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/habit-count-overflow/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "activity-count-overflow",
+      "baseFixture": "valid/ready-40xp",
+      "overrides": {
+        "state": "invalid/activity-count-overflow/state.json"
+      },
+      "expected": {
+        "stage": "schema",
+        "code": "SCHEMA_INVALID",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "wrong-cap-allocation",
+      "baseFixture": "valid/ready-100xp-capped",
+      "overrides": {
+        "state": "invalid/wrong-cap-allocation/state.json",
+        "ledger": "invalid/wrong-cap-allocation/ledger.json"
+      },
+      "policyContext": "allocation-160-to-100",
+      "expected": {
+        "stage": "contract-example",
+        "code": "XP_ALLOCATION_MISMATCH",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "unpaid-key-marked-credited",
+      "baseFixture": "valid/ready-100xp-capped",
+      "overrides": {
+        "state": "invalid/unpaid-key-marked-credited/state.json",
+        "ledger": "invalid/unpaid-key-marked-credited/ledger.json"
+      },
+      "policyContext": "allocation-160-to-100",
+      "expected": {
+        "stage": "contract-example",
+        "code": "CREDITED_KEYS_MISMATCH",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    },
+    {
+      "caseId": "capped-evidence-dropped",
+      "baseFixture": "valid/ready-100xp-capped",
+      "overrides": {
+        "state": "invalid/capped-evidence-dropped/state.json",
+        "ledger": "invalid/capped-evidence-dropped/ledger.json"
+      },
+      "policyContext": "allocation-160-to-100",
+      "expected": {
+        "stage": "contract-example",
+        "code": "CAPPED_EVIDENCE_DROPPED",
+        "decision": "hold",
+        "inputFilesUnchanged": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordType": "ledger",
+  "rulesetVersion": "1.0.0",
+  "recordRevision": 1,
+  "owner": {
+    "accountId": "9007199254740993",
+    "profileRepositoryId": "9007199254740995"
+  },
+  "repositories": [
+    {
+      "id": "9001",
+      "firstObservedAt": "2026-10-15T00:55:00Z",
+      "ownershipAtFirstObservation": "self",
+      "tracking": "active",
+      "discoveredVia": [
+        "automatic"
+      ]
+    },
+    {
+      "id": "9007199254740997",
+      "firstObservedAt": "2026-10-15T00:55:00Z",
+      "ownershipAtFirstObservation": "self",
+      "tracking": "active",
+      "discoveredVia": [
+        "automatic"
+      ]
+    }
+  ],
+  "scopes": [
+    {
+      "id": "v1:sha256:fda0b6f9dc2e0d0e19ae46e1149fb3c5fe94dcb726f8bdca579746f27b494bac",
+      "rulesetVersion": "1.0.0",
+      "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+      "repositoryIds": [
+        "9001",
+        "9007199254740997"
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "startDate": "2026-07-17",
+      "endDateExclusive": "2026-10-15",
+      "scopeId": "v1:sha256:fda0b6f9dc2e0d0e19ae46e1149fb3c5fe94dcb726f8bdca579746f27b494bac",
+      "complete": true,
+      "observedAt": "2026-10-15T01:00:00Z"
+    }
+  ],
+  "facts": [],
+  "days": [],
+  "corrections": []
+}

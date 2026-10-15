@@ -1,0 +1,1709 @@
+{
+  "evidenceVersion": 1,
+  "rulesetVersion": "1.0.0",
+  "adapter": {
+    "id": "github.com",
+    "version": "1"
+  },
+  "subject": {
+    "accountId": "1001",
+    "profileRepositoryId": "9001"
+  },
+  "evaluation": {
+    "startedAt": "2026-10-15T00:50:00Z",
+    "capturedThrough": "2026-10-15T01:00:00Z",
+    "activityCutoffExclusive": "2026-10-15"
+  },
+  "binding": {
+    "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+    "settingsHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e",
+    "previousLedgerHash": "v1:sha256:21a7704ba557dd18beb82378fe26cff21c6c12e1a1f4320d9d2c39b1b87142e9",
+    "candidateLedgerHash": "v1:sha256:9ca70a905b62af233d2cda8b8bc7fc3342df259b75bc7d72b59631e6388f3c96"
+  },
+  "policies": {
+    "fileRules": {
+      "mode": "inline",
+      "id": "fixture-files-v1",
+      "version": "1",
+      "hash": "v1:sha256:3aed5256db8e22560d3c8ec16c5407683fbf207332a9fc6663e01ba8ada9722b",
+      "body": {
+        "version": "1",
+        "exclusions": [
+          {
+            "kind": "generated",
+            "patterns": [
+              "fixture-generated/**"
+            ]
+          },
+          {
+            "kind": "lock",
+            "patterns": [
+              "fixture-locks/**"
+            ]
+          },
+          {
+            "kind": "card_update",
+            "patterns": [
+              "fixture-card/**"
+            ]
+          }
+        ],
+        "categories": [
+          {
+            "category": "deployment",
+            "patterns": [
+              "fixture-ops/**"
+            ]
+          },
+          {
+            "category": "test",
+            "patterns": [
+              "fixture-tests/**"
+            ]
+          },
+          {
+            "category": "documentation",
+            "patterns": [
+              "fixture-docs/**"
+            ]
+          },
+          {
+            "category": "source",
+            "patterns": [
+              "fixture-src/**"
+            ]
+          }
+        ],
+        "precedence": [
+          "deployment",
+          "test",
+          "documentation",
+          "source"
+        ]
+      }
+    },
+    "bugLabels": {
+      "mode": "inline",
+      "id": "fixture-bug-labels-v1",
+      "version": "1",
+      "hash": "v1:sha256:ff27c42afab0d2d2fe01b239dae29a889f9ae668e84a764968444780e4bd962f",
+      "body": {
+        "version": "1",
+        "repositories": [
+          {
+            "repositoryId": "9001",
+            "labelIds": [
+              {
+                "type": "numeric",
+                "value": "601"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "collections": [
+    {
+      "ref": "root-repository",
+      "resourceType": "repository",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "metadata",
+      "window": {
+        "kind": "snapshot",
+        "observedAt": "2026-10-15T00:58:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-repository",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "repo-9001"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-pull-request",
+      "resourceType": "pull_request",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "states": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-pull-request",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "pr-18",
+              "pr-31",
+              "pr-19",
+              "pr-32",
+              "pr-33"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "reported",
+            "total": {
+              "status": "provided",
+              "value": 5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-commit",
+      "resourceType": "commit",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "branch": "default"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-commit",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-review",
+      "resourceType": "review",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "states": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-review",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "review-21",
+              "review-22",
+              "review-23"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-release",
+      "resourceType": "release",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-release",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "release-41",
+              "release-40"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-issue",
+      "resourceType": "issue",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "includePullRequests": false
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-issue",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "issue-51",
+              "issue-52",
+              "issue-53"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-issue-event",
+      "resourceType": "issue_event",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "actions": "triage"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-issue-event",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "event-51",
+              "event-52",
+              "event-53"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-18-files",
+      "resourceType": "file_change",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-18"
+      },
+      "purpose": "changes",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-18-files",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "pr-18-file-1"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-18-labels",
+      "resourceType": "label_history",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-18"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "labels": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-18-labels",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-31-files",
+      "resourceType": "file_change",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-31"
+      },
+      "purpose": "changes",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-31-files",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "pr-31-file-1"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-31-labels",
+      "resourceType": "label_history",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-31"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "labels": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-31-labels",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-31-reviews",
+      "resourceType": "review",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-31"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "states": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-31-reviews",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "review-21"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "release-41-publication",
+      "resourceType": "release",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "release-41"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-release-41-publication",
+          "sequence": 1,
+          "capturedAt": "2026-10-14T12:00:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "release-41"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-19-files",
+      "resourceType": "file_change",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-19"
+      },
+      "purpose": "changes",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-19-files",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "pr-19-file-1"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-19-labels",
+      "resourceType": "label_history",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-19"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "labels": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-19-labels",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-32-files",
+      "resourceType": "file_change",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-32"
+      },
+      "purpose": "changes",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-32-files",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "pr-32-file-1"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-32-labels",
+      "resourceType": "label_history",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-32"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "labels": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-32-labels",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-32-reviews",
+      "resourceType": "review",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-32"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "states": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-32-reviews",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "review-22"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-33-files",
+      "resourceType": "file_change",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-33"
+      },
+      "purpose": "changes",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-33-files",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "pr-33-file-1"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-33-labels",
+      "resourceType": "label_history",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-33"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "labels": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-33-labels",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-33-reviews",
+      "resourceType": "review",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-33"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "states": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-33-reviews",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "review-23"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "issue-51-labels",
+      "resourceType": "label_history",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "issue-51"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "labels": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-issue-51-labels",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "issue-52-labels",
+      "resourceType": "label_history",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "issue-52"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "labels": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-issue-52-labels",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "issue-53-labels",
+      "resourceType": "label_history",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "issue-53"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "labels": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-issue-53-labels",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "release-40-publication",
+      "resourceType": "release",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "release-40"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-release-40-publication",
+          "sequence": 1,
+          "capturedAt": "2026-10-14T08:00:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "release-40"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "repositories": [
+      {
+        "ref": "repo-9001",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-repository"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "9001"
+        },
+        "owner": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "visibility": "public",
+        "fork": false,
+        "observedAt": "2026-10-15T00:58:00Z",
+        "defaultBranch": "main"
+      }
+    ],
+    "pullRequests": [
+      {
+        "ref": "pr-18",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-pull-request"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "18"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "state": "MERGED",
+        "createdAt": "2026-10-13T05:00:00Z",
+        "mergedAt": "2026-10-14T10:00:00Z",
+        "baseRepositoryId": "9001",
+        "headRepositoryId": "9001",
+        "baseOid": "1111111111111111111111111111111111111111",
+        "headOid": "2222222222222222222222222222222222222222",
+        "fileCollectionRef": "pr-18-files",
+        "labels": {
+          "status": "established",
+          "value": [],
+          "captureRefs": [
+            "page-pr-18-labels"
+          ]
+        },
+        "closingIssueRefs": []
+      },
+      {
+        "ref": "pr-31",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-pull-request"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "31"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "2002",
+          "type": "User"
+        },
+        "state": "OPEN",
+        "createdAt": "2026-10-13T05:00:00Z",
+        "mergedAt": null,
+        "baseRepositoryId": "9001",
+        "headRepositoryId": "9001",
+        "baseOid": "1111111111111111111111111111111111111111",
+        "headOid": "2222222222222222222222222222222222222222",
+        "fileCollectionRef": "pr-31-files",
+        "labels": {
+          "status": "established",
+          "value": [],
+          "captureRefs": [
+            "page-pr-31-labels"
+          ]
+        },
+        "closingIssueRefs": []
+      },
+      {
+        "ref": "pr-19",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-pull-request"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "19"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "state": "MERGED",
+        "createdAt": "2026-10-13T05:00:00Z",
+        "mergedAt": "2026-10-14T13:00:00Z",
+        "baseRepositoryId": "9001",
+        "headRepositoryId": "9001",
+        "baseOid": "1111111111111111111111111111111111111111",
+        "headOid": "2222222222222222222222222222222222222222",
+        "fileCollectionRef": "pr-19-files",
+        "labels": {
+          "status": "established",
+          "value": [],
+          "captureRefs": [
+            "page-pr-19-labels"
+          ]
+        },
+        "closingIssueRefs": []
+      },
+      {
+        "ref": "pr-32",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-pull-request"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "32"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "2002",
+          "type": "User"
+        },
+        "state": "OPEN",
+        "createdAt": "2026-10-13T05:00:00Z",
+        "mergedAt": null,
+        "baseRepositoryId": "9001",
+        "headRepositoryId": "9001",
+        "baseOid": "1111111111111111111111111111111111111111",
+        "headOid": "2222222222222222222222222222222222222222",
+        "fileCollectionRef": "pr-32-files",
+        "labels": {
+          "status": "established",
+          "value": [],
+          "captureRefs": [
+            "page-pr-32-labels"
+          ]
+        },
+        "closingIssueRefs": []
+      },
+      {
+        "ref": "pr-33",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-pull-request"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "33"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "2002",
+          "type": "User"
+        },
+        "state": "OPEN",
+        "createdAt": "2026-10-13T05:00:00Z",
+        "mergedAt": null,
+        "baseRepositoryId": "9001",
+        "headRepositoryId": "9001",
+        "baseOid": "1111111111111111111111111111111111111111",
+        "headOid": "2222222222222222222222222222222222222222",
+        "fileCollectionRef": "pr-33-files",
+        "labels": {
+          "status": "established",
+          "value": [],
+          "captureRefs": [
+            "page-pr-33-labels"
+          ]
+        },
+        "closingIssueRefs": []
+      }
+    ],
+    "commits": [],
+    "reviews": [
+      {
+        "ref": "review-21",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-review",
+          "page-pr-31-reviews"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "21"
+        },
+        "pullRequestRef": "pr-31",
+        "reviewer": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "state": "COMMENTED",
+        "submittedAt": "2026-10-14T11:00:00Z",
+        "reviewedCommitOid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "ref": "review-22",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-review",
+          "page-pr-32-reviews"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "22"
+        },
+        "pullRequestRef": "pr-32",
+        "reviewer": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "state": "COMMENTED",
+        "submittedAt": "2026-10-14T14:00:00Z",
+        "reviewedCommitOid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      {
+        "ref": "review-23",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-review",
+          "page-pr-33-reviews"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "23"
+        },
+        "pullRequestRef": "pr-33",
+        "reviewer": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "state": "COMMENTED",
+        "submittedAt": "2026-10-14T15:00:00Z",
+        "reviewedCommitOid": "cccccccccccccccccccccccccccccccccccccccc"
+      }
+    ],
+    "releases": [
+      {
+        "ref": "release-41",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-release",
+          "page-release-41-publication"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "41"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "draft": false,
+        "prerelease": false,
+        "publishedAt": "2026-10-14T12:00:00Z",
+        "firstPublication": {
+          "status": "established",
+          "value": {
+            "publishedAt": "2026-10-14T12:00:00Z",
+            "author": {
+              "status": "identified",
+              "accountId": "1001",
+              "type": "User"
+            },
+            "draft": false,
+            "prerelease": false
+          },
+          "captureRefs": [
+            "page-release-41-publication"
+          ]
+        }
+      },
+      {
+        "ref": "release-40",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-release",
+          "page-release-40-publication"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "40"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "draft": false,
+        "prerelease": false,
+        "publishedAt": "2026-10-14T08:00:00Z",
+        "firstPublication": {
+          "status": "established",
+          "value": {
+            "publishedAt": "2026-10-14T08:00:00Z",
+            "author": {
+              "status": "identified",
+              "accountId": "1001",
+              "type": "User"
+            },
+            "draft": false,
+            "prerelease": false
+          },
+          "captureRefs": [
+            "page-release-40-publication"
+          ]
+        }
+      }
+    ],
+    "issues": [
+      {
+        "ref": "issue-51",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-issue"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "51"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "2002",
+          "type": "User"
+        },
+        "createdAt": "2026-10-13T01:00:00Z",
+        "labels": {
+          "status": "established",
+          "value": [],
+          "captureRefs": [
+            "page-issue-51-labels"
+          ]
+        }
+      },
+      {
+        "ref": "issue-52",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-issue"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "52"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "2002",
+          "type": "User"
+        },
+        "createdAt": "2026-10-13T01:00:00Z",
+        "labels": {
+          "status": "established",
+          "value": [],
+          "captureRefs": [
+            "page-issue-52-labels"
+          ]
+        }
+      },
+      {
+        "ref": "issue-53",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-issue"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "53"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "2002",
+          "type": "User"
+        },
+        "createdAt": "2026-10-13T01:00:00Z",
+        "labels": {
+          "status": "established",
+          "value": [],
+          "captureRefs": [
+            "page-issue-53-labels"
+          ]
+        }
+      }
+    ],
+    "issueEvents": [
+      {
+        "ref": "event-51",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-issue-event"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "751"
+        },
+        "issueRef": "issue-51",
+        "actor": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "occurredAt": "2026-10-14T16:00:00Z",
+        "kind": "labeled",
+        "target": {
+          "kind": "label",
+          "sourceId": {
+            "type": "numeric",
+            "value": "601"
+          }
+        }
+      },
+      {
+        "ref": "event-52",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-issue-event"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "752"
+        },
+        "issueRef": "issue-52",
+        "actor": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "occurredAt": "2026-10-14T16:00:00Z",
+        "kind": "labeled",
+        "target": {
+          "kind": "label",
+          "sourceId": {
+            "type": "numeric",
+            "value": "601"
+          }
+        }
+      },
+      {
+        "ref": "event-53",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-issue-event"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "753"
+        },
+        "issueRef": "issue-53",
+        "actor": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "occurredAt": "2026-10-14T16:00:00Z",
+        "kind": "labeled",
+        "target": {
+          "kind": "label",
+          "sourceId": {
+            "type": "numeric",
+            "value": "601"
+          }
+        }
+      }
+    ],
+    "fileChanges": [
+      {
+        "ref": "pr-18-file-1",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-pr-18-files"
+        ],
+        "parentRef": "pr-18",
+        "kind": "modified",
+        "beforePath": "fixture-docs/sample.md",
+        "afterPath": "fixture-docs/sample.md",
+        "beforeOid": "1111111111111111111111111111111111111111",
+        "afterOid": "2222222222222222222222222222222222222222",
+        "content": {
+          "mode": "text_pair",
+          "beforeText": "# Old fixture\n",
+          "afterText": "# New fixture\n"
+        }
+      },
+      {
+        "ref": "pr-31-file-1",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-pr-31-files"
+        ],
+        "parentRef": "pr-31",
+        "kind": "modified",
+        "beforePath": "fixture-docs/sample.md",
+        "afterPath": "fixture-docs/sample.md",
+        "beforeOid": "1111111111111111111111111111111111111111",
+        "afterOid": "2222222222222222222222222222222222222222",
+        "content": {
+          "mode": "text_pair",
+          "beforeText": "# Old fixture\n",
+          "afterText": "# New fixture\n"
+        }
+      },
+      {
+        "ref": "pr-19-file-1",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-pr-19-files"
+        ],
+        "parentRef": "pr-19",
+        "kind": "modified",
+        "beforePath": "fixture-docs/sample.md",
+        "afterPath": "fixture-docs/sample.md",
+        "beforeOid": "1111111111111111111111111111111111111111",
+        "afterOid": "2222222222222222222222222222222222222222",
+        "content": {
+          "mode": "text_pair",
+          "beforeText": "# Old fixture\n",
+          "afterText": "# New fixture\n"
+        }
+      },
+      {
+        "ref": "pr-32-file-1",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-pr-32-files"
+        ],
+        "parentRef": "pr-32",
+        "kind": "modified",
+        "beforePath": "fixture-docs/sample.md",
+        "afterPath": "fixture-docs/sample.md",
+        "beforeOid": "1111111111111111111111111111111111111111",
+        "afterOid": "2222222222222222222222222222222222222222",
+        "content": {
+          "mode": "text_pair",
+          "beforeText": "# Old fixture\n",
+          "afterText": "# New fixture\n"
+        }
+      },
+      {
+        "ref": "pr-33-file-1",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-pr-33-files"
+        ],
+        "parentRef": "pr-33",
+        "kind": "modified",
+        "beforePath": "fixture-docs/sample.md",
+        "afterPath": "fixture-docs/sample.md",
+        "beforeOid": "1111111111111111111111111111111111111111",
+        "afterOid": "2222222222222222222222222222222222222222",
+        "content": {
+          "mode": "text_pair",
+          "beforeText": "# Old fixture\n",
+          "afterText": "# New fixture\n"
+        }
+      }
+    ]
+  }
+}

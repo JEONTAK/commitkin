@@ -1,0 +1,55 @@
+{
+  "fixtureVersion": 1,
+  "execution": "not_run",
+  "description": "Fixed illustrative comparator expectations only; do not widen GitHub numeric-only PR/review/release contracts to manufacture opaque IDs.",
+  "vectors": [
+    {
+      "caseId": "ORDER-numeric",
+      "left": {
+        "type": "numeric",
+        "value": "2"
+      },
+      "right": {
+        "type": "numeric",
+        "value": "10"
+      },
+      "expected": -1
+    },
+    {
+      "caseId": "ORDER-opaque",
+      "left": {
+        "type": "opaque",
+        "value": "10"
+      },
+      "right": {
+        "type": "opaque",
+        "value": "2"
+      },
+      "expected": -1
+    },
+    {
+      "caseId": "ORDER-type",
+      "left": {
+        "type": "numeric",
+        "value": "10"
+      },
+      "right": {
+        "type": "opaque",
+        "value": "2"
+      },
+      "expected": -1
+    },
+    {
+      "caseId": "ORDER-kind",
+      "left": "merged_pr",
+      "right": "submitted_review",
+      "expected": -1
+    },
+    {
+      "caseId": "ORDER-repository",
+      "left": "2",
+      "right": "10",
+      "expected": -1
+    }
+  ]
+}

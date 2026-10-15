@@ -1,0 +1,654 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commitkin:schemas:v1:common",
+  "title": "Commitkin v1 shared record definitions",
+  "$defs": {
+    "githubId": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]*$",
+      "not": {
+        "pattern": "\\s"
+      }
+    },
+    "xpString": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)$",
+      "not": {
+        "pattern": "\\s"
+      }
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "rulesetVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "not": {
+        "pattern": "\\s"
+      }
+    },
+    "utcDate": {
+      "type": "string",
+      "format": "date",
+      "minLength": 10,
+      "maxLength": 10
+    },
+    "utcTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$",
+      "not": {
+        "pattern": "\\s"
+      }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^v1:sha256:[0-9a-f]{64}$",
+      "minLength": 74,
+      "maxLength": 74
+    },
+    "classId": {
+      "enum": [
+        "adventurer",
+        "blacksmith",
+        "machinist",
+        "runesmith",
+        "golemancer",
+        "warden",
+        "shield-knight",
+        "paladin",
+        "wardkeeper",
+        "scribe",
+        "librarian",
+        "chronicler",
+        "lorekeeper",
+        "sentinel",
+        "wardweaver",
+        "rune-examiner",
+        "sealbinder",
+        "healer",
+        "alchemist",
+        "purifier",
+        "restorer",
+        "herald",
+        "quartermaster",
+        "guild-steward",
+        "guild-commander"
+      ]
+    },
+    "regularClassId": {
+      "enum": [
+        "blacksmith",
+        "machinist",
+        "runesmith",
+        "golemancer",
+        "warden",
+        "shield-knight",
+        "paladin",
+        "wardkeeper",
+        "scribe",
+        "librarian",
+        "chronicler",
+        "lorekeeper",
+        "sentinel",
+        "wardweaver",
+        "rune-examiner",
+        "sealbinder",
+        "healer",
+        "alchemist",
+        "purifier",
+        "restorer",
+        "herald",
+        "quartermaster",
+        "guild-steward",
+        "guild-commander"
+      ]
+    },
+    "habitId": {
+      "enum": [
+        "steadfast",
+        "focused",
+        "roaming",
+        "versatile",
+        "rekindled"
+      ]
+    },
+    "activityId": {
+      "enum": [
+        "collaborative",
+        "documenting",
+        "testing",
+        "mending",
+        "finisher",
+        "shipping",
+        "organizing"
+      ]
+    },
+    "seriesId": {
+      "enum": [
+        "footprints",
+        "enduring-flame",
+        "completed-works",
+        "allys-shield",
+        "knowledge-vault",
+        "raised-wards",
+        "healing-hands",
+        "launch-bell",
+        "orderly-guild",
+        "far-horizons",
+        "old-hearth",
+        "class-codex"
+      ]
+    },
+    "grade": {
+      "enum": [
+        "bronze",
+        "silver",
+        "gold"
+      ]
+    },
+    "family": {
+      "enum": [
+        "craft",
+        "guard",
+        "knowledge",
+        "verification",
+        "recovery",
+        "operations"
+      ]
+    },
+    "owner": {
+      "type": "object",
+      "properties": {
+        "accountId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+        },
+        "profileRepositoryId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+        }
+      },
+      "required": [
+        "accountId",
+        "profileRepositoryId"
+      ],
+      "additionalProperties": false
+    },
+    "familyUnits": {
+      "type": "object",
+      "properties": {
+        "craft": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "guard": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "knowledge": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "verification": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "recovery": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "operations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "craft",
+        "guard",
+        "knowledge",
+        "verification",
+        "recovery",
+        "operations"
+      ],
+      "additionalProperties": false
+    },
+    "range": {
+      "type": "object",
+      "properties": {
+        "startDate": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "endDateExclusive": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "scopeId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        }
+      },
+      "required": [
+        "startDate",
+        "endDateExclusive",
+        "scopeId"
+      ],
+      "additionalProperties": false
+    },
+    "unobservedRange": {
+      "type": "object",
+      "properties": {
+        "startDate": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "endDateExclusive": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "scopeId": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "startDate",
+        "endDateExclusive",
+        "scopeId"
+      ],
+      "additionalProperties": false
+    },
+    "classPending": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/regularClassId"
+        },
+        "count": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/classObservationCount"
+        },
+        "startedOn": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "lastCountedOn": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "contextScopeId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        }
+      },
+      "required": [
+        "targetId",
+        "count",
+        "startedOn",
+        "lastCountedOn",
+        "contextScopeId"
+      ],
+      "additionalProperties": false,
+      "$comment": "UTC-date gaps/deduplication, scope resets and cooldown require separate semantic/transition checks."
+    },
+    "habitPending": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/habitId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "count": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/traitObservationCount"
+        },
+        "startedOn": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "lastCountedOn": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        }
+      },
+      "required": [
+        "targetId",
+        "count",
+        "startedOn",
+        "lastCountedOn"
+      ],
+      "additionalProperties": false
+    },
+    "habitSlot": {
+      "type": "object",
+      "properties": {
+        "currentId": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/habitId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pending": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/habitPending"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "currentId",
+        "pending"
+      ],
+      "additionalProperties": false
+    },
+    "activityPending": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/activityId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "count": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/traitObservationCount"
+        },
+        "startedOn": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "lastCountedOn": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        }
+      },
+      "required": [
+        "targetId",
+        "count",
+        "startedOn",
+        "lastCountedOn"
+      ],
+      "additionalProperties": false
+    },
+    "activitySlot": {
+      "type": "object",
+      "properties": {
+        "currentId": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/activityId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pending": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/activityPending"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "currentId",
+        "pending"
+      ],
+      "additionalProperties": false
+    },
+    "classState": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/classId"
+        },
+        "lastChangedOn": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pending": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/classPending"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "classId": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/regularClassId"
+              },
+              "assignedAt": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+              }
+            },
+            "required": [
+              "classId",
+              "assignedAt"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "id",
+        "lastChangedOn",
+        "pending",
+        "history"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "const": "adventurer"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "lastChangedOn": {
+                "type": "null"
+              },
+              "history": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "lastChangedOn": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+              },
+              "history": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "traits": {
+      "type": "object",
+      "properties": {
+        "habit": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/habitSlot"
+        },
+        "activity": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/activitySlot"
+        }
+      },
+      "required": [
+        "habit",
+        "activity"
+      ],
+      "additionalProperties": false
+    },
+    "observationClock": {
+      "type": "object",
+      "properties": {
+        "lastNormalEvaluationOn": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "classLastCountedOn": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "habitLastCountedOn": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "activityLastCountedOn": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "lastNormalEvaluationOn",
+        "classLastCountedOn",
+        "habitLastCountedOn",
+        "activityLastCountedOn"
+      ],
+      "additionalProperties": false
+    },
+    "achievement": {
+      "type": "object",
+      "properties": {
+        "seriesId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/seriesId"
+        },
+        "earned": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "grade": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/grade"
+              },
+              "earnedAt": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+              }
+            },
+            "required": [
+              "grade",
+              "earnedAt"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "seriesId",
+        "earned"
+      ],
+      "additionalProperties": false
+    },
+    "evaluation": {
+      "type": "object",
+      "properties": {
+        "lastSuccessfulRevision": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/revision"
+        },
+        "evaluatedAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        },
+        "activityCutoffExclusive": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "scopeId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        }
+      },
+      "required": [
+        "lastSuccessfulRevision",
+        "evaluatedAt",
+        "activityCutoffExclusive",
+        "scopeId"
+      ],
+      "additionalProperties": false
+    },
+    "classObservationCount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Saturated class-candidate confirmation count. No pending candidate is represented by null, not count zero."
+    },
+    "traitObservationCount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3,
+      "description": "Saturated trait replacement/removal confirmation count. Applying a confirmed change clears pending."
+    }
+  }
+}

@@ -1,0 +1,508 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commitkin:schemas:evidence:v1:common",
+  "title": "Commitkin v1 offline evidence definitions",
+  "$defs": {
+    "githubId": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+    },
+    "hash": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+    },
+    "utcDate": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+    },
+    "utcTimestamp": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+    },
+    "count": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/count"
+    },
+    "ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,95}$"
+    },
+    "nonEmpty": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "SOURCE_NOT_PROVIDED",
+        "SOURCE_UNAVAILABLE",
+        "INSUFFICIENT_HISTORY",
+        "CONTENT_UNAVAILABLE",
+        "UNSUPPORTED_SOURCE"
+      ]
+    },
+    "numericId": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "numeric"
+        },
+        "value": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "opaqueId": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "opaque"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "sourceId": {
+      "oneOf": [
+        {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/numericId"
+        },
+        {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/opaqueId"
+        }
+      ]
+    },
+    "actor": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "identified"
+            },
+            "accountId": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "User",
+                "Bot"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "accountId",
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "unavailable"
+            },
+            "reason": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/reason"
+            }
+          },
+          "required": [
+            "status",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "owner": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "identified"
+            },
+            "accountId": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "User",
+                "Organization"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "accountId",
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "unavailable"
+            },
+            "reason": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/reason"
+            }
+          },
+          "required": [
+            "status",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "oid": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+    },
+    "timeProof": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "established"
+            },
+            "value": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+            },
+            "captureRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "captureRefs"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "unavailable"
+            },
+            "reason": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/reason"
+            },
+            "captureRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+              },
+              "minItems": 0,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "captureRefs"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "label": {
+      "type": "object",
+      "properties": {
+        "sourceId": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/numericId"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "sourceId",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "fileRuleBody": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": "1"
+        },
+        "exclusions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "generated",
+                  "lock",
+                  "card_update"
+                ]
+              },
+              "patterns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "kind",
+              "patterns"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {
+                "type": "string",
+                "enum": [
+                  "deployment",
+                  "test",
+                  "documentation",
+                  "source"
+                ]
+              },
+              "patterns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "category",
+              "patterns"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "precedence": {
+          "const": [
+            "deployment",
+            "test",
+            "documentation",
+            "source"
+          ]
+        }
+      },
+      "required": [
+        "version",
+        "exclusions",
+        "categories",
+        "precedence"
+      ],
+      "additionalProperties": false
+    },
+    "bugLabelBody": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": "1"
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "repositoryId": {
+                "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+              },
+              "labelIds": {
+                "type": "array",
+                "items": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/numericId"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "repositoryId",
+              "labelIds"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "version",
+        "repositories"
+      ],
+      "additionalProperties": false
+    },
+    "labelProof": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "established"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/label"
+              },
+              "minItems": 0
+            },
+            "captureRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "captureRefs"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "unavailable"
+            },
+            "reason": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/reason"
+            },
+            "captureRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+              },
+              "minItems": 0,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "captureRefs"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "publicationProof": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "established"
+            },
+            "value": {
+              "type": "object",
+              "properties": {
+                "publishedAt": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+                },
+                "author": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/actor"
+                },
+                "draft": {
+                  "type": "boolean"
+                },
+                "prerelease": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "publishedAt",
+                "author",
+                "draft",
+                "prerelease"
+              ],
+              "additionalProperties": false
+            },
+            "captureRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "captureRefs"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "unavailable"
+            },
+            "reason": {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/reason"
+            },
+            "captureRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+              },
+              "minItems": 0,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "captureRefs"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

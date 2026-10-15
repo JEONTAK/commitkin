@@ -1,0 +1,2747 @@
+{
+  "fixtureVersion": 1,
+  "description": "Synthetic candidate/previous snapshots for fixture association only; not live .commitkin records. Schema/digest checks do not prove transition history or source qualification.",
+  "contexts": {
+    "direct-20": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "20"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:275eda27b7e382546ceda0b96b63e767852cc82a5009f584e5fc945565408f4a"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:d9434a3961ef6997835322efd8e007377d02819a97e5af3d2d33c7e2513eb6cc",
+            "kind": "direct_contribution",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T06:00:00Z",
+            "families": [
+              "craft"
+            ],
+            "contributionKey": "v1:sha256:d9434a3961ef6997835322efd8e007377d02819a97e5af3d2d33c7e2513eb6cc"
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 1,
+                  "guard": 0,
+                  "knowledge": 0,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 0
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 10,
+              "mergedPrs": 0,
+              "reviews": 0,
+              "releases": 0,
+              "triage": 0,
+              "total": 20
+            },
+            "creditedKeys": {
+              "mergedPrs": [],
+              "reviews": [],
+              "releases": []
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "review-25": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "25"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:291c52abddf1cb6035188ce48490eebd8008ba4b013936a404acb6c2567463f2"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 0,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 0
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 0,
+              "mergedPrs": 0,
+              "reviews": 15,
+              "releases": 0,
+              "triage": 0,
+              "total": 25
+            },
+            "creditedKeys": {
+              "mergedPrs": [],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": []
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "release-35": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "35"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:c8e228e5b72a845a4b66886759310ff2889ecbe302110ca0c1987bab24dc3ec7"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+            "kind": "published_release",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T12:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "releaseKey": "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 0,
+                  "knowledge": 0,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 1
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 0,
+              "mergedPrs": 0,
+              "reviews": 0,
+              "releases": 25,
+              "triage": 0,
+              "total": 35
+            },
+            "creditedKeys": {
+              "mergedPrs": [],
+              "reviews": [],
+              "releases": [
+                "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+              ]
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "triage-20": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "20"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:294e9e1f4333618ccd0e1e433b45d3d266a453264660e3cbc967004805ed90af"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086",
+            "kind": "triage_day",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T16:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "issueKeys": [
+              "v1:sha256:88511068563f6cd90535cbebd4324be721b777fcb7b96d7b257643b73623fa1a",
+              "v1:sha256:52c4a93309c88415a397eb14e6c1e8c890c71d9358227bae7fa36288fe2fbb21",
+              "v1:sha256:216e89a3291010cf665e391fcb4318c9f17a902950fcc0b142468e635470eea1"
+            ]
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 0,
+                  "knowledge": 0,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 1
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 0,
+              "mergedPrs": 0,
+              "reviews": 0,
+              "releases": 0,
+              "triage": 10,
+              "total": 20
+            },
+            "creditedKeys": {
+              "mergedPrs": [],
+              "reviews": [],
+              "releases": []
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "mixed-pr-40": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "40"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:7e53a52961052e58ade79bfe656791167b06ed5253f6d3584915fd8f44030e52"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T06:00:00Z",
+            "families": [
+              "craft",
+              "knowledge",
+              "verification",
+              "operations"
+            ],
+            "prKey": "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+            "bugEvidenced": false
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 1,
+                  "guard": 0,
+                  "knowledge": 1,
+                  "verification": 1,
+                  "recovery": 0,
+                  "operations": 1
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 10,
+              "mergedPrs": 20,
+              "reviews": 0,
+              "releases": 0,
+              "triage": 0,
+              "total": 40
+            },
+            "creditedKeys": {
+              "mergedPrs": [
+                "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422"
+              ],
+              "reviews": [],
+              "releases": []
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "review-prior-25": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-13T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "25"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-14",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-14T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-14",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:81550a447535a416ec18f92994156fa5dd800a00e94876e205994dd59490e3d6"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-13T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-13T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-13",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 0,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 0
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 0,
+              "mergedPrs": 0,
+              "reviews": 15,
+              "releases": 0,
+              "triage": 0,
+              "total": 25
+            },
+            "creditedKeys": {
+              "mergedPrs": [],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": []
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-14T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "repeat-pr-new-commit-35": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 2,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-13T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "35"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 2,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:d8e3bd30cbd09c63ddb414fd8f847dabe15693ec55e6126a2f113551347b617f"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 2,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-13T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-13T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+          },
+          {
+            "eventKey": "v1:sha256:71a0414ca7ec5b5063a6ac4cb4a5af03a0fb44fc5711c1d14b8c24191129e03a",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:1a2f3d769a66117b49800b66367cb8d46ac7bfec49799908e1ea1916b8882a26"
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-13",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 0,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 0
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 0,
+              "mergedPrs": 0,
+              "reviews": 15,
+              "releases": 0,
+              "triage": 0,
+              "total": 25
+            },
+            "creditedKeys": {
+              "mergedPrs": [],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": []
+            }
+          },
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 0,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 0
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 0,
+              "mergedPrs": 0,
+              "reviews": 0,
+              "releases": 0,
+              "triage": 0,
+              "total": 10
+            },
+            "creditedKeys": {
+              "mergedPrs": [],
+              "reviews": [],
+              "releases": []
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 2,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 2,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "wrong-original-order": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "100"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [
+          {
+            "seriesId": "completed-works",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "allys-shield",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "launch-bell",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          }
+        ],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:55e57d6cdc12155c76a4f06be434cc517b1f8cfe18bc4b54856cce07605cc354"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T09:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T10:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+          },
+          {
+            "eventKey": "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+            "kind": "published_release",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T10:30:00Z",
+            "families": [
+              "operations"
+            ],
+            "releaseKey": "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+          },
+          {
+            "eventKey": "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T13:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:673648563c718127bddd23f4a21e6d5f3b98137c1c8bd3eb1af091d6a760a3c3",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T14:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:03aed442c7ed185f975d89f14f336f02a342568500b01c060847679663c35487",
+            "reviewedCommitKey": "v1:sha256:40811624f45256166cb517636ec773467e39271ed315ea6b1de1948e0dd79bfb"
+          },
+          {
+            "eventKey": "v1:sha256:ebc324236cfe6c4cf58c162ed84002f41d4424fccabc54fbeb635dc872affe3f",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T15:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:8f3d19203afd3c820fa519e03817f77b669a1371f03fd5a2cc3ca9127945ae24",
+            "reviewedCommitKey": "v1:sha256:c0e344077eb5ef01573e6ab4c5bd251e51f3efcc16660c97dba47d3a57d3b9ee"
+          },
+          {
+            "eventKey": "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086",
+            "kind": "triage_day",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T16:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "issueKeys": [
+              "v1:sha256:88511068563f6cd90535cbebd4324be721b777fcb7b96d7b257643b73623fa1a",
+              "v1:sha256:52c4a93309c88415a397eb14e6c1e8c890c71d9358227bae7fa36288fe2fbb21",
+              "v1:sha256:216e89a3291010cf665e391fcb4318c9f17a902950fcc0b142468e635470eea1"
+            ]
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 1,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 1
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 10,
+              "mergedPrs": 40,
+              "reviews": 15,
+              "releases": 15,
+              "triage": 10,
+              "total": 100
+            },
+            "creditedKeys": {
+              "mergedPrs": [
+                "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+                "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+              ],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": [
+                "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+              ]
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "wrong-positive-paid-membership": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "100"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [
+          {
+            "seriesId": "completed-works",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "allys-shield",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "launch-bell",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          }
+        ],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:ff0c2c31fd8bfff8924ac28d22b121c7806332c83849c85e96647283098bd9c5"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T09:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T10:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+          },
+          {
+            "eventKey": "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+            "kind": "published_release",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T12:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "releaseKey": "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+          },
+          {
+            "eventKey": "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T13:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:673648563c718127bddd23f4a21e6d5f3b98137c1c8bd3eb1af091d6a760a3c3",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T14:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:03aed442c7ed185f975d89f14f336f02a342568500b01c060847679663c35487",
+            "reviewedCommitKey": "v1:sha256:40811624f45256166cb517636ec773467e39271ed315ea6b1de1948e0dd79bfb"
+          },
+          {
+            "eventKey": "v1:sha256:ebc324236cfe6c4cf58c162ed84002f41d4424fccabc54fbeb635dc872affe3f",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T15:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:8f3d19203afd3c820fa519e03817f77b669a1371f03fd5a2cc3ca9127945ae24",
+            "reviewedCommitKey": "v1:sha256:c0e344077eb5ef01573e6ab4c5bd251e51f3efcc16660c97dba47d3a57d3b9ee"
+          },
+          {
+            "eventKey": "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086",
+            "kind": "triage_day",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T16:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "issueKeys": [
+              "v1:sha256:88511068563f6cd90535cbebd4324be721b777fcb7b96d7b257643b73623fa1a",
+              "v1:sha256:52c4a93309c88415a397eb14e6c1e8c890c71d9358227bae7fa36288fe2fbb21",
+              "v1:sha256:216e89a3291010cf665e391fcb4318c9f17a902950fcc0b142468e635470eea1"
+            ]
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 1,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 1
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 10,
+              "mergedPrs": 40,
+              "reviews": 15,
+              "releases": 15,
+              "triage": 10,
+              "total": 100
+            },
+            "creditedKeys": {
+              "mergedPrs": [
+                "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+                "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9"
+              ],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": [
+                "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+              ]
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "omitted-unpaid-fact": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "100"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [
+          {
+            "seriesId": "completed-works",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "allys-shield",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "launch-bell",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          }
+        ],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:e9f28e8f4ec807aa1de39ad27cd5c54ca26c1e00abb6b1edb981a93d4dfdce34"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T09:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T10:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+          },
+          {
+            "eventKey": "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+            "kind": "published_release",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T12:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "releaseKey": "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+          },
+          {
+            "eventKey": "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T13:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:673648563c718127bddd23f4a21e6d5f3b98137c1c8bd3eb1af091d6a760a3c3",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T14:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:03aed442c7ed185f975d89f14f336f02a342568500b01c060847679663c35487",
+            "reviewedCommitKey": "v1:sha256:40811624f45256166cb517636ec773467e39271ed315ea6b1de1948e0dd79bfb"
+          },
+          {
+            "eventKey": "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086",
+            "kind": "triage_day",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T16:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "issueKeys": [
+              "v1:sha256:88511068563f6cd90535cbebd4324be721b777fcb7b96d7b257643b73623fa1a",
+              "v1:sha256:52c4a93309c88415a397eb14e6c1e8c890c71d9358227bae7fa36288fe2fbb21",
+              "v1:sha256:216e89a3291010cf665e391fcb4318c9f17a902950fcc0b142468e635470eea1"
+            ]
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 1,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 1
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 10,
+              "mergedPrs": 40,
+              "reviews": 15,
+              "releases": 15,
+              "triage": 10,
+              "total": 100
+            },
+            "creditedKeys": {
+              "mergedPrs": [
+                "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+                "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+              ],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": [
+                "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+              ]
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "wrong-partial-payment": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "100"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [
+          {
+            "seriesId": "completed-works",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "allys-shield",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "launch-bell",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          }
+        ],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 1,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:709cb7db4b874d445747a9c71a953f33e098557d6849d1cd10cb7c4852389f3c"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T09:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T10:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+          },
+          {
+            "eventKey": "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+            "kind": "published_release",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T12:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "releaseKey": "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+          },
+          {
+            "eventKey": "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T13:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:673648563c718127bddd23f4a21e6d5f3b98137c1c8bd3eb1af091d6a760a3c3",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T14:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:03aed442c7ed185f975d89f14f336f02a342568500b01c060847679663c35487",
+            "reviewedCommitKey": "v1:sha256:40811624f45256166cb517636ec773467e39271ed315ea6b1de1948e0dd79bfb"
+          },
+          {
+            "eventKey": "v1:sha256:ebc324236cfe6c4cf58c162ed84002f41d4424fccabc54fbeb635dc872affe3f",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T15:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:8f3d19203afd3c820fa519e03817f77b669a1371f03fd5a2cc3ca9127945ae24",
+            "reviewedCommitKey": "v1:sha256:c0e344077eb5ef01573e6ab4c5bd251e51f3efcc16660c97dba47d3a57d3b9ee"
+          },
+          {
+            "eventKey": "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086",
+            "kind": "triage_day",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T16:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "issueKeys": [
+              "v1:sha256:88511068563f6cd90535cbebd4324be721b777fcb7b96d7b257643b73623fa1a",
+              "v1:sha256:52c4a93309c88415a397eb14e6c1e8c890c71d9358227bae7fa36288fe2fbb21",
+              "v1:sha256:216e89a3291010cf665e391fcb4318c9f17a902950fcc0b142468e635470eea1"
+            ]
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 1,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 1
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 10,
+              "mergedPrs": 40,
+              "reviews": 5,
+              "releases": 25,
+              "triage": 10,
+              "total": 100
+            },
+            "creditedKeys": {
+              "mergedPrs": [
+                "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+                "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+              ],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": [
+                "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+              ]
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "repeated-first-review-bonus": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 2,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-13T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "50"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 2,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:2b4e08061daa9c04ce87503c26ccd8c59aecbfd4be115d5c8477de7ec0f22ed9"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 2,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-13T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-13T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+          },
+          {
+            "eventKey": "v1:sha256:71a0414ca7ec5b5063a6ac4cb4a5af03a0fb44fc5711c1d14b8c24191129e03a",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:1a2f3d769a66117b49800b66367cb8d46ac7bfec49799908e1ea1916b8882a26"
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-13",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 0,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 0
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 0,
+              "mergedPrs": 0,
+              "reviews": 15,
+              "releases": 0,
+              "triage": 0,
+              "total": 25
+            },
+            "creditedKeys": {
+              "mergedPrs": [],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": []
+            }
+          },
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 0,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 0
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 0,
+              "mergedPrs": 0,
+              "reviews": 15,
+              "releases": 0,
+              "triage": 0,
+              "total": 25
+            },
+            "creditedKeys": {
+              "mergedPrs": [],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": []
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 2,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 2,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    },
+    "reduced-settled-day": {
+      "state": {
+        "schemaVersion": 1,
+        "recordType": "state",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 2,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "faction": {
+          "id": "bloomguard",
+          "confirmedAt": "2026-10-15T00:50:00Z"
+        },
+        "growth": {
+          "phase": "ready",
+          "startDate": "2026-07-17",
+          "totalXp": "99"
+        },
+        "class": {
+          "id": "adventurer",
+          "lastChangedOn": null,
+          "pending": null,
+          "history": []
+        },
+        "traits": {
+          "habit": {
+            "currentId": null,
+            "pending": null
+          },
+          "activity": {
+            "currentId": null,
+            "pending": null
+          }
+        },
+        "observationClock": {
+          "lastNormalEvaluationOn": "2026-10-15",
+          "classLastCountedOn": null,
+          "habitLastCountedOn": null,
+          "activityLastCountedOn": null
+        },
+        "achievements": [
+          {
+            "seriesId": "completed-works",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "allys-shield",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          },
+          {
+            "seriesId": "launch-bell",
+            "earned": [
+              {
+                "grade": "bronze",
+                "earnedAt": "2026-10-15T01:00:00Z"
+              }
+            ]
+          }
+        ],
+        "settings": {
+          "filePreviouslyUsed": true,
+          "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+        },
+        "evaluation": {
+          "lastSuccessfulRevision": 2,
+          "evaluatedAt": "2026-10-15T01:00:00Z",
+          "activityCutoffExclusive": "2026-10-15",
+          "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+        },
+        "integrity": {
+          "ledgerHash": "v1:sha256:a9b58dbc9aa8397337067a53e1ba0dc5dc3ce872c908a9b19d285f315419e636"
+        }
+      },
+      "ledger": {
+        "schemaVersion": 1,
+        "recordType": "ledger",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 2,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "repositories": [
+          {
+            "id": "9001",
+            "firstObservedAt": "2026-10-15T00:55:00Z",
+            "ownershipAtFirstObservation": "self",
+            "tracking": "active",
+            "discoveredVia": [
+              "automatic"
+            ]
+          }
+        ],
+        "scopes": [
+          {
+            "id": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "rulesetVersion": "1.0.0",
+            "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+            "repositoryIds": [
+              "9001"
+            ]
+          }
+        ],
+        "coverage": [
+          {
+            "startDate": "2026-07-17",
+            "endDateExclusive": "2026-10-15",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "complete": true,
+            "observedAt": "2026-10-15T01:00:00Z"
+          }
+        ],
+        "facts": [
+          {
+            "eventKey": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T09:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T10:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T11:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b",
+            "reviewedCommitKey": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+          },
+          {
+            "eventKey": "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a",
+            "kind": "published_release",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T12:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "releaseKey": "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+          },
+          {
+            "eventKey": "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153",
+            "kind": "merged_pr",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T13:00:00Z",
+            "families": [
+              "knowledge"
+            ],
+            "prKey": "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9",
+            "bugEvidenced": false
+          },
+          {
+            "eventKey": "v1:sha256:673648563c718127bddd23f4a21e6d5f3b98137c1c8bd3eb1af091d6a760a3c3",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T14:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:03aed442c7ed185f975d89f14f336f02a342568500b01c060847679663c35487",
+            "reviewedCommitKey": "v1:sha256:40811624f45256166cb517636ec773467e39271ed315ea6b1de1948e0dd79bfb"
+          },
+          {
+            "eventKey": "v1:sha256:ebc324236cfe6c4cf58c162ed84002f41d4424fccabc54fbeb635dc872affe3f",
+            "kind": "submitted_review",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T15:00:00Z",
+            "families": [
+              "guard"
+            ],
+            "prKey": "v1:sha256:8f3d19203afd3c820fa519e03817f77b669a1371f03fd5a2cc3ca9127945ae24",
+            "reviewedCommitKey": "v1:sha256:c0e344077eb5ef01573e6ab4c5bd251e51f3efcc16660c97dba47d3a57d3b9ee"
+          },
+          {
+            "eventKey": "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086",
+            "kind": "triage_day",
+            "repositoryId": "9001",
+            "occurredAt": "2026-10-14T16:00:00Z",
+            "families": [
+              "operations"
+            ],
+            "issueKeys": [
+              "v1:sha256:88511068563f6cd90535cbebd4324be721b777fcb7b96d7b257643b73623fa1a",
+              "v1:sha256:52c4a93309c88415a397eb14e6c1e8c890c71d9358227bae7fa36288fe2fbb21",
+              "v1:sha256:216e89a3291010cf665e391fcb4318c9f17a902950fcc0b142468e635470eea1"
+            ]
+          }
+        ],
+        "days": [
+          {
+            "date": "2026-10-14",
+            "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+            "byRepository": [
+              {
+                "repositoryId": "9001",
+                "familyUnits": {
+                  "craft": 0,
+                  "guard": 1,
+                  "knowledge": 1,
+                  "verification": 0,
+                  "recovery": 0,
+                  "operations": 1
+                }
+              }
+            ],
+            "xp": {
+              "validDay": 10,
+              "authoredContributionDay": 10,
+              "mergedPrs": 40,
+              "reviews": 15,
+              "releases": 14,
+              "triage": 10,
+              "total": 99
+            },
+            "creditedKeys": {
+              "mergedPrs": [
+                "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422",
+                "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+              ],
+              "reviews": [
+                "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+              ],
+              "releases": [
+                "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+              ]
+            }
+          }
+        ],
+        "corrections": []
+      },
+      "status": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 2,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 2,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      }
+    }
+  }
+}

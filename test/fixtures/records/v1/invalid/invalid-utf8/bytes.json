@@ -1,0 +1,5 @@
+{
+  "encoding": "hex",
+  "hex": "7b2261223aff7d",
+  "description": "Decode hex in memory before UTF-8 parsing; deliberately invalid byte ff. This descriptor is valid JSON, not the record input."
+}

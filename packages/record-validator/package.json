@@ -1,0 +1,19 @@
+{
+  "name": "@commitkin/record-validator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.js",
+    "test:coverage": "node --test --test-concurrency=1 --experimental-test-coverage --test-coverage-include='src/**/*.js' --test-coverage-include='bin/*.js' --test-coverage-lines=80 --test-coverage-functions=80 --test-coverage-branches=80 test/*.test.js",
+    "validate": "node bin/commitkin-validate.js"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "canonicalize": "5.1.0",
+    "jsonc-parser": "3.3.1"
+  }
+}

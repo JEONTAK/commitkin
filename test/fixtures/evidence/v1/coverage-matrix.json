@@ -1,0 +1,289 @@
+{
+  "fixtureVersion": 1,
+  "description": "Traceability, NOT a passed E-01–E-30 semantic suite. Explicitly partial variant coverage and unimplemented checks remain visible.",
+  "cases": [
+    {
+      "family": "E-01",
+      "fixtures": [
+        "ES-N01",
+        "ES-N02",
+        "ES-N09"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Normal source/candidate semantics deferred."
+    },
+    {
+      "family": "E-02",
+      "fixtures": [
+        "ES-C01",
+        "ES-C02",
+        "ES-C03",
+        "ES-S03",
+        "ES-B07",
+        "ES-B12"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Schema rejection only; compatible-tool/policy-catalog behavior deferred."
+    },
+    {
+      "family": "E-03",
+      "fixtures": [
+        "ES-B04",
+        "ES-B05",
+        "ES-B06",
+        "ES-B10",
+        "ES-B11"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Binding comparisons deferred."
+    },
+    {
+      "family": "E-04",
+      "fixtures": [
+        "FIELD-id-large-lossless",
+        "FIELD-id-number-loss",
+        "ES-S08"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Declared ID structure checked; provider field substitution and comparator deferred."
+    },
+    {
+      "family": "E-05",
+      "fixtures": [
+        "ES-Q01",
+        "ES-Q06",
+        "ES-N12"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Excluded review semantics deferred."
+    },
+    {
+      "family": "E-06",
+      "fixtures": [
+        "ES-Q03"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Repeat-commit deduction deferred."
+    },
+    {
+      "family": "E-07",
+      "fixtures": [
+        "ES-N08"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "New-commit valid day/once-per-PR reward deferred."
+    },
+    {
+      "family": "E-08",
+      "fixtures": [
+        "ES-H03",
+        "ES-R05"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Missing earlier history represented; unpaid/item-limited-first-review variants still deferred."
+    },
+    {
+      "family": "E-09",
+      "fixtures": [
+        "ES-Q04",
+        "ES-Q07"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Fork/direct duplication represented; verified upstream attribution variant still deferred."
+    },
+    {
+      "family": "E-10",
+      "fixtures": [
+        "ES-H05"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Unavailable reflection proof is schema-valid, not confirmed inactivity."
+    },
+    {
+      "family": "E-11",
+      "fixtures": [
+        "ES-N12",
+        "ES-Q02"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Bot/draft/prerelease represented; same-ID republication history variant deferred."
+    },
+    {
+      "family": "E-12",
+      "fixtures": [
+        "ES-H06"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Publication proof gap represented; bug-label timeline/history variant remains deferred."
+    },
+    {
+      "family": "E-13",
+      "fixtures": [
+        "ES-N06",
+        "ES-Q05",
+        "ES-Q08"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Distinct issue/toggle/actor threshold semantics deferred."
+    },
+    {
+      "family": "E-14",
+      "fixtures": [
+        "ES-N12"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Excluded generated/lock/card/whitespace/bot sources represented; qualification deferred."
+    },
+    {
+      "family": "E-15",
+      "fixtures": [
+        "ES-N07"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Four-category mixed fixture represented; unknown-workflow classification remains deferred."
+    },
+    {
+      "family": "E-16",
+      "fixtures": [
+        "ES-H01",
+        "ES-H02",
+        "ES-H08",
+        "ES-B01",
+        "ES-B08",
+        "ES-B09"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Closure/count/content checks deferred; provider-specific hard ceilings remain unspecified."
+    },
+    {
+      "family": "E-17",
+      "fixtures": [
+        "ORDER-numeric",
+        "ORDER-opaque",
+        "ORDER-kind",
+        "ORDER-repository"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Declarative comparator vectors only, not executed source/order checks."
+    },
+    {
+      "family": "E-18",
+      "fixtures": [
+        "ES-N09",
+        "ES-N11"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Three-item/one-release cap examples represented; separate four-PR/four-review/two-release selector variants deferred."
+    },
+    {
+      "family": "E-19",
+      "fixtures": [
+        "ES-N09"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Fixed 160->100 expected allocation, not executed."
+    },
+    {
+      "family": "E-20",
+      "fixtures": [
+        "ES-R02",
+        "ES-R04"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Paid membership/partial allocation comparisons deferred."
+    },
+    {
+      "family": "E-21",
+      "fixtures": [
+        "ES-R03"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Source-present unpaid fact omitted, semantic comparison deferred."
+    },
+    {
+      "family": "E-22",
+      "fixtures": [
+        "ES-N10",
+        "ES-N11"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Fixed +5/+0 late deltas, not executed."
+    },
+    {
+      "family": "E-23",
+      "fixtures": [
+        "ES-R06"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Reduced-settled-date hold expectation; transition/correction execution deferred."
+    },
+    {
+      "family": "E-24",
+      "fixtures": [
+        "ES-H07"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Original-ID gap represented; no hash reversal or settlement performed."
+    },
+    {
+      "family": "E-25",
+      "fixtures": [
+        "LEGACY-wrong-cap-allocation",
+        "LEGACY-unpaid-key-marked-credited",
+        "LEGACY-capped-evidence-dropped"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Existing three fixtures unchanged; not rerun as source checks."
+    },
+    {
+      "family": "E-26",
+      "fixtures": [
+        "ES-R01",
+        "ES-R02",
+        "ES-R03",
+        "ES-R04"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Repaired fixture digests; unrelated semantic failure isolation not yet proven by an engine."
+    },
+    {
+      "family": "E-27",
+      "fixtures": [
+        "SCHEMA-reverse-replay"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Schema cases replayed in reverse without mutation only; semantic permutation/midnight behavior deferred."
+    },
+    {
+      "family": "E-28",
+      "fixtures": [
+        "BYTES-33554431",
+        "BYTES-33554432",
+        "BYTES-33554433",
+        "DEPTH-15",
+        "DEPTH-16",
+        "DEPTH-17"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Existing parser boundary reuse only."
+    },
+    {
+      "family": "E-29",
+      "fixtures": [
+        "ES-S10",
+        "ES-I07"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Closed structure/strict input and local fixed refs only; live adapter fault/sanitized evidence-report tests deferred."
+    },
+    {
+      "family": "E-30",
+      "fixtures": [
+        "ES-S03",
+        "ES-N01"
+      ],
+      "semanticStatus": "not_run",
+      "remaining": "Forged flag rejected; null previous binding is not setup/provenance permission. Full trust-escalation behavior deferred."
+    }
+  ]
+}

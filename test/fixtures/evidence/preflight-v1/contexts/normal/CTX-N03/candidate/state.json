@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "recordType": "state",
+  "rulesetVersion": "1.0.0",
+  "recordRevision": 1,
+  "owner": {
+    "accountId": "9007199254740993",
+    "profileRepositoryId": "9007199254740995"
+  },
+  "faction": {
+    "id": "bloomguard",
+    "confirmedAt": "2026-10-15T00:50:00Z"
+  },
+  "growth": {
+    "phase": "ready",
+    "startDate": "2026-07-17",
+    "totalXp": "0"
+  },
+  "class": {
+    "id": "adventurer",
+    "lastChangedOn": null,
+    "pending": null,
+    "history": []
+  },
+  "traits": {
+    "habit": {
+      "currentId": null,
+      "pending": null
+    },
+    "activity": {
+      "currentId": null,
+      "pending": null
+    }
+  },
+  "observationClock": {
+    "lastNormalEvaluationOn": "2026-10-15",
+    "classLastCountedOn": null,
+    "habitLastCountedOn": null,
+    "activityLastCountedOn": null
+  },
+  "achievements": [],
+  "settings": {
+    "filePreviouslyUsed": true,
+    "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+  },
+  "evaluation": {
+    "lastSuccessfulRevision": 1,
+    "evaluatedAt": "2026-10-15T01:00:00Z",
+    "activityCutoffExclusive": "2026-10-15",
+    "scopeId": "v1:sha256:fda0b6f9dc2e0d0e19ae46e1149fb3c5fe94dcb726f8bdca579746f27b494bac"
+  },
+  "integrity": {
+    "ledgerHash": "v1:sha256:2c7d83441dcf9efcde91dd2752d47cc0eabc58ce28a8be76f99a616991f1db96"
+  }
+}

@@ -1,0 +1,377 @@
+{
+  "fixtureVersion": 1,
+  "syntheticOnly": true,
+  "notProductionPolicyRegistry": true,
+  "noSetupOrOwnerAuthority": true,
+  "sourceAuthenticity": "not_checked",
+  "progressionAuthorized": false,
+  "subject": {
+    "accountId": "1001",
+    "profileRepositoryId": "9001"
+  },
+  "evaluationDate": "2026-10-15",
+  "scope": {
+    "repositoryIds": [
+      "9001"
+    ],
+    "publicOnly": true,
+    "startInclusive": "2026-07-17",
+    "endExclusive": "2026-10-15"
+  },
+  "normalizationNotice": "Normalized capture projections, not GitHub API endpoint/query or live-provider-availability proof. Exact acquisition/historical proof is still separately gated.",
+  "policies": {
+    "fileRules": {
+      "id": "fixture-files-v1",
+      "version": "1",
+      "hash": "v1:sha256:3aed5256db8e22560d3c8ec16c5407683fbf207332a9fc6663e01ba8ada9722b",
+      "body": {
+        "version": "1",
+        "exclusions": [
+          {
+            "kind": "generated",
+            "patterns": [
+              "fixture-generated/**"
+            ]
+          },
+          {
+            "kind": "lock",
+            "patterns": [
+              "fixture-locks/**"
+            ]
+          },
+          {
+            "kind": "card_update",
+            "patterns": [
+              "fixture-card/**"
+            ]
+          }
+        ],
+        "categories": [
+          {
+            "category": "deployment",
+            "patterns": [
+              "fixture-ops/**"
+            ]
+          },
+          {
+            "category": "test",
+            "patterns": [
+              "fixture-tests/**"
+            ]
+          },
+          {
+            "category": "documentation",
+            "patterns": [
+              "fixture-docs/**"
+            ]
+          },
+          {
+            "category": "source",
+            "patterns": [
+              "fixture-src/**"
+            ]
+          }
+        ],
+        "precedence": [
+          "deployment",
+          "test",
+          "documentation",
+          "source"
+        ]
+      }
+    },
+    "bugLabels": {
+      "id": "fixture-bug-labels-v1",
+      "version": "1",
+      "hash": "v1:sha256:ff27c42afab0d2d2fe01b239dae29a889f9ae668e84a764968444780e4bd962f",
+      "body": {
+        "version": "1",
+        "repositories": [
+          {
+            "repositoryId": "9001",
+            "labelIds": [
+              {
+                "type": "numeric",
+                "value": "601"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "identityVectors": [
+    {
+      "name": "prA",
+      "input": {
+        "kind": "pull_request",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "17"
+      },
+      "expectedHash": "v1:sha256:5fad785a80071f2be8439020563f9af49d439c1dab96b64a74d41736fd926422"
+    },
+    {
+      "name": "prEventA",
+      "input": {
+        "kind": "merged_pr",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "17"
+      },
+      "expectedHash": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c"
+    },
+    {
+      "name": "prB",
+      "input": {
+        "kind": "pull_request",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "18"
+      },
+      "expectedHash": "v1:sha256:d5ae06d4a1ff21569e363320f1b9045586cf7916fb45a98ef9fe8ca6f88eb17b"
+    },
+    {
+      "name": "prEventB",
+      "input": {
+        "kind": "merged_pr",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "18"
+      },
+      "expectedHash": "v1:sha256:6ab2b722bdad25645ec445db94dbc26e0fa1396dd09ac9ddd1d3f9e9c741a1fe"
+    },
+    {
+      "name": "prC",
+      "input": {
+        "kind": "pull_request",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "19"
+      },
+      "expectedHash": "v1:sha256:2b14a9f26a760abe08bf00f9e119f767f83d50f2f6877eda67f0e9600f0b27c9"
+    },
+    {
+      "name": "prEventC",
+      "input": {
+        "kind": "merged_pr",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "19"
+      },
+      "expectedHash": "v1:sha256:838294f1a59b1ec03cc8f91c2a87e73b6452f02769937095f01c6d4b6a77b153"
+    },
+    {
+      "name": "reviewPrA",
+      "input": {
+        "kind": "pull_request",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "31"
+      },
+      "expectedHash": "v1:sha256:46c5676ae8caf29407d959f6cd63a2887e97b395ed553f3e78a405a0be33c12b"
+    },
+    {
+      "name": "reviewEventA",
+      "input": {
+        "kind": "submitted_review",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "21"
+      },
+      "expectedHash": "v1:sha256:24128129a1c74c7a382c34a4bae2a111b94b856f4b9de57f764ea5c9054a29e5"
+    },
+    {
+      "name": "reviewCommitA",
+      "input": {
+        "kind": "reviewed_commit",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": {
+          "pullRequestId": "31",
+          "commitOid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      },
+      "expectedHash": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+    },
+    {
+      "name": "reviewPrB",
+      "input": {
+        "kind": "pull_request",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "32"
+      },
+      "expectedHash": "v1:sha256:03aed442c7ed185f975d89f14f336f02a342568500b01c060847679663c35487"
+    },
+    {
+      "name": "reviewEventB",
+      "input": {
+        "kind": "submitted_review",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "22"
+      },
+      "expectedHash": "v1:sha256:673648563c718127bddd23f4a21e6d5f3b98137c1c8bd3eb1af091d6a760a3c3"
+    },
+    {
+      "name": "reviewCommitB",
+      "input": {
+        "kind": "reviewed_commit",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": {
+          "pullRequestId": "32",
+          "commitOid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "expectedHash": "v1:sha256:40811624f45256166cb517636ec773467e39271ed315ea6b1de1948e0dd79bfb"
+    },
+    {
+      "name": "reviewPrC",
+      "input": {
+        "kind": "pull_request",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "33"
+      },
+      "expectedHash": "v1:sha256:8f3d19203afd3c820fa519e03817f77b669a1371f03fd5a2cc3ca9127945ae24"
+    },
+    {
+      "name": "reviewEventC",
+      "input": {
+        "kind": "submitted_review",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "23"
+      },
+      "expectedHash": "v1:sha256:ebc324236cfe6c4cf58c162ed84002f41d4424fccabc54fbeb635dc872affe3f"
+    },
+    {
+      "name": "reviewCommitC",
+      "input": {
+        "kind": "reviewed_commit",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": {
+          "pullRequestId": "33",
+          "commitOid": "cccccccccccccccccccccccccccccccccccccccc"
+        }
+      },
+      "expectedHash": "v1:sha256:c0e344077eb5ef01573e6ab4c5bd251e51f3efcc16660c97dba47d3a57d3b9ee"
+    },
+    {
+      "name": "releaseA",
+      "input": {
+        "kind": "release",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "41"
+      },
+      "expectedHash": "v1:sha256:5e694325634326ced24d21c8d418f5b0dc357e3e3f9eb3c95663a51db714ee46"
+    },
+    {
+      "name": "releaseEventA",
+      "input": {
+        "kind": "published_release",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "41"
+      },
+      "expectedHash": "v1:sha256:2f51f77aaac974cd9b062b46ddd712ba2006ae345420afcc5bd3e5ee7f0f6a2a"
+    },
+    {
+      "name": "releaseEarlier",
+      "input": {
+        "kind": "release",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "40"
+      },
+      "expectedHash": "v1:sha256:c10d7d1ca820e18747f6ce2247bca6faf3b40ab8b6fdde149d3b7965eb2aeb77"
+    },
+    {
+      "name": "releaseEventEarlier",
+      "input": {
+        "kind": "published_release",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "40"
+      },
+      "expectedHash": "v1:sha256:f35004d8bef962c72f32c23e55d8986ccc88237e3724ff8d2c513c4837abb6ce"
+    },
+    {
+      "name": "triageEvent",
+      "input": {
+        "kind": "triage_day",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "2026-10-14"
+      },
+      "expectedHash": "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086"
+    },
+    {
+      "name": "issue51",
+      "input": {
+        "kind": "issue",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "51"
+      },
+      "expectedHash": "v1:sha256:88511068563f6cd90535cbebd4324be721b777fcb7b96d7b257643b73623fa1a"
+    },
+    {
+      "name": "issue52",
+      "input": {
+        "kind": "issue",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "52"
+      },
+      "expectedHash": "v1:sha256:52c4a93309c88415a397eb14e6c1e8c890c71d9358227bae7fa36288fe2fbb21"
+    },
+    {
+      "name": "issue53",
+      "input": {
+        "kind": "issue",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "53"
+      },
+      "expectedHash": "v1:sha256:216e89a3291010cf665e391fcb4318c9f17a902950fcc0b142468e635470eea1"
+    },
+    {
+      "name": "directEvent",
+      "input": {
+        "kind": "direct_contribution",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "expectedHash": "v1:sha256:d9434a3961ef6997835322efd8e007377d02819a97e5af3d2d33c7e2513eb6cc"
+    },
+    {
+      "name": "laterReview",
+      "input": {
+        "kind": "submitted_review",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "24"
+      },
+      "expectedHash": "v1:sha256:71a0414ca7ec5b5063a6ac4cb4a5af03a0fb44fc5711c1d14b8c24191129e03a"
+    },
+    {
+      "name": "laterReviewedCommit",
+      "input": {
+        "kind": "reviewed_commit",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": {
+          "pullRequestId": "31",
+          "commitOid": "dddddddddddddddddddddddddddddddddddddddd"
+        }
+      },
+      "expectedHash": "v1:sha256:1a2f3d769a66117b49800b66367cb8d46ac7bfec49799908e1ea1916b8882a26"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "fixtureVersion": 1,
+  "description": "Raw contract payload descriptors. Schema acceptance remains distinct from byte/depth acceptance.",
+  "cases": [
+    {
+      "caseId": "CTX-B01",
+      "encoding": "ascii",
+      "bytes": 65535,
+      "limitBytes": 65536,
+      "expectedRaw": "RAW_ACCEPT",
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "generator": "json-padding-object",
+      "rawAdapterExecution": "not_run",
+      "description": "Generated size boundary, not a schema-valid context."
+    },
+    {
+      "caseId": "CTX-B02",
+      "encoding": "ascii",
+      "bytes": 65536,
+      "limitBytes": 65536,
+      "expectedRaw": "RAW_ACCEPT",
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "generator": "json-padding-object",
+      "rawAdapterExecution": "not_run",
+      "description": "Generated size boundary, not a schema-valid context."
+    },
+    {
+      "caseId": "CTX-B03",
+      "encoding": "ascii",
+      "bytes": 65537,
+      "limitBytes": 65536,
+      "expectedRaw": "INPUT_TOO_LARGE",
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "generator": "json-padding-object",
+      "rawAdapterExecution": "not_run",
+      "description": "Generated size boundary, not a schema-valid context."
+    },
+    {
+      "caseId": "CTX-B04",
+      "encoding": "multibyte",
+      "bytes": 65535,
+      "limitBytes": 65536,
+      "expectedRaw": "RAW_ACCEPT",
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "generator": "json-padding-object",
+      "rawAdapterExecution": "not_run",
+      "description": "Generated size boundary, not a schema-valid context."
+    },
+    {
+      "caseId": "CTX-B05",
+      "encoding": "multibyte",
+      "bytes": 65536,
+      "limitBytes": 65536,
+      "expectedRaw": "RAW_ACCEPT",
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "generator": "json-padding-object",
+      "rawAdapterExecution": "not_run",
+      "description": "Generated size boundary, not a schema-valid context."
+    },
+    {
+      "caseId": "CTX-B06",
+      "encoding": "multibyte",
+      "bytes": 65537,
+      "limitBytes": 65536,
+      "expectedRaw": "INPUT_TOO_LARGE",
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "generator": "json-padding-object",
+      "rawAdapterExecution": "not_run",
+      "description": "Generated size boundary, not a schema-valid context."
+    },
+    {
+      "caseId": "CTX-B07",
+      "depth": 15,
+      "limitDepth": 16,
+      "expectedRaw": "RAW_ACCEPT",
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "generator": "nested-arrays",
+      "rawAdapterExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-B08",
+      "depth": 16,
+      "limitDepth": 16,
+      "expectedRaw": "RAW_ACCEPT",
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "generator": "nested-arrays",
+      "rawAdapterExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-B09",
+      "depth": 17,
+      "limitDepth": 16,
+      "expectedRaw": "INPUT_TOO_DEEP",
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "generator": "nested-arrays",
+      "rawAdapterExecution": "not_run"
+    }
+  ]
+}

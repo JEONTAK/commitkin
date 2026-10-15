@@ -1,0 +1,42 @@
+{
+  "fixtureVersion": 1,
+  "description": "Generate in memory only, reuse existing strict parser with role ledger for its identical 32 MiB/depth-16 limits. Parser acceptance is not evidence/schema acceptance; no evidence parser integration is implemented.",
+  "cases": [
+    {
+      "caseId": "BYTES-33554431",
+      "construction": "ASCII JSON object {padding:string} padded to exact UTF-8 size",
+      "bytes": 33554431,
+      "expected": "RAW_ACCEPT"
+    },
+    {
+      "caseId": "BYTES-33554432",
+      "construction": "ASCII JSON object {padding:string} padded to exact UTF-8 size",
+      "bytes": 33554432,
+      "expected": "RAW_ACCEPT"
+    },
+    {
+      "caseId": "BYTES-33554433",
+      "construction": "ASCII JSON object {padding:string} padded to exact UTF-8 size",
+      "bytes": 33554433,
+      "expected": "INPUT_TOO_LARGE"
+    },
+    {
+      "caseId": "DEPTH-15",
+      "construction": "Nested arrays around scalar 0; each container counts once, root=1",
+      "depth": 15,
+      "expected": "RAW_ACCEPT"
+    },
+    {
+      "caseId": "DEPTH-16",
+      "construction": "Nested arrays around scalar 0; each container counts once, root=1",
+      "depth": 16,
+      "expected": "RAW_ACCEPT"
+    },
+    {
+      "caseId": "DEPTH-17",
+      "construction": "Nested arrays around scalar 0; each container counts once, root=1",
+      "depth": 17,
+      "expected": "INPUT_TOO_DEEP"
+    }
+  ]
+}

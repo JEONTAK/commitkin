@@ -1,0 +1,54 @@
+{
+  "fixtureVersion": 1,
+  "cases": [
+    {
+      "caseId": "CTX-R01",
+      "fixture": "raw/CTX-R01.json",
+      "expectedRaw": "DUPLICATE_OBJECT_KEY",
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-R02",
+      "fixture": "raw/CTX-R02.json",
+      "expectedRaw": "DUPLICATE_OBJECT_KEY",
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-R03",
+      "fixture": "raw/CTX-R03.json",
+      "expectedRaw": "JSON_SYNTAX",
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-R04",
+      "fixture": "raw/CTX-R04.json",
+      "expectedRaw": "JSON_NON_FINITE",
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-R05",
+      "fixture": "raw/CTX-R05.json",
+      "expectedRaw": "JSON_NON_FINITE",
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-R06",
+      "fixture": "raw/CTX-R06.json",
+      "expectedRaw": "INVALID_UNICODE",
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-R07",
+      "fixture": "raw/CTX-R07.json",
+      "expectedRaw": "JSON_SYNTAX",
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-R08",
+      "fixture": "raw/CTX-R08.bytes.json",
+      "expectedRaw": "INVALID_UTF8",
+      "encodingDescriptor": "hex",
+      "semanticExecution": "not_run"
+    }
+  ]
+}

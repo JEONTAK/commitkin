@@ -1,0 +1,5545 @@
+{
+  "fixtureVersion": 1,
+  "description": "Whole-context structural assertions. Semantic contradictions explicitly remain not_run.",
+  "cases": [
+    {
+      "caseId": "CTX-P001",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unknown field at /",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "unrecognized": true
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P002",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /contextVersion",
+      "input": {
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P003",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /contextVersion",
+      "input": {
+        "contextVersion": null,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P004",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /contextVersion",
+      "input": {
+        "contextVersion": false,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P005",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /operation",
+      "input": {
+        "contextVersion": 1,
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P006",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /operation",
+      "input": {
+        "contextVersion": 1,
+        "operation": null,
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P007",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /operation",
+      "input": {
+        "contextVersion": 1,
+        "operation": false,
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P008",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /expected",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P009",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /expected",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": null,
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P010",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /expected",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": false,
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P011",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unknown field at /expected",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          },
+          "unrecognized": true
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P012",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /expected/subject",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P013",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /expected/subject",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": null,
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P014",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /expected/subject",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": false,
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P015",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unknown field at /expected/subject",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001",
+            "unrecognized": true
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P016",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /expected/subject/accountId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P017",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /expected/subject/accountId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": null,
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P018",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /expected/subject/accountId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": false,
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P019",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /expected/subject/profileRepositoryId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P020",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /expected/subject/profileRepositoryId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": null
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P021",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /expected/subject/profileRepositoryId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": false
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P022",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /expected/evidenceVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P023",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /expected/evidenceVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": null,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P024",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /expected/evidenceVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": false,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P025",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /expected/rulesetVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P026",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /expected/rulesetVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": null,
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P027",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /expected/rulesetVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": false,
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P028",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /expected/adapter",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0"
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P029",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /expected/adapter",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": null
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P030",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /expected/adapter",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": false
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P031",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unknown field at /expected/adapter",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1",
+            "unrecognized": true
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P032",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /expected/adapter/id",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P033",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /expected/adapter/id",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": null,
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P034",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /expected/adapter/id",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": false,
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P035",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /expected/adapter/version",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P036",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /expected/adapter/version",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": null
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P037",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /expected/adapter/version",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": false
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P038",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /evaluation",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P039",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /evaluation",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": null,
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P040",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /evaluation",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": false,
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P041",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unknown field at /evaluation",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z",
+          "unrecognized": true
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P042",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /evaluation/startedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P043",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /evaluation/startedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": null,
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P044",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /evaluation/startedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": false,
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P045",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /evaluation/inspectedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P046",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /evaluation/inspectedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": null
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P047",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /evaluation/inspectedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": false
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P048",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /normalizedSettings",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P049",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /normalizedSettings",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": null,
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P050",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /normalizedSettings",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": false,
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P051",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unknown field at /normalizedSettings",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          },
+          "unrecognized": true
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P052",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /normalizedSettings/version",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P053",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /normalizedSettings/version",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": null,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P054",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /normalizedSettings/version",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": false,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P055",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /normalizedSettings/repositories",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P056",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /normalizedSettings/repositories",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": null
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P057",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /normalizedSettings/repositories",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": false
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P058",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unknown field at /normalizedSettings/repositories",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": [],
+            "unrecognized": true
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P059",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P060",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": null,
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P061",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": false,
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P062",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /normalizedSettings/repositories/exclude",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P063",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /normalizedSettings/repositories/exclude",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": null
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P064",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /normalizedSettings/repositories/exclude",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": false
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P065",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /scope",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P066",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /scope",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": null,
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P067",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /scope",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": false,
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P068",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unknown field at /scope",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ],
+          "unrecognized": true
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P069",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /scope/repositoryIds",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {},
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P070",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /scope/repositoryIds",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": null
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P071",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /scope/repositoryIds",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": false
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P072",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /comparison",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P073",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /comparison",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": null
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P074",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /comparison",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": false
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P075",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unknown field at /comparison",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only",
+          "unrecognized": true
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P076",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "omitted /comparison/mode",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {}
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P077",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "null /comparison/mode",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": null
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P078",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "wrong-type /comparison/mode",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": false
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P079",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /contextVersion",
+      "input": {
+        "contextVersion": 2,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P080",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /contextVersion",
+      "input": {
+        "contextVersion": 0,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P081",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /contextVersion",
+      "input": {
+        "contextVersion": "1",
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P082",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /operation",
+      "input": {
+        "contextVersion": 1,
+        "operation": "metadata",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P083",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /operation",
+      "input": {
+        "contextVersion": 1,
+        "operation": "restore",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P084",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /operation",
+      "input": {
+        "contextVersion": 1,
+        "operation": "failed_collection",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P085",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/evidenceVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 2,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P086",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/evidenceVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": "1",
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P087",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/rulesetVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "2.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P088",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/rulesetVersion",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P089",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/adapter/id",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.enterprise",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P090",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/adapter/id",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "https://github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P091",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/adapter/version",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "2"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P092",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/adapter/version",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": 1
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P093",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/subject/accountId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "0",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P094",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/subject/accountId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "01",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P095",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/subject/accountId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "-1",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P096",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/subject/accountId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1.0",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P097",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/subject/accountId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": 9007199254740992,
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P098",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /expected/subject/accountId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1\n",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P099",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /scope/repositoryIds",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001",
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P100",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /scope/repositoryIds",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            9001
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P101",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /scope/repositoryIds",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "0"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P102",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /scope/repositoryIds",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "01"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P103",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "Owner/repo"
+            ],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P104",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "owner/repo",
+              "owner/repo"
+            ],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P105",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "https://github.com/owner/repo"
+            ],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P106",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "owner/*"
+            ],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P107",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "owner/repo/path"
+            ],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P108",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "owner/repo "
+            ],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P109",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "/repo"
+            ],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P110",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /normalizedSettings/repositories/additional",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "-owner/repo"
+            ],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P111",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /comparison/mode",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "skip"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P112",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /comparison/mode",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "restore"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P113",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /comparison/mode",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "trusted"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P114",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /evaluation/startedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-02-30T00:00:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P115",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /evaluation/startedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:00:00+00:00",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P116",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /evaluation/startedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "not-a-date",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P117",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "invalid /evaluation/startedAt",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P118",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "forbidden caller directive $schema",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "$schema": "forbidden"
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P119",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "forbidden caller directive $ref",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "$ref": "forbidden"
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P120",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "forbidden caller directive catalogId",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "catalogId": "forbidden"
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P121",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "forbidden caller directive requiredCollections",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "requiredCollections": "forbidden"
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P122",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "forbidden caller directive skipHistory",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "skipHistory": "forbidden"
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P123",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "forbidden caller directive verified",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "verified": "forbidden"
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P124",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "forbidden caller directive token",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "token": "forbidden"
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P125",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "forbidden caller directive url",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "url": "forbidden"
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P126",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "forbidden caller directive path",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        },
+        "path": "forbidden"
+      },
+      "expected": "SCHEMA_REJECT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P127",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unsorted scope accepted structurally",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9002",
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_ACCEPT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P128",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "unsorted settings accepted structurally",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "z/r",
+              "a/r"
+            ],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_ACCEPT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P129",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "inverted time is not schema semantics",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-14T23:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_ACCEPT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P130",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "empty scope accepted structurally",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [],
+            "exclude": []
+          }
+        },
+        "scope": {
+          "repositoryIds": []
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_ACCEPT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    },
+    {
+      "caseId": "CTX-P131",
+      "schemaRef": "urn:commitkin:schemas:evidence:v1:context",
+      "label": "overlap accepted structurally",
+      "input": {
+        "contextVersion": 1,
+        "operation": "normal",
+        "expected": {
+          "subject": {
+            "accountId": "1001",
+            "profileRepositoryId": "9001"
+          },
+          "evidenceVersion": 1,
+          "rulesetVersion": "1.0.0",
+          "adapter": {
+            "id": "github.com",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "startedAt": "2026-10-15T00:50:00Z",
+          "inspectedAt": "2026-10-15T02:00:00Z"
+        },
+        "normalizedSettings": {
+          "version": 1,
+          "repositories": {
+            "additional": [
+              "owner/repo"
+            ],
+            "exclude": [
+              "owner/repo"
+            ]
+          }
+        },
+        "scope": {
+          "repositoryIds": [
+            "9001"
+          ]
+        },
+        "comparison": {
+          "mode": "snapshot_only"
+        }
+      },
+      "expected": "SCHEMA_ACCEPT",
+      "inputFilesUnchanged": true,
+      "semanticExecution": "not_run"
+    }
+  ]
+}

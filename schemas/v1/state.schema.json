@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commitkin:schemas:v1:state",
+  "title": "Commitkin v1 state",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "recordType": {
+      "const": "state"
+    },
+    "rulesetVersion": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/rulesetVersion"
+    },
+    "recordRevision": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/revision"
+    },
+    "owner": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/owner"
+    },
+    "faction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "enum": [
+            "bloomguard",
+            "ashbound"
+          ]
+        },
+        "confirmedAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        }
+      },
+      "required": [
+        "id",
+        "confirmedAt"
+      ],
+      "additionalProperties": false
+    },
+    "growth": {
+      "type": "object",
+      "properties": {
+        "phase": {
+          "enum": [
+            "pending",
+            "ready"
+          ]
+        },
+        "startDate": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "totalXp": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:v1:common#/$defs/xpString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "phase",
+        "startDate",
+        "totalXp"
+      ],
+      "additionalProperties": false
+    },
+    "class": {
+      "anyOf": [
+        {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/classState"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "traits": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/traits"
+    },
+    "observationClock": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/observationClock"
+    },
+    "achievements": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:commitkin:schemas:v1:common#/$defs/achievement"
+      },
+      "maxItems": 12,
+      "uniqueItems": true
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "filePreviouslyUsed": {
+          "type": "boolean"
+        },
+        "lastAcceptedHash": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        }
+      },
+      "required": [
+        "filePreviouslyUsed",
+        "lastAcceptedHash"
+      ],
+      "additionalProperties": false
+    },
+    "evaluation": {
+      "anyOf": [
+        {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/evaluation"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "integrity": {
+      "type": "object",
+      "properties": {
+        "ledgerHash": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        }
+      },
+      "required": [
+        "ledgerHash"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "recordType",
+    "rulesetVersion",
+    "recordRevision",
+    "owner",
+    "faction",
+    "growth",
+    "class",
+    "traits",
+    "observationClock",
+    "achievements",
+    "settings",
+    "evaluation",
+    "integrity"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "growth"
+        ],
+        "properties": {
+          "growth": {
+            "required": [
+              "phase"
+            ],
+            "properties": {
+              "phase": {
+                "const": "pending"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "growth": {
+            "properties": {
+              "totalXp": {
+                "type": "null"
+              }
+            }
+          },
+          "class": {
+            "type": "null"
+          },
+          "evaluation": {
+            "type": "null"
+          },
+          "achievements": {
+            "maxItems": 0
+          },
+          "traits": {
+            "properties": {
+              "habit": {
+                "properties": {
+                  "currentId": {
+                    "type": "null"
+                  },
+                  "pending": {
+                    "type": "null"
+                  }
+                }
+              },
+              "activity": {
+                "properties": {
+                  "currentId": {
+                    "type": "null"
+                  },
+                  "pending": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          },
+          "observationClock": {
+            "properties": {
+              "lastNormalEvaluationOn": {
+                "type": "null"
+              },
+              "classLastCountedOn": {
+                "type": "null"
+              },
+              "habitLastCountedOn": {
+                "type": "null"
+              },
+              "activityLastCountedOn": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "growth": {
+            "properties": {
+              "totalXp": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/xpString"
+              }
+            }
+          },
+          "class": {
+            "$ref": "urn:commitkin:schemas:v1:common#/$defs/classState"
+          },
+          "evaluation": {
+            "$ref": "urn:commitkin:schemas:v1:common#/$defs/evaluation"
+          },
+          "observationClock": {
+            "properties": {
+              "lastNormalEvaluationOn": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

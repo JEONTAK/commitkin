@@ -1,0 +1,553 @@
+{
+  "evidenceVersion": 1,
+  "rulesetVersion": "1.0.0",
+  "adapter": {
+    "id": "github.com",
+    "version": "1"
+  },
+  "subject": {
+    "accountId": "1001",
+    "profileRepositoryId": "9001"
+  },
+  "evaluation": {
+    "startedAt": "2026-10-15T00:50:00Z",
+    "capturedThrough": "2026-10-15T01:00:00Z",
+    "activityCutoffExclusive": "2026-10-15"
+  },
+  "binding": {
+    "scopeId": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b",
+    "settingsHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e",
+    "previousLedgerHash": null,
+    "candidateLedgerHash": "v1:sha256:a2cdf2a7f5499922f1bd377c5566292315b9a03b16e4859ea0f8ad8989598b12"
+  },
+  "policies": {
+    "fileRules": {
+      "mode": "inline",
+      "id": "fixture-files-v1",
+      "version": "1",
+      "hash": "v1:sha256:3aed5256db8e22560d3c8ec16c5407683fbf207332a9fc6663e01ba8ada9722b",
+      "body": {
+        "version": "1",
+        "exclusions": [
+          {
+            "kind": "generated",
+            "patterns": [
+              "fixture-generated/**"
+            ]
+          },
+          {
+            "kind": "lock",
+            "patterns": [
+              "fixture-locks/**"
+            ]
+          },
+          {
+            "kind": "card_update",
+            "patterns": [
+              "fixture-card/**"
+            ]
+          }
+        ],
+        "categories": [
+          {
+            "category": "deployment",
+            "patterns": [
+              "fixture-ops/**"
+            ]
+          },
+          {
+            "category": "test",
+            "patterns": [
+              "fixture-tests/**"
+            ]
+          },
+          {
+            "category": "documentation",
+            "patterns": [
+              "fixture-docs/**"
+            ]
+          },
+          {
+            "category": "source",
+            "patterns": [
+              "fixture-src/**"
+            ]
+          }
+        ],
+        "precedence": [
+          "deployment",
+          "test",
+          "documentation",
+          "source"
+        ]
+      }
+    },
+    "bugLabels": {
+      "mode": "inline",
+      "id": "fixture-bug-labels-v1",
+      "version": "1",
+      "hash": "v1:sha256:ff27c42afab0d2d2fe01b239dae29a889f9ae668e84a764968444780e4bd962f",
+      "body": {
+        "version": "1",
+        "repositories": [
+          {
+            "repositoryId": "9001",
+            "labelIds": [
+              {
+                "type": "numeric",
+                "value": "601"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "collections": [
+    {
+      "ref": "root-repository",
+      "resourceType": "repository",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "metadata",
+      "window": {
+        "kind": "snapshot",
+        "observedAt": "2026-10-15T00:58:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-repository",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "repo-9001"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-pull-request",
+      "resourceType": "pull_request",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "states": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-pull-request",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "pr-17"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-commit",
+      "resourceType": "commit",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "branch": "default"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-commit",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-review",
+      "resourceType": "review",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "states": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-review",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-release",
+      "resourceType": "release",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-release",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "root-issue-event",
+      "resourceType": "issue_event",
+      "target": {
+        "kind": "repository",
+        "repositoryId": "9001"
+      },
+      "purpose": "activity",
+      "window": {
+        "kind": "interval",
+        "startAt": "2026-07-17T00:00:00Z",
+        "endAtExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "actions": "triage"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-root-issue-event",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-17-files",
+      "resourceType": "file_change",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-17"
+      },
+      "purpose": "changes",
+      "window": {
+        "kind": "snapshot",
+        "observedAt": "2026-10-15T00:58:00Z"
+      },
+      "filters": {},
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-17-files",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "pr-17-file-1"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-17-labels",
+      "resourceType": "label_history",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-17"
+      },
+      "purpose": "history",
+      "window": {
+        "kind": "history",
+        "throughExclusive": "2026-10-15T00:00:00Z"
+      },
+      "filters": {
+        "labels": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-17-labels",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "ref": "pr-17-detail",
+      "resourceType": "pull_request",
+      "target": {
+        "kind": "resource",
+        "repositoryId": "9001",
+        "resourceRef": "pr-missing"
+      },
+      "purpose": "metadata",
+      "window": {
+        "kind": "snapshot",
+        "observedAt": "2026-10-15T00:58:00Z"
+      },
+      "filters": {
+        "states": "all"
+      },
+      "state": "captured",
+      "pages": [
+        {
+          "ref": "page-pr-17-detail",
+          "sequence": 1,
+          "capturedAt": "2026-10-15T00:58:00Z",
+          "requestCursor": null,
+          "response": {
+            "status": "success",
+            "httpStatus": 200,
+            "itemRefs": [
+              "pr-17"
+            ],
+            "pagination": {
+              "state": "end",
+              "nextCursor": null
+            },
+            "truncation": "not_reported",
+            "total": {
+              "status": "provided",
+              "value": 1
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "repositories": [
+      {
+        "ref": "repo-9001",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-repository"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "9001"
+        },
+        "owner": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "visibility": "public",
+        "fork": false,
+        "observedAt": "2026-10-15T00:58:00Z",
+        "defaultBranch": "main"
+      }
+    ],
+    "pullRequests": [
+      {
+        "ref": "pr-17",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-root-pull-request",
+          "page-pr-17-detail"
+        ],
+        "sourceId": {
+          "type": "numeric",
+          "value": "17"
+        },
+        "author": {
+          "status": "identified",
+          "accountId": "1001",
+          "type": "User"
+        },
+        "state": "MERGED",
+        "createdAt": "2026-10-13T05:00:00Z",
+        "mergedAt": "2026-10-14T06:00:00Z",
+        "baseRepositoryId": "9001",
+        "headRepositoryId": "9001",
+        "baseOid": "1111111111111111111111111111111111111111",
+        "headOid": "2222222222222222222222222222222222222222",
+        "fileCollectionRef": "pr-17-files",
+        "labels": {
+          "status": "established",
+          "value": [],
+          "captureRefs": [
+            "page-pr-17-labels"
+          ]
+        },
+        "closingIssueRefs": []
+      }
+    ],
+    "commits": [],
+    "reviews": [],
+    "releases": [],
+    "issues": [],
+    "issueEvents": [],
+    "fileChanges": [
+      {
+        "ref": "pr-17-file-1",
+        "repositoryId": "9001",
+        "captureRefs": [
+          "page-pr-17-files"
+        ],
+        "parentRef": "pr-17",
+        "kind": "modified",
+        "beforePath": "fixture-docs/sample.md",
+        "afterPath": "fixture-docs/sample.md",
+        "beforeOid": "3333333333333333333333333333333333333333",
+        "afterOid": "4444444444444444444444444444444444444444",
+        "content": {
+          "mode": "text_pair",
+          "beforeText": "# Old fixture\n",
+          "afterText": "# New fixture\n"
+        }
+      }
+    ]
+  }
+}

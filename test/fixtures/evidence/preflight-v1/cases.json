@@ -1,0 +1,2202 @@
+{
+  "fixtureVersion": 1,
+  "catalog": "github-public-preflight-v1",
+  "description": "Preservation-first synthetic contract cases; expectedPreflight is an unexecuted target, not a published report API.",
+  "caseGroups": {
+    "supplementedNormal": 12,
+    "supplementedInsufficient": 8,
+    "normalContexts": 8,
+    "isolatedErrors": 28,
+    "regressionVariations": 3
+  },
+  "cases": [
+    {
+      "caseId": "ES-N01",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N01",
+        "evidenceFixture": "../v1/normal/observed-empty/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-empty",
+      "previousRecordFixture": null,
+      "contextFixture": "normal/ES-N01/context.json",
+      "evidenceFixture": "normal/ES-N01/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N01",
+        "baseRecordFixture": "../../records/v1/valid/ready-empty",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/observed-empty/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 0
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N02",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N02",
+        "evidenceFixture": "../v1/normal/authored-merged-pr/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextFixture": "normal/ES-N02/context.json",
+      "evidenceFixture": "normal/ES-N02/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N02",
+        "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/authored-merged-pr/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 40
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N03",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N03",
+        "evidenceFixture": "../v1/normal/direct-contribution/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/direct-20",
+      "previousRecordFixture": null,
+      "contextFixture": "normal/ES-N03/context.json",
+      "evidenceFixture": "normal/ES-N03/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N03",
+        "baseRecordFixture": "record-contexts.json#/contexts/direct-20",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/direct-contribution/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 20
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N04",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N04",
+        "evidenceFixture": "../v1/normal/first-other-pr-review/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/review-25",
+      "previousRecordFixture": null,
+      "contextFixture": "normal/ES-N04/context.json",
+      "evidenceFixture": "normal/ES-N04/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N04",
+        "baseRecordFixture": "record-contexts.json#/contexts/review-25",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/first-other-pr-review/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 25
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N05",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N05",
+        "evidenceFixture": "../v1/normal/first-authored-release/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/release-35",
+      "previousRecordFixture": null,
+      "contextFixture": "normal/ES-N05/context.json",
+      "evidenceFixture": "normal/ES-N05/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N05",
+        "baseRecordFixture": "record-contexts.json#/contexts/release-35",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/first-authored-release/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 35
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N06",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N06",
+        "evidenceFixture": "../v1/normal/three-issue-triage/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/triage-20",
+      "previousRecordFixture": null,
+      "contextFixture": "normal/ES-N06/context.json",
+      "evidenceFixture": "normal/ES-N06/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N06",
+        "baseRecordFixture": "record-contexts.json#/contexts/triage-20",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/three-issue-triage/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 20
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N07",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N07",
+        "evidenceFixture": "../v1/normal/mixed-pr-signals/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/mixed-pr-40",
+      "previousRecordFixture": null,
+      "contextFixture": "normal/ES-N07/context.json",
+      "evidenceFixture": "normal/ES-N07/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N07",
+        "baseRecordFixture": "record-contexts.json#/contexts/mixed-pr-40",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/mixed-pr-signals/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 40
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N08",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N08",
+        "evidenceFixture": "../v1/normal/new-commit-same-reviewed-pr/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/repeat-pr-new-commit-35",
+      "previousRecordFixture": "../v1/record-contexts.json#/contexts/review-prior-25",
+      "contextFixture": "normal/ES-N08/context.json",
+      "evidenceFixture": "normal/ES-N08/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N08",
+        "baseRecordFixture": "record-contexts.json#/contexts/repeat-pr-new-commit-35",
+        "previousRecordFixture": "record-contexts.json#/contexts/review-prior-25",
+        "evidenceFixture": "normal/new-commit-same-reviewed-pr/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 10
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N09",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N09",
+        "evidenceFixture": "../v1/normal/cap-160-to-100/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-100xp-capped",
+      "previousRecordFixture": null,
+      "contextFixture": "normal/ES-N09/context.json",
+      "evidenceFixture": "normal/ES-N09/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N09",
+        "baseRecordFixture": "../../records/v1/valid/ready-100xp-capped",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/cap-160-to-100/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 100,
+        "expectedUncappedXp": 160,
+        "expectedPaid": {
+          "validDay": 10,
+          "authoredContributionDay": 10,
+          "triage": 10,
+          "mergedPrs": 40,
+          "reviews": 15,
+          "releases": 15,
+          "total": 100
+        }
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N10",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N10",
+        "evidenceFixture": "../v1/normal/late-95-to-100/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-100xp-after-late-release",
+      "previousRecordFixture": "../../records/v1/valid/ready-95xp-before-late-release",
+      "contextFixture": "normal/ES-N10/context.json",
+      "evidenceFixture": "normal/ES-N10/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N10",
+        "baseRecordFixture": "../../records/v1/valid/ready-100xp-after-late-release",
+        "previousRecordFixture": "../../records/v1/valid/ready-95xp-before-late-release",
+        "evidenceFixture": "normal/late-95-to-100/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 100,
+        "expectedAdditionalXp": 5
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N11",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N11",
+        "evidenceFixture": "../v1/normal/late-100-to-100/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-100xp-reallocated",
+      "previousRecordFixture": "../../records/v1/valid/ready-100xp-capped",
+      "contextFixture": "normal/ES-N11/context.json",
+      "evidenceFixture": "normal/ES-N11/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N11",
+        "baseRecordFixture": "../../records/v1/valid/ready-100xp-reallocated",
+        "previousRecordFixture": "../../records/v1/valid/ready-100xp-capped",
+        "evidenceFixture": "normal/late-100-to-100/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 100,
+        "expectedAdditionalXp": 0
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-N12",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N12",
+        "evidenceFixture": "../v1/normal/mixed-excluded-sources/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextFixture": "normal/ES-N12/context.json",
+      "evidenceFixture": "normal/ES-N12/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N12",
+        "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/mixed-excluded-sources/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 40,
+        "excludedRefs": [
+          "pr-61",
+          "review-62",
+          "review-63",
+          "release-64",
+          "release-65",
+          "release-66",
+          "pr-67",
+          "pr-68",
+          "pr-69",
+          "pr-70"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-H01",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-H01",
+        "evidenceFixture": "../v1/insufficient/missing-next-page/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextFixture": "insufficient/ES-H01/context.json",
+      "evidenceFixture": "insufficient/ES-H01/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "collection-completeness",
+        "check": "requiredCollectionClosure",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-H01",
+        "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+        "previousRecordFixture": null,
+        "evidenceFixture": "insufficient/missing-next-page/evidence.json",
+        "overrides": [],
+        "expectedStage": "required-proof",
+        "expectedCheck": "coverageConsistency",
+        "expectedCode": "REQUIRED_PROOF_UNAVAILABLE",
+        "expectedDecision": "hold",
+        "expectedNotChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-H02",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-H02",
+        "evidenceFixture": "../v1/insufficient/required-content-unavailable/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextFixture": "insufficient/ES-H02/context.json",
+      "evidenceFixture": "insufficient/ES-H02/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "collection-completeness",
+        "check": "requiredCollectionClosure",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-H02",
+        "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+        "previousRecordFixture": null,
+        "evidenceFixture": "insufficient/required-content-unavailable/evidence.json",
+        "overrides": [],
+        "expectedStage": "required-proof",
+        "expectedCheck": "sourceEligibility",
+        "expectedCode": "REQUIRED_PROOF_UNAVAILABLE",
+        "expectedDecision": "hold",
+        "expectedNotChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-H03",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-H03",
+        "evidenceFixture": "../v1/insufficient/missing-earlier-review-history/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/review-25",
+      "previousRecordFixture": null,
+      "contextFixture": "insufficient/ES-H03/context.json",
+      "evidenceFixture": "insufficient/ES-H03/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-H03",
+        "baseRecordFixture": "record-contexts.json#/contexts/review-25",
+        "previousRecordFixture": null,
+        "evidenceFixture": "insufficient/missing-earlier-review-history/evidence.json",
+        "overrides": [],
+        "expectedStage": "required-proof",
+        "expectedCheck": "coverageConsistency",
+        "expectedCode": "REQUIRED_PROOF_UNAVAILABLE",
+        "expectedDecision": "hold",
+        "expectedNotChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-H04",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-H04",
+        "evidenceFixture": "../v1/insufficient/required-actor-unavailable/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextFixture": "insufficient/ES-H04/context.json",
+      "evidenceFixture": "insufficient/ES-H04/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-H04",
+        "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+        "previousRecordFixture": null,
+        "evidenceFixture": "insufficient/required-actor-unavailable/evidence.json",
+        "overrides": [],
+        "expectedStage": "required-proof",
+        "expectedCheck": "sourceEligibility",
+        "expectedCode": "REQUIRED_PROOF_UNAVAILABLE",
+        "expectedDecision": "hold",
+        "expectedNotChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-H05",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-H05",
+        "evidenceFixture": "../v1/insufficient/reflection-time-unavailable/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/direct-20",
+      "previousRecordFixture": null,
+      "contextFixture": "insufficient/ES-H05/context.json",
+      "evidenceFixture": "insufficient/ES-H05/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-H05",
+        "baseRecordFixture": "record-contexts.json#/contexts/direct-20",
+        "previousRecordFixture": null,
+        "evidenceFixture": "insufficient/reflection-time-unavailable/evidence.json",
+        "overrides": [],
+        "expectedStage": "required-proof",
+        "expectedCheck": "sourceEligibility",
+        "expectedCode": "REQUIRED_PROOF_UNAVAILABLE",
+        "expectedDecision": "hold",
+        "expectedNotChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-H06",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-H06",
+        "evidenceFixture": "../v1/insufficient/first-publication-unavailable/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/release-35",
+      "previousRecordFixture": null,
+      "contextFixture": "insufficient/ES-H06/context.json",
+      "evidenceFixture": "insufficient/ES-H06/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-H06",
+        "baseRecordFixture": "record-contexts.json#/contexts/release-35",
+        "previousRecordFixture": null,
+        "evidenceFixture": "insufficient/first-publication-unavailable/evidence.json",
+        "overrides": [],
+        "expectedStage": "required-proof",
+        "expectedCheck": "sourceEligibility",
+        "expectedCode": "REQUIRED_PROOF_UNAVAILABLE",
+        "expectedDecision": "hold",
+        "expectedNotChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-H07",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-H07",
+        "evidenceFixture": "../v1/insufficient/prior-ordering-sources-unavailable/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-100xp-reallocated",
+      "previousRecordFixture": "../../records/v1/valid/ready-100xp-capped",
+      "contextFixture": "insufficient/ES-H07/context.json",
+      "evidenceFixture": "insufficient/ES-H07/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "collection-completeness",
+        "check": "requiredCollectionClosure",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-H07",
+        "baseRecordFixture": "../../records/v1/valid/ready-100xp-reallocated",
+        "previousRecordFixture": "../../records/v1/valid/ready-100xp-capped",
+        "evidenceFixture": "insufficient/prior-ordering-sources-unavailable/evidence.json",
+        "overrides": [],
+        "expectedStage": "required-proof",
+        "expectedCheck": "rewardOrder",
+        "expectedCode": "REQUIRED_PROOF_UNAVAILABLE",
+        "expectedDecision": "hold",
+        "expectedNotChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "ES-H08",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-H08",
+        "evidenceFixture": "../v1/insufficient/required-source-failed/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-empty",
+      "previousRecordFixture": null,
+      "contextFixture": "insufficient/ES-H08/context.json",
+      "evidenceFixture": "insufficient/ES-H08/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "collection-completeness",
+        "check": "requiredCollectionClosure",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-H08",
+        "baseRecordFixture": "../../records/v1/valid/ready-empty",
+        "previousRecordFixture": null,
+        "evidenceFixture": "insufficient/required-source-failed/evidence.json",
+        "overrides": [],
+        "expectedStage": "required-proof",
+        "expectedCheck": "coverageConsistency",
+        "expectedCode": "REQUIRED_PROOF_UNAVAILABLE",
+        "expectedDecision": "hold",
+        "expectedNotChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ]
+    },
+    {
+      "caseId": "CTX-N01",
+      "description": "Basic snapshot_only paired with ES-N01.",
+      "contextFixture": "contexts/normal/CTX-N01.json",
+      "evidenceFixture": "normal/ES-N01/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-empty",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete"
+      },
+      "bindingFixtureAssociation": "matched_synthetic_inputs_not_authentication",
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "sourceAuthenticity": "not_checked",
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-N02",
+      "description": "with_previous paired with ES-N10 and its actual previous bundle.",
+      "contextFixture": "contexts/normal/CTX-N02.json",
+      "evidenceFixture": "normal/ES-N10/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-100xp-after-late-release",
+      "previousRecordFixture": "../../records/v1/valid/ready-95xp-before-late-release",
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete"
+      },
+      "bindingFixtureAssociation": "matched_synthetic_inputs_not_authentication",
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "sourceAuthenticity": "not_checked",
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-N03",
+      "description": "Multiple repositories and lossless IDs above JavaScript integer precision.",
+      "contextFixture": "contexts/normal/CTX-N03.json",
+      "evidenceFixture": "contexts/normal/CTX-N03/evidence.json",
+      "baseRecordFixture": "contexts/normal/CTX-N03/candidate",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete"
+      },
+      "bindingFixtureAssociation": "matched_synthetic_inputs_not_authentication",
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "sourceAuthenticity": "not_checked",
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-N04",
+      "description": "Structurally empty effective scope; not authenticated inactivity or first use.",
+      "contextFixture": "contexts/normal/CTX-N04.json",
+      "evidenceFixture": "contexts/normal/CTX-N04/evidence.json",
+      "baseRecordFixture": "contexts/normal/CTX-N04/candidate",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete"
+      },
+      "bindingFixtureAssociation": "matched_synthetic_inputs_not_authentication",
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "sourceAuthenticity": "not_checked",
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-N05",
+      "description": "Profile storage outside current analysis scope.",
+      "contextFixture": "contexts/normal/CTX-N05.json",
+      "evidenceFixture": "contexts/normal/CTX-N05/evidence.json",
+      "baseRecordFixture": "contexts/normal/CTX-N05/candidate",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete"
+      },
+      "bindingFixtureAssociation": "matched_synthetic_inputs_not_authentication",
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "sourceAuthenticity": "not_checked",
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-N06",
+      "description": "Legitimate current settings/scope change with a separately supplied previous bundle.",
+      "contextFixture": "contexts/normal/CTX-N06.json",
+      "evidenceFixture": "contexts/normal/CTX-N06/evidence.json",
+      "baseRecordFixture": "contexts/normal/CTX-N06/candidate",
+      "previousRecordFixture": "contexts/normal/CTX-N06/previous",
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete"
+      },
+      "bindingFixtureAssociation": "matched_synthetic_inputs_not_authentication",
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "sourceAuthenticity": "not_checked",
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-N07",
+      "description": "Inspection crosses UTC midnight; evaluation date stays frozen.",
+      "contextFixture": "contexts/normal/CTX-N07.json",
+      "evidenceFixture": "contexts/normal/CTX-N07/evidence.json",
+      "baseRecordFixture": "contexts/normal/CTX-N07/candidate",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete"
+      },
+      "bindingFixtureAssociation": "matched_synthetic_inputs_not_authentication",
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "sourceAuthenticity": "not_checked",
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-N08",
+      "description": "Additional/exclude overlap; exclusion precedence retained.",
+      "contextFixture": "contexts/normal/CTX-N08.json",
+      "evidenceFixture": "contexts/normal/CTX-N08/evidence.json",
+      "baseRecordFixture": "contexts/normal/CTX-N08/candidate",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete"
+      },
+      "bindingFixtureAssociation": "matched_synthetic_inputs_not_authentication",
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "sourceAuthenticity": "not_checked",
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E01",
+      "description": "Expected subject differs from evidence and candidate",
+      "contextFixture": "errors/CTX-E01/context.json",
+      "evidenceFixture": "errors/CTX-E01/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "binding",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E02",
+      "description": "Inspection precedes start",
+      "contextFixture": "errors/CTX-E02/context.json",
+      "evidenceFixture": "errors/CTX-E02/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "context",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E03",
+      "description": "with_previous without supplied previous records",
+      "contextFixture": "errors/CTX-E03/context.json",
+      "evidenceFixture": "errors/CTX-E03/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "binding",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E04",
+      "description": "Current settings hash contradicts independently supplied settings",
+      "contextFixture": "errors/CTX-E04/context.json",
+      "evidenceFixture": "errors/CTX-E04/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "binding",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E05",
+      "description": "Current scope contradicts independently supplied effective scope",
+      "contextFixture": "errors/CTX-E05/context.json",
+      "evidenceFixture": "errors/CTX-E05/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "binding",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E06",
+      "description": "Evidence starts at different time",
+      "contextFixture": "errors/CTX-E06/context.json",
+      "evidenceFixture": "errors/CTX-E06/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "binding",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E07",
+      "description": "Evidence freezes wrong completed UTC date",
+      "contextFixture": "errors/CTX-E07/context.json",
+      "evidenceFixture": "errors/CTX-E07/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "binding",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E08",
+      "description": "Capture completion after inspection",
+      "contextFixture": "errors/CTX-E08/context.json",
+      "evidenceFixture": "errors/CTX-E08/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "binding",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E09",
+      "description": "Evidence predecessor claimed in snapshot_only",
+      "contextFixture": "errors/CTX-E09/context.json",
+      "evidenceFixture": "errors/CTX-E09/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "binding",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E01",
+      "description": "Mandatory review request itself omitted",
+      "contextFixture": "errors/CAT-E01/context.json",
+      "evidenceFixture": "errors/CAT-E01/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "required-collections",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E02",
+      "description": "Required request explicitly not collected",
+      "contextFixture": "errors/CAT-E02/context.json",
+      "evidenceFixture": "errors/CAT-E02/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "collection-completeness",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E03",
+      "description": "Required request explicitly failed",
+      "contextFixture": "errors/CAT-E03/context.json",
+      "evidenceFixture": "errors/CAT-E03/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "collection-completeness",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E04",
+      "description": "Required request advertises missing next page",
+      "contextFixture": "errors/CAT-E04/context.json",
+      "evidenceFixture": "errors/CAT-E04/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "collection-completeness",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E05",
+      "description": "Contradictory cursor chain",
+      "contextFixture": "errors/CAT-E05/context.json",
+      "evidenceFixture": "errors/CAT-E05/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "collection-completeness",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E06",
+      "description": "Comparable total contradicts unique returned items",
+      "contextFixture": "errors/CAT-E06/context.json",
+      "evidenceFixture": "errors/CAT-E06/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "collection-completeness",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E07",
+      "description": "Required file enumeration is explicitly truncated",
+      "contextFixture": "errors/CAT-E07/context.json",
+      "evidenceFixture": "errors/CAT-E07/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "collection-completeness",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E08",
+      "description": "Required capture termination unknown",
+      "contextFixture": "errors/CAT-E08/context.json",
+      "evidenceFixture": "errors/CAT-E08/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "collection-completeness",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E09",
+      "description": "Activity request period contradicts W",
+      "contextFixture": "errors/CAT-E09/context.json",
+      "evidenceFixture": "errors/CAT-E09/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "required-collections",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E10",
+      "description": "Detail target references a nonexistent resource",
+      "contextFixture": "errors/CAT-E10/context.json",
+      "evidenceFixture": "errors/CAT-E10/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "references",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E11",
+      "description": "File parent points to repository rather than PR/commit",
+      "contextFixture": "errors/CAT-E11/context.json",
+      "evidenceFixture": "errors/CAT-E11/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "references",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E12",
+      "description": "Wrong repository target for expected activity",
+      "contextFixture": "errors/CAT-E12/context.json",
+      "evidenceFixture": "errors/CAT-E12/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "references",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E13",
+      "description": "Legacy issue activity collection invalid under additive profile",
+      "contextFixture": "errors/CAT-E13/context.json",
+      "evidenceFixture": "errors/CAT-E13/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_REJECT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "catalog-shape",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E14",
+      "description": "Files arbitrarily limited to activity date interval",
+      "contextFixture": "errors/CAT-E14/context.json",
+      "evidenceFixture": "errors/CAT-E14/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_REJECT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "catalog-shape",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E15",
+      "description": "Caller-supplied complete flag",
+      "contextFixture": "errors/CAT-E15/context.json",
+      "evidenceFixture": "errors/CAT-E15/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_REJECT",
+      "catalogShapeExpected": "SCHEMA_REJECT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "evidence-schema",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CAT-E16",
+      "description": "Unsupported filter excludes non-open PR states",
+      "contextFixture": "errors/CAT-E16/context.json",
+      "evidenceFixture": "errors/CAT-E16/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_REJECT",
+      "catalogShapeExpected": "SCHEMA_REJECT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "evidence-schema",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E10",
+      "description": "Unknown context version is compatibility, not damaged supported v1",
+      "contextFixture": "errors/CTX-E10/context.json",
+      "evidenceFixture": "errors/CTX-E10/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "hold",
+        "stage": "compatibility",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E11",
+      "description": "Malformed supported context ID type",
+      "contextFixture": "errors/CTX-E11/context.json",
+      "evidenceFixture": "errors/CTX-E11/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "context-schema",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "CTX-E12",
+      "description": "Caller trust flag is forbidden",
+      "contextFixture": "errors/CTX-E12/context.json",
+      "evidenceFixture": "errors/CTX-E12/evidence.json",
+      "baseRecordFixture": "../../records/v1/valid/ready-40xp",
+      "previousRecordFixture": null,
+      "contextSchemaExpected": "SCHEMA_REJECT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "rejected",
+        "stage": "context-schema",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false
+    },
+    {
+      "caseId": "REG-N01",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N04",
+        "evidenceFixture": "../v1/normal/first-other-pr-review/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/review-25",
+      "previousRecordFixture": null,
+      "contextFixture": "regressions/REG-N01/context.json",
+      "evidenceFixture": "regressions/REG-N01/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N04",
+        "baseRecordFixture": "record-contexts.json#/contexts/review-25",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/first-other-pr-review/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 25
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ],
+      "description": "Recent review on PR created before W",
+      "regressionSource": "ES-N04"
+    },
+    {
+      "caseId": "REG-N02",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N06",
+        "evidenceFixture": "../v1/normal/three-issue-triage/evidence.json"
+      },
+      "baseRecordFixture": "../v1/record-contexts.json#/contexts/triage-20",
+      "previousRecordFixture": null,
+      "contextFixture": "regressions/REG-N02/context.json",
+      "evidenceFixture": "regressions/REG-N02/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N06",
+        "baseRecordFixture": "record-contexts.json#/contexts/triage-20",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/three-issue-triage/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 20
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ],
+      "description": "Recent triage on issue created before W",
+      "regressionSource": "ES-N06"
+    },
+    {
+      "caseId": "REG-N03",
+      "originalCase": {
+        "manifest": "../v1/cases.json",
+        "caseId": "ES-N09",
+        "evidenceFixture": "../v1/normal/cap-160-to-100/evidence.json"
+      },
+      "baseRecordFixture": "../../records/v1/valid/ready-100xp-capped",
+      "previousRecordFixture": null,
+      "contextFixture": "regressions/REG-N03/context.json",
+      "evidenceFixture": "regressions/REG-N03/evidence.json",
+      "overrides": [],
+      "contextSchemaExpected": "SCHEMA_ACCEPT",
+      "evidenceSchemaExpected": "SCHEMA_ACCEPT",
+      "catalogShapeExpected": "SCHEMA_ACCEPT",
+      "expectedPreflight": {
+        "decision": "preflight_passed",
+        "stage": "complete",
+        "check": "implementedPreflight",
+        "notChecked": [
+          "sourceEligibility",
+          "coverageConsistency",
+          "rewardOrder",
+          "rewardAllocation",
+          "sourceAuthenticity"
+        ]
+      },
+      "futureSourceRewardOracle": {
+        "caseId": "ES-N09",
+        "baseRecordFixture": "../../records/v1/valid/ready-100xp-capped",
+        "previousRecordFixture": null,
+        "evidenceFixture": "normal/cap-160-to-100/evidence.json",
+        "overrides": [],
+        "expectedStage": "complete",
+        "expectedCheck": "suppliedEvidence",
+        "expectedCode": "EVIDENCE_RELATIVE_MATCH",
+        "expectedDecision": "accept_relative_to_evidence",
+        "expectedNotChecked": [
+          "sourceAuthenticity"
+        ],
+        "inputFilesUnchanged": true,
+        "localSchemaExpected": "SCHEMA_ACCEPT",
+        "semanticExecution": "not_run",
+        "progressionAuthorized": false,
+        "expectedActivityDate": "2026-10-14",
+        "expectedDayXp": 100,
+        "expectedUncappedXp": 160,
+        "expectedPaid": {
+          "validDay": 10,
+          "authoredContributionDay": 10,
+          "triage": 10,
+          "mergedPrs": 40,
+          "reviews": 15,
+          "releases": 15,
+          "total": 100
+        }
+      },
+      "semanticExecution": "not_run",
+      "inputFilesUnchanged": true,
+      "progressionAuthorized": false,
+      "notes": [
+        "Synthetic captures only; production policies and source authenticity are unverified.",
+        "Original ledger/source identity/reward oracles retained; capture layout supplementation does not recompute XP."
+      ],
+      "description": "Connected nonempty multipage PR collection",
+      "regressionSource": "ES-N09"
+    }
+  ],
+  "originalErrorsTraceability": {
+    "manifest": "../v1/cases.json",
+    "caseFamilies": "ES-C/ES-S/ES-B/ES-E/ES-R/raw remain original regression artifacts; no semantic execution inferred."
+  },
+  "semanticExecution": "not_run",
+  "sourceAuthenticity": "not_checked",
+  "progressionAuthorized": false
+}

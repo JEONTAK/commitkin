@@ -6,9 +6,25 @@ Turn your public GitHub activity into an evolving pixel character on your profil
 
 ## Status
 
-Early planning and permission validation. **Commitkin is not ready to install.**
+Pre-release local core and read-only integration validation. **Commitkin is not ready to install as a live character Action.**
 
-This repository currently contains only this README and a manual, read-only GitHub Actions token probe. Character generation, activity classification, XP, achievements, growth records and README updates are not implemented. No Actions execution or successful token validation is claimed by this initial publication.
+The source now includes the offline class/trait/achievement and XP engines, strict record/evidence validation, original code-native pixel previews, safe managed README generation and bounded GitHub adapters. Synthetic local tests are not proof of a complete installed character. Trusted acquisition, some historical proof, production artwork and actual growth-record publication remain gated. This source repository is never central storage for users' growth records.
+
+## Development source and validation
+
+Start with [local core instructions](packages/commitkin/README.md) and [implementation status](docs/product/github-character/local-mvp-implementation.md). Both packages and root schemas/fixtures must remain together; the private package directories are not standalone npm releases.
+
+```sh
+npm --prefix packages/record-validator ci --ignore-scripts --no-audit --no-fund
+npm --prefix packages/commitkin ci --ignore-scripts --no-audit --no-fund
+npm --prefix packages/record-validator test
+npm --prefix packages/commitkin run test:coverage
+node packages/commitkin/bin/commitkin.mjs demo --faction bloomguard --name first-demo
+```
+
+The demo writes only a new, explicitly fictional directory under `deliverables/commitkin-local-preview/`; it never writes a real owner's `.commitkin` records or contacts GitHub. Developer dependencies/output are local-only: do not commit `node_modules`, coverage or generated demo directories.
+
+The [Read-only core validation](.github/workflows/core-validation.yml) workflow is manual-only, uses `contents: read`, runs pinned-dependency tests and fictional previews, then exercises the actual read-only adapter with the job's built-in `GITHUB_TOKEN`. It has no publisher, schedule, PAT, arbitrary target input or growth-record write step. A green run proves only the named tests/known-scope reads; it does not authenticate arbitrary JSON history or demonstrate full product installation.
 
 ## Planned experience
 
@@ -18,7 +34,7 @@ This repository currently contains only this README and a manual, read-only GitH
 - Appearance upgrades at five-level milestones for regular classes, with a fixed starter appearance per faction.
 - A user-owned workflow and minimum public growth record in the user's own profile repository, with no separate product signup or hosted backend.
 
-These are product plans, not shipped features. This product source repository is separate from each user's profile repository and must not become central storage for user growth records.
+The pure mechanics are implemented and locally tested; the complete installed experience is not shipped. This product source repository is separate from each user's profile repository and must not become central storage for user growth records.
 
 ## Read-only token probe
 
@@ -67,9 +83,9 @@ Even all passing probes do **not** prove complete 90-day coverage, pagination, e
 
 ## Licensing
 
-The Commitkin-owned README and workflow in this initial repository are licensed under MIT; the full notice is below to keep initialization limited to two files. Third-party services and data retain their own terms.
+Commitkin-owned code/README/workflows are licensed under MIT; retain the notices in each package and [LICENSE](LICENSE). Third-party dependencies, services and data retain their own terms.
 
-No character images or fonts are distributed here. Planned image licensing is CC BY 4.0 only after relevant rights are verified; AI-image rights verification remains a mandatory pre-distribution gate. Selected fonts must retain their original OFL 1.1 notices. This does not license user profiles, activity or growth data under MIT.
+No AI concept sheets or external image/font files are distributed here. The development renderer generates original code-native fallback pixels and bitmap lettering, not certified final artwork. Planned image licensing is CC BY 4.0 only after relevant rights are verified; AI-image rights verification remains a mandatory pre-distribution gate. Selected external fonts must retain their original OFL 1.1 notices. This does not license user profiles, activity or growth data under MIT.
 
 ### MIT License
 

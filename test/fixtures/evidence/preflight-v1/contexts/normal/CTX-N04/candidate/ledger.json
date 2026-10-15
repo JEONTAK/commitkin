@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "recordType": "ledger",
+  "rulesetVersion": "1.0.0",
+  "recordRevision": 1,
+  "owner": {
+    "accountId": "1001",
+    "profileRepositoryId": "9001"
+  },
+  "repositories": [],
+  "scopes": [
+    {
+      "id": "v1:sha256:e3262e525652c9d5080244697ae76cdb27ef3ab9ebe9dab50869a3b4b0dec0c0",
+      "rulesetVersion": "1.0.0",
+      "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+      "repositoryIds": []
+    }
+  ],
+  "coverage": [
+    {
+      "startDate": "2026-07-17",
+      "endDateExclusive": "2026-10-15",
+      "scopeId": "v1:sha256:e3262e525652c9d5080244697ae76cdb27ef3ab9ebe9dab50869a3b4b0dec0c0",
+      "complete": true,
+      "observedAt": "2026-10-15T01:00:00Z"
+    }
+  ],
+  "facts": [],
+  "days": [],
+  "corrections": []
+}

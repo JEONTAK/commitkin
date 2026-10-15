@@ -1,0 +1,19 @@
+{
+  "verificationKind": "implemented-local-preflight",
+  "executedOn": "2026-10-15",
+  "command": "node --test test/preflight.test.mjs",
+  "workingDirectory": "packages/commitkin",
+  "tests": 247,
+  "passed": 247,
+  "failed": 0,
+  "manifestCases": 59,
+  "sourceRewardExecution": "not_run",
+  "sourceAuthenticity": "not_checked",
+  "progressionAuthorized": false,
+  "notes": [
+    "Separate from the frozen schema-only verification-results.json; not a new count of historical structural probes.",
+    "All normal contexts have explicitly matched synthetic records/evidence. Actual preflight subchecks execute without authentication or publication authority.",
+    "CTX-E01 preserves the original record owner-check precedence before evidence binding.",
+    "Original record-validator code/schema/fixtures were not modified. No GitHub changes or Actions execution."
+  ]
+}

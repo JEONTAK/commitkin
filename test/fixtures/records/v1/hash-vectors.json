@@ -1,0 +1,147 @@
+{
+  "vectorVersion": 1,
+  "construction": "RFC 8785 JCS UTF-8 bytes, then SHA-256; prefix v1:sha256:",
+  "expectedValueOrigin": "Canonical strings written explicitly; digests independently calculated with Node.js built-in crypto before testing Python rfc8785. Representative vectors, not full JCS conformance.",
+  "vectors": [
+    {
+      "id": "empty-object",
+      "input": {},
+      "canonical": "{}",
+      "expectedHash": "v1:sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "id": "object-key-order",
+      "input": {
+        "z": 2,
+        "a": 1
+      },
+      "canonical": "{\"a\":1,\"z\":2}",
+      "expectedHash": "v1:sha256:99168216144c7fed5d4c54916cf98d9c66096280c04a499822a99b6658bd177a"
+    },
+    {
+      "id": "object-key-order-reversed",
+      "input": {
+        "a": 1,
+        "z": 2
+      },
+      "canonical": "{\"a\":1,\"z\":2}",
+      "expectedHash": "v1:sha256:99168216144c7fed5d4c54916cf98d9c66096280c04a499822a99b6658bd177a"
+    },
+    {
+      "id": "array-order-forward",
+      "input": [
+        1,
+        2
+      ],
+      "canonical": "[1,2]",
+      "expectedHash": "v1:sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684"
+    },
+    {
+      "id": "array-order-reverse",
+      "input": [
+        2,
+        1
+      ],
+      "canonical": "[2,1]",
+      "expectedHash": "v1:sha256:af1a1fc110b6094c48582b0ef83553cb7908d7a4365424eef28e76ef6c88d630"
+    },
+    {
+      "id": "utf16-property-order",
+      "input": {
+        "�": 3,
+        "😀": 2,
+        "€": 1,
+        "a": 0
+      },
+      "canonical": "{\"a\":0,\"€\":1,\"😀\":2,\"�\":3}",
+      "expectedHash": "v1:sha256:d0b3d022d2fc862f6b8389ea87faa0bba48bcf7d47f31281aaf7f19b029fc510"
+    },
+    {
+      "id": "literal-unicode-and-escape",
+      "input": {
+        "text": "픽셀\n\""
+      },
+      "canonical": "{\"text\":\"픽셀\\n\\\"\"}",
+      "expectedHash": "v1:sha256:936cf284edff71020a1f1dad56e5db5cb33e0cda928b042df5872219d9841783"
+    },
+    {
+      "id": "negative-zero-and-numbers",
+      "input": {
+        "z": 0,
+        "n": 1.5,
+        "small": 0.000001
+      },
+      "canonical": "{\"n\":1.5,\"small\":0.000001,\"z\":0}",
+      "expectedHash": "v1:sha256:a4c582c9fcc6852061f6fc696a75772bf5af3e06ad47e80401c74c79121f67ff"
+    },
+    {
+      "id": "normalized-default-settings",
+      "input": {
+        "version": 1,
+        "repositories": {
+          "additional": [],
+          "exclude": []
+        }
+      },
+      "canonical": "{\"repositories\":{\"additional\":[],\"exclude\":[]},\"version\":1}",
+      "expectedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+    },
+    {
+      "id": "effective-analysis-config",
+      "input": {
+        "rulesetVersion": "1.0.0",
+        "publicOnly": true
+      },
+      "canonical": "{\"publicOnly\":true,\"rulesetVersion\":\"1.0.0\"}",
+      "expectedHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d"
+    },
+    {
+      "id": "effective-scope",
+      "input": {
+        "rulesetVersion": "1.0.0",
+        "analysisConfigHash": "v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d",
+        "repositoryIds": [
+          "9001"
+        ]
+      },
+      "canonical": "{\"analysisConfigHash\":\"v1:sha256:68dfaf3c54c2062cbec3962935f02e0358acdc49ea5e8b7fd3e6d3f7782d249d\",\"repositoryIds\":[\"9001\"],\"rulesetVersion\":\"1.0.0\"}",
+      "expectedHash": "v1:sha256:57ef5775ba19f381c51f53fea413c885364935ea361c6f959d522197c9fd7c1b"
+    },
+    {
+      "id": "merged-pr-identity",
+      "input": {
+        "kind": "merged_pr",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "17"
+      },
+      "canonical": "{\"accountId\":\"1001\",\"kind\":\"merged_pr\",\"repositoryId\":\"9001\",\"sourceId\":\"17\"}",
+      "expectedHash": "v1:sha256:1eec63024f149292692f2e7b8938b4d45dc7ee614c5d1f758a334a94ee10726c"
+    },
+    {
+      "id": "reviewed-commit-identity",
+      "input": {
+        "kind": "reviewed_commit",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": {
+          "pullRequestId": "31",
+          "commitOid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      },
+      "canonical": "{\"accountId\":\"1001\",\"kind\":\"reviewed_commit\",\"repositoryId\":\"9001\",\"sourceId\":{\"commitOid\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"pullRequestId\":\"31\"}}",
+      "expectedHash": "v1:sha256:7993827e24f29988bb8e006340e7a82837e6c4463b92a944573bc92c4841e556"
+    },
+    {
+      "id": "original-triage-day-identity",
+      "input": {
+        "kind": "triage_day",
+        "accountId": "1001",
+        "repositoryId": "9001",
+        "sourceId": "2026-10-14"
+      },
+      "canonical": "{\"accountId\":\"1001\",\"kind\":\"triage_day\",\"repositoryId\":\"9001\",\"sourceId\":\"2026-10-14\"}",
+      "expectedHash": "v1:sha256:1aca4180b66364bd32c6b9d79ab5a71ac941d0f3d00c359068b853d6c3741086"
+    }
+  ]
+}

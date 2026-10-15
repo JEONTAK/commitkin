@@ -1,0 +1,1138 @@
+{
+  "fixtureVersion": 1,
+  "description": "Schema fragments and whole-status examples. Fragment acceptance does not prove complete-bundle consistency, eligibility or growth.",
+  "cases": [
+    {
+      "caseId": "classId-adventurer",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "adventurer",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-blacksmith",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "blacksmith",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-machinist",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "machinist",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-runesmith",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "runesmith",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-golemancer",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "golemancer",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-warden",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "warden",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-shield-knight",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "shield-knight",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-paladin",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "paladin",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-wardkeeper",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "wardkeeper",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-scribe",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "scribe",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-librarian",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "librarian",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-chronicler",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "chronicler",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-lorekeeper",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "lorekeeper",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-sentinel",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "sentinel",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-wardweaver",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "wardweaver",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-rune-examiner",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "rune-examiner",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-sealbinder",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "sealbinder",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-healer",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "healer",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-alchemist",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "alchemist",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-purifier",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "purifier",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-restorer",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "restorer",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-herald",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "herald",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-quartermaster",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "quartermaster",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-guild-steward",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "guild-steward",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classId-guild-commander",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classId",
+      "input": "guild-commander",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-blacksmith",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "blacksmith",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-machinist",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "machinist",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-runesmith",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "runesmith",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-golemancer",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "golemancer",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-warden",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "warden",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-shield-knight",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "shield-knight",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-paladin",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "paladin",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-wardkeeper",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "wardkeeper",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-scribe",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "scribe",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-librarian",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "librarian",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-chronicler",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "chronicler",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-lorekeeper",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "lorekeeper",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-sentinel",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "sentinel",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-wardweaver",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "wardweaver",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-rune-examiner",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "rune-examiner",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-sealbinder",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "sealbinder",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-healer",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "healer",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-alchemist",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "alchemist",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-purifier",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "purifier",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-restorer",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "restorer",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-herald",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "herald",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-quartermaster",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "quartermaster",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-guild-steward",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "guild-steward",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regularClassId-guild-commander",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/regularClassId",
+      "input": "guild-commander",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "habitId-steadfast",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/habitId",
+      "input": "steadfast",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "habitId-focused",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/habitId",
+      "input": "focused",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "habitId-roaming",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/habitId",
+      "input": "roaming",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "habitId-versatile",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/habitId",
+      "input": "versatile",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "habitId-rekindled",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/habitId",
+      "input": "rekindled",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "activityId-collaborative",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/activityId",
+      "input": "collaborative",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "activityId-documenting",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/activityId",
+      "input": "documenting",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "activityId-testing",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/activityId",
+      "input": "testing",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "activityId-mending",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/activityId",
+      "input": "mending",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "activityId-finisher",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/activityId",
+      "input": "finisher",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "activityId-shipping",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/activityId",
+      "input": "shipping",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "activityId-organizing",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/activityId",
+      "input": "organizing",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-footprints",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "footprints",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-enduring-flame",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "enduring-flame",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-completed-works",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "completed-works",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-allys-shield",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "allys-shield",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-knowledge-vault",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "knowledge-vault",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-raised-wards",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "raised-wards",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-healing-hands",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "healing-hands",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-launch-bell",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "launch-bell",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-orderly-guild",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "orderly-guild",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-far-horizons",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "far-horizons",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-old-hearth",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "old-hearth",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "seriesId-class-codex",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/seriesId",
+      "input": "class-codex",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "grade-bronze",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/grade",
+      "input": "bronze",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "grade-silver",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/grade",
+      "input": "silver",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "grade-gold",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/grade",
+      "input": "gold",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "fact-mergedPr-0",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/mergedPr",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "merged_pr",
+        "families": [
+          "knowledge"
+        ],
+        "prKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bugEvidenced": false
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "fact-extra-field-0",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/mergedPr",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "merged_pr",
+        "families": [
+          "knowledge"
+        ],
+        "prKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bugEvidenced": false,
+        "rawResponse": {}
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "fact-mergedPr-1",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/mergedPr",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "merged_pr",
+        "families": [
+          "recovery",
+          "verification"
+        ],
+        "prKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bugEvidenced": true
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "fact-extra-field-1",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/mergedPr",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "merged_pr",
+        "families": [
+          "recovery",
+          "verification"
+        ],
+        "prKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bugEvidenced": true,
+        "rawResponse": {}
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "fact-directContribution-2",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/directContribution",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "direct_contribution",
+        "families": [
+          "craft"
+        ],
+        "contributionKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "fact-extra-field-2",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/directContribution",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "direct_contribution",
+        "families": [
+          "craft"
+        ],
+        "contributionKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rawResponse": {}
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "fact-submittedReview-3",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/submittedReview",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "submitted_review",
+        "families": [
+          "guard"
+        ],
+        "prKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "reviewedCommitKey": "v1:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "fact-extra-field-3",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/submittedReview",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "submitted_review",
+        "families": [
+          "guard"
+        ],
+        "prKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "reviewedCommitKey": "v1:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "rawResponse": {}
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "fact-publishedRelease-4",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/publishedRelease",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "published_release",
+        "families": [
+          "operations"
+        ],
+        "releaseKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "fact-extra-field-4",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/publishedRelease",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "published_release",
+        "families": [
+          "operations"
+        ],
+        "releaseKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rawResponse": {}
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "fact-triageDay-5",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/triageDay",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "triage_day",
+        "families": [
+          "operations"
+        ],
+        "issueKeys": [
+          "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "v1:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "v1:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        ]
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "fact-extra-field-5",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/triageDay",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "triage_day",
+        "families": [
+          "operations"
+        ],
+        "issueKeys": [
+          "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "v1:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "v1:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        ],
+        "rawResponse": {}
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "bug-pr-cannot-be-craft",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/mergedPr",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "merged_pr",
+        "families": [
+          "recovery",
+          "craft"
+        ],
+        "prKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bugEvidenced": true
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "bug-pr-requires-recovery",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/mergedPr",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "merged_pr",
+        "families": [
+          "knowledge"
+        ],
+        "prKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bugEvidenced": true
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "non-bug-pr-cannot-be-recovery",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/mergedPr",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "merged_pr",
+        "families": [
+          "recovery"
+        ],
+        "prKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bugEvidenced": false
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "triage-requires-three-issues",
+      "schemaRef": "urn:commitkin:schemas:v1:ledger#/$defs/triageDay",
+      "input": {
+        "eventKey": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId": "9001",
+        "occurredAt": "2026-10-14T06:00:00Z",
+        "kind": "triage_day",
+        "families": [
+          "operations"
+        ],
+        "issueKeys": [
+          "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "v1:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ]
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "regular-class-with-history",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classState",
+      "input": {
+        "id": "blacksmith",
+        "lastChangedOn": "2026-10-15",
+        "pending": null,
+        "history": [
+          {
+            "classId": "blacksmith",
+            "assignedAt": "2026-10-15T01:00:00Z"
+          }
+        ]
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "regular-class-needs-history",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classState",
+      "input": {
+        "id": "blacksmith",
+        "lastChangedOn": "2026-10-15",
+        "pending": null,
+        "history": []
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "adventurer-no-assignment-history",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classState",
+      "input": {
+        "id": "adventurer",
+        "lastChangedOn": null,
+        "pending": null,
+        "history": [
+          {
+            "classId": "blacksmith",
+            "assignedAt": "2026-10-15T01:00:00Z"
+          }
+        ]
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "pending-null-trait-removal",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/habitSlot",
+      "input": {
+        "currentId": "steadfast",
+        "pending": {
+          "targetId": null,
+          "count": 1,
+          "startedOn": "2026-10-15",
+          "lastCountedOn": "2026-10-15"
+        }
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "pending-target-slot-mismatch",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/habitSlot",
+      "input": {
+        "currentId": null,
+        "pending": {
+          "targetId": "shipping",
+          "count": 1,
+          "startedOn": "2026-10-15",
+          "lastCountedOn": "2026-10-15"
+        }
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "adventurer-not-a-pending-target",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classPending",
+      "input": {
+        "targetId": "adventurer",
+        "count": 1,
+        "startedOn": "2026-10-15",
+        "lastCountedOn": "2026-10-15",
+        "contextScopeId": "v1:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "id-large-string",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/githubId",
+      "input": "18446744073709551615",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "id-leading-zero",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/githubId",
+      "input": "01001",
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "id-boolean",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/githubId",
+      "input": true,
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "id-empty",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/githubId",
+      "input": "",
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "id-zero",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/githubId",
+      "input": "0",
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "xp-large-string",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/xpString",
+      "input": "900719925474099312345",
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "xp-plus",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/xpString",
+      "input": "+1",
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "xp-trailing-newline",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/xpString",
+      "input": "40\n",
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "xp-decimal-string",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/xpString",
+      "input": "40.0",
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "revision-max-safe",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/revision",
+      "input": 9007199254740991,
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "revision-unsafe",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/revision",
+      "input": 9007199254740992,
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "revision-zero",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/revision",
+      "input": 0,
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "revision-boolean",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/revision",
+      "input": true,
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "status-ok",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "status-ok-wrong-reason",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "ok",
+        "reasonCode": "SOURCE_TIMEOUT",
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "status-partial",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "partial",
+        "reasonCode": "SOURCE_TIMEOUT",
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "status-partial-wrong-reason",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "partial",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "status-analysis-pending",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": null,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": null,
+        "state": "analysis_pending",
+        "reasonCode": "INITIAL_ANALYSIS_PENDING",
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "status-analysis-pending-wrong-reason",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": null,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": null,
+        "state": "analysis_pending",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "status-config-error",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "configuration_error",
+        "reasonCode": "SETTINGS_MISSING",
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "status-config-error-wrong-reason",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "configuration_error",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "status-recovery",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "recovery_required",
+        "reasonCode": "RECORD_INVALID",
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "status-recovery-wrong-reason",
+      "schemaRef": "urn:commitkin:schemas:v1:status",
+      "input": {
+        "schemaVersion": 1,
+        "recordType": "status",
+        "rulesetVersion": "1.0.0",
+        "recordRevision": 1,
+        "owner": {
+          "accountId": "1001",
+          "profileRepositoryId": "9001"
+        },
+        "lastSuccessfulRevision": 1,
+        "state": "recovery_required",
+        "reasonCode": null,
+        "changedAt": "2026-10-15T01:00:00Z",
+        "collectionPending": [],
+        "unobservedGaps": []
+      },
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "classObservationCount-7",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classObservationCount",
+      "input": 7,
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "classObservationCount-8",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classObservationCount",
+      "input": 8,
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "classObservationCount-0",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/classObservationCount",
+      "input": 0,
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "traitObservationCount-3",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/traitObservationCount",
+      "input": 3,
+      "expected": "SCHEMA_ACCEPT"
+    },
+    {
+      "caseId": "traitObservationCount-4",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/traitObservationCount",
+      "input": 4,
+      "expected": "SCHEMA_INVALID"
+    },
+    {
+      "caseId": "traitObservationCount-0",
+      "schemaRef": "urn:commitkin:schemas:v1:common#/$defs/traitObservationCount",
+      "input": 0,
+      "expected": "SCHEMA_INVALID"
+    }
+  ]
+}

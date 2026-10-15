@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commitkin:schemas:evidence:v1:evidence",
+  "title": "Commitkin v1 offline evidence envelope",
+  "type": "object",
+  "properties": {
+    "evidenceVersion": {
+      "const": 1
+    },
+    "rulesetVersion": {
+      "const": "1.0.0"
+    },
+    "adapter": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "const": "github.com"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "accountId": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+        },
+        "profileRepositoryId": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/githubId"
+        }
+      },
+      "required": [
+        "accountId",
+        "profileRepositoryId"
+      ],
+      "additionalProperties": false
+    },
+    "evaluation": {
+      "type": "object",
+      "properties": {
+        "startedAt": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+        },
+        "capturedThrough": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcTimestamp"
+        },
+        "activityCutoffExclusive": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/utcDate"
+        }
+      },
+      "required": [
+        "startedAt",
+        "capturedThrough",
+        "activityCutoffExclusive"
+      ],
+      "additionalProperties": false
+    },
+    "binding": {
+      "type": "object",
+      "properties": {
+        "scopeId": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/hash"
+        },
+        "settingsHash": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/hash"
+        },
+        "candidateLedgerHash": {
+          "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/hash"
+        },
+        "previousLedgerHash": {
+          "anyOf": [
+            {
+              "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "scopeId",
+        "settingsHash",
+        "candidateLedgerHash",
+        "previousLedgerHash"
+      ],
+      "additionalProperties": false
+    },
+    "policies": {
+      "type": "object",
+      "properties": {
+        "fileRules": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "const": "bundled"
+                },
+                "id": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+                },
+                "version": {
+                  "const": "1"
+                },
+                "hash": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/hash"
+                }
+              },
+              "required": [
+                "mode",
+                "id",
+                "version",
+                "hash"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "const": "inline"
+                },
+                "id": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+                },
+                "version": {
+                  "const": "1"
+                },
+                "hash": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/hash"
+                },
+                "body": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/fileRuleBody"
+                }
+              },
+              "required": [
+                "mode",
+                "id",
+                "version",
+                "hash",
+                "body"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "bugLabels": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "const": "bundled"
+                },
+                "id": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+                },
+                "version": {
+                  "const": "1"
+                },
+                "hash": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/hash"
+                }
+              },
+              "required": [
+                "mode",
+                "id",
+                "version",
+                "hash"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "const": "inline"
+                },
+                "id": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/ref"
+                },
+                "version": {
+                  "const": "1"
+                },
+                "hash": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/hash"
+                },
+                "body": {
+                  "$ref": "urn:commitkin:schemas:evidence:v1:common#/$defs/bugLabelBody"
+                }
+              },
+              "required": [
+                "mode",
+                "id",
+                "version",
+                "hash",
+                "body"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "fileRules",
+        "bugLabels"
+      ],
+      "additionalProperties": false
+    },
+    "collections": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:commitkin:schemas:evidence:v1:collections#/$defs/collection"
+      },
+      "minItems": 0
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "repositories": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:evidence:v1:resources#/$defs/repository"
+          },
+          "minItems": 0
+        },
+        "pullRequests": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:evidence:v1:resources#/$defs/pullRequest"
+          },
+          "minItems": 0
+        },
+        "commits": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:evidence:v1:resources#/$defs/commit"
+          },
+          "minItems": 0
+        },
+        "reviews": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:evidence:v1:resources#/$defs/review"
+          },
+          "minItems": 0
+        },
+        "releases": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:evidence:v1:resources#/$defs/release"
+          },
+          "minItems": 0
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:evidence:v1:resources#/$defs/issue"
+          },
+          "minItems": 0
+        },
+        "issueEvents": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:evidence:v1:resources#/$defs/issueEvent"
+          },
+          "minItems": 0
+        },
+        "fileChanges": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:evidence:v1:resources#/$defs/fileChange"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "repositories",
+        "pullRequests",
+        "commits",
+        "reviews",
+        "releases",
+        "issues",
+        "issueEvents",
+        "fileChanges"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "evidenceVersion",
+    "rulesetVersion",
+    "adapter",
+    "subject",
+    "evaluation",
+    "binding",
+    "policies",
+    "collections",
+    "resources"
+  ],
+  "additionalProperties": false
+}

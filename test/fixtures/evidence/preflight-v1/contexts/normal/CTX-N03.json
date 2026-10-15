@@ -1,0 +1,36 @@
+{
+  "contextVersion": 1,
+  "operation": "normal",
+  "expected": {
+    "subject": {
+      "accountId": "9007199254740993",
+      "profileRepositoryId": "9007199254740995"
+    },
+    "evidenceVersion": 1,
+    "rulesetVersion": "1.0.0",
+    "adapter": {
+      "id": "github.com",
+      "version": "1"
+    }
+  },
+  "evaluation": {
+    "startedAt": "2026-10-15T00:50:00Z",
+    "inspectedAt": "2026-10-15T02:00:00Z"
+  },
+  "normalizedSettings": {
+    "version": 1,
+    "repositories": {
+      "additional": [],
+      "exclude": []
+    }
+  },
+  "scope": {
+    "repositoryIds": [
+      "9001",
+      "9007199254740997"
+    ]
+  },
+  "comparison": {
+    "mode": "snapshot_only"
+  }
+}

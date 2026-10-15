@@ -1,0 +1,93 @@
+{
+  "fixtureVersion": 1,
+  "description": "Read-only contract comparisons of explicit previous/candidate fixtures. Not a growth/collection/transition engine.",
+  "cases": [
+    {
+      "caseId": "same-date-identical-replay",
+      "previousFixture": "valid/ready-40xp",
+      "candidateFixture": "valid/ready-40xp",
+      "changes": [],
+      "check": "identical-growth",
+      "expectedCode": "REPLAY_UNCHANGED"
+    },
+    {
+      "caseId": "failed-collection-preserves-success",
+      "previousFixture": "valid/ready-40xp",
+      "candidateFixture": "valid/partial-retain-success",
+      "changes": [],
+      "check": "preserve-success",
+      "expectedCode": "SUCCESS_PRESERVED"
+    },
+    {
+      "caseId": "metadata-only-preserves-success",
+      "previousFixture": "valid/ready-40xp",
+      "candidateFixture": "valid/metadata-only-revision",
+      "changes": [],
+      "check": "preserve-success",
+      "expectedCode": "SUCCESS_PRESERVED"
+    },
+    {
+      "caseId": "ordinary-faction-switch",
+      "previousFixture": "valid/ready-40xp",
+      "candidateFixture": "valid/ready-40xp",
+      "changes": [
+        {
+          "role": "state",
+          "pointer": "/faction/id",
+          "value": "ashbound"
+        }
+      ],
+      "check": "immutable-faction",
+      "expectedCode": "FACTION_IMMUTABLE"
+    },
+    {
+      "caseId": "ordinary-growth-start-switch",
+      "previousFixture": "valid/ready-40xp",
+      "candidateFixture": "valid/ready-40xp",
+      "changes": [
+        {
+          "role": "state",
+          "pointer": "/growth/startDate",
+          "value": "2026-07-18"
+        }
+      ],
+      "check": "immutable-start",
+      "expectedCode": "GROWTH_START_IMMUTABLE"
+    },
+    {
+      "caseId": "null-trait-removal-is-pending",
+      "previousFixture": "valid/ready-40xp",
+      "candidateFixture": "valid/ready-40xp",
+      "changes": [
+        {
+          "role": "state",
+          "pointer": "/traits/habit/currentId",
+          "value": "steadfast"
+        },
+        {
+          "role": "state",
+          "pointer": "/traits/habit/pending",
+          "value": {
+            "targetId": null,
+            "count": 1,
+            "startedOn": "2026-10-15",
+            "lastCountedOn": "2026-10-15"
+          }
+        }
+      ],
+      "check": "explicit-null-removal",
+      "expectedCode": "REMOVAL_PENDING_DISTINCT"
+    },
+    {
+      "caseId": "no-expiry-by-fixture-clock",
+      "previousFixture": "valid/ready-40xp",
+      "candidateFixture": "valid/ready-40xp",
+      "changes": [],
+      "context": {
+        "now": "2027-10-15T02:00:00Z"
+      },
+      "check": "identical-growth",
+      "expectedCode": "REPLAY_UNCHANGED"
+    }
+  ]
+}

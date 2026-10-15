@@ -1,0 +1,625 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commitkin:schemas:v1:ledger",
+  "title": "Commitkin v1 ledger",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "recordType": {
+      "const": "ledger"
+    },
+    "rulesetVersion": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/rulesetVersion"
+    },
+    "recordRevision": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/revision"
+    },
+    "owner": {
+      "$ref": "urn:commitkin:schemas:v1:common#/$defs/owner"
+    },
+    "repositories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/repository"
+      }
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/scope"
+      }
+    },
+    "coverage": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/coverage"
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/mergedPr"
+          },
+          {
+            "$ref": "#/$defs/directContribution"
+          },
+          {
+            "$ref": "#/$defs/submittedReview"
+          },
+          {
+            "$ref": "#/$defs/publishedRelease"
+          },
+          {
+            "$ref": "#/$defs/triageDay"
+          }
+        ]
+      }
+    },
+    "days": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/day"
+      }
+    },
+    "corrections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/correction"
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "recordType",
+    "rulesetVersion",
+    "recordRevision",
+    "owner",
+    "repositories",
+    "scopes",
+    "coverage",
+    "facts",
+    "days",
+    "corrections"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "mergedPr": {
+      "type": "object",
+      "properties": {
+        "eventKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "kind": {
+          "const": "merged_pr"
+        },
+        "repositoryId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+        },
+        "occurredAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        },
+        "families": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "craft",
+              "knowledge",
+              "verification",
+              "recovery",
+              "operations"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 5,
+          "uniqueItems": true
+        },
+        "prKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "bugEvidenced": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "eventKey",
+        "kind",
+        "repositoryId",
+        "occurredAt",
+        "families",
+        "prKey",
+        "bugEvidenced"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "bugEvidenced"
+            ],
+            "properties": {
+              "bugEvidenced": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "families": {
+                "contains": {
+                  "const": "recovery"
+                },
+                "not": {
+                  "contains": {
+                    "const": "craft"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "families": {
+                "not": {
+                  "contains": {
+                    "const": "recovery"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "directContribution": {
+      "type": "object",
+      "properties": {
+        "eventKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "kind": {
+          "const": "direct_contribution"
+        },
+        "repositoryId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+        },
+        "occurredAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        },
+        "families": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "craft",
+              "knowledge",
+              "verification",
+              "operations"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "contributionKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        }
+      },
+      "required": [
+        "eventKey",
+        "kind",
+        "repositoryId",
+        "occurredAt",
+        "families",
+        "contributionKey"
+      ],
+      "additionalProperties": false
+    },
+    "submittedReview": {
+      "type": "object",
+      "properties": {
+        "eventKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "kind": {
+          "const": "submitted_review"
+        },
+        "repositoryId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+        },
+        "occurredAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        },
+        "families": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "guard"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true
+        },
+        "prKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "reviewedCommitKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        }
+      },
+      "required": [
+        "eventKey",
+        "kind",
+        "repositoryId",
+        "occurredAt",
+        "families",
+        "prKey",
+        "reviewedCommitKey"
+      ],
+      "additionalProperties": false
+    },
+    "publishedRelease": {
+      "type": "object",
+      "properties": {
+        "eventKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "kind": {
+          "const": "published_release"
+        },
+        "repositoryId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+        },
+        "occurredAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        },
+        "families": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "operations"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true
+        },
+        "releaseKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        }
+      },
+      "required": [
+        "eventKey",
+        "kind",
+        "repositoryId",
+        "occurredAt",
+        "families",
+        "releaseKey"
+      ],
+      "additionalProperties": false
+    },
+    "triageDay": {
+      "type": "object",
+      "properties": {
+        "eventKey": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "kind": {
+          "const": "triage_day"
+        },
+        "repositoryId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+        },
+        "occurredAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        },
+        "families": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "operations"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true
+        },
+        "issueKeys": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+          },
+          "minItems": 3,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "eventKey",
+        "kind",
+        "repositoryId",
+        "occurredAt",
+        "families",
+        "issueKeys"
+      ],
+      "additionalProperties": false
+    },
+    "repository": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+        },
+        "firstObservedAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        },
+        "ownershipAtFirstObservation": {
+          "enum": [
+            "self",
+            "other"
+          ]
+        },
+        "tracking": {
+          "enum": [
+            "active",
+            "excluded",
+            "unavailable",
+            "outside_public_scope"
+          ]
+        },
+        "discoveredVia": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "automatic",
+              "additional"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "firstObservedAt",
+        "ownershipAtFirstObservation",
+        "tracking",
+        "discoveredVia"
+      ],
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "rulesetVersion": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/rulesetVersion"
+        },
+        "analysisConfigHash": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "repositoryIds": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "rulesetVersion",
+        "analysisConfigHash",
+        "repositoryIds"
+      ],
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "startDate": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "endDateExclusive": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "scopeId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "observedAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        }
+      },
+      "required": [
+        "startDate",
+        "endDateExclusive",
+        "scopeId",
+        "complete",
+        "observedAt"
+      ],
+      "additionalProperties": false
+    },
+    "day": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "scopeId": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "byRepository": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "repositoryId": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/githubId"
+              },
+              "familyUnits": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/familyUnits"
+              }
+            },
+            "required": [
+              "repositoryId",
+              "familyUnits"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "xp": {
+          "type": "object",
+          "properties": {
+            "validDay": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "authoredContributionDay": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "mergedPrs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 60
+            },
+            "reviews": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 45
+            },
+            "releases": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25
+            },
+            "triage": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "validDay",
+            "authoredContributionDay",
+            "mergedPrs",
+            "reviews",
+            "releases",
+            "triage",
+            "total"
+          ],
+          "additionalProperties": false,
+          "$comment": "Amounts are actually paid XP after item limits and the 100-XP cap; partial individual rewards are allowed. Semantic checks enforce sums and the confirmed common-bonus-first/time-ordered allocation."
+        },
+        "creditedKeys": {
+          "type": "object",
+          "properties": {
+            "mergedPrs": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+              },
+              "maxItems": 3,
+              "uniqueItems": true
+            },
+            "reviews": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+              },
+              "maxItems": 3,
+              "uniqueItems": true
+            },
+            "releases": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+              },
+              "maxItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "mergedPrs",
+            "reviews",
+            "releases"
+          ],
+          "additionalProperties": false,
+          "$comment": "Only individual reward identities paid a positive amount, including partial payment. All eligible unpaid evidence remains in facts; these lists alone are not lifetime deduplication."
+        }
+      },
+      "required": [
+        "date",
+        "scopeId",
+        "byRepository",
+        "xp",
+        "creditedKeys"
+      ],
+      "additionalProperties": false
+    },
+    "correction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+        },
+        "date": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcDate"
+        },
+        "reasonCode": {
+          "enum": [
+            "CALCULATION_CORRECTION",
+            "DUPLICATE_PAYMENT_CORRECTION"
+          ]
+        },
+        "beforeXp": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "afterXp": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "affectedKeys": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:commitkin:schemas:v1:common#/$defs/hash"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "correctedAt": {
+          "$ref": "urn:commitkin:schemas:v1:common#/$defs/utcTimestamp"
+        }
+      },
+      "required": [
+        "id",
+        "date",
+        "reasonCode",
+        "beforeXp",
+        "afterXp",
+        "affectedKeys",
+        "correctedAt"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:commitkin:schemas:evidence:v1:preflight",
+  "title": "Commitkin github-public-preflight-v1 catalog shape",
+  "description": "Additive restrictions on existing closed evidence fields. Does not derive mandatory requests, resolve references, validate bindings or establish source/reward proof.",
+  "allOf": [
+    {
+      "$ref": "urn:commitkin:schemas:evidence:v1:evidence"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "collections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/collectionShape"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "collectionShape": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "resourceType": {
+              "enum": [
+                "repository"
+              ]
+            },
+            "target": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "repository"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "purpose": {
+              "const": "metadata"
+            },
+            "window": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "snapshot"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          },
+          "required": [
+            "resourceType",
+            "target",
+            "purpose",
+            "window"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "resourceType": {
+              "enum": [
+                "pull_request",
+                "commit",
+                "review",
+                "release",
+                "issue_event"
+              ]
+            },
+            "target": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "repository"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "purpose": {
+              "const": "activity"
+            },
+            "window": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "interval"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          },
+          "required": [
+            "resourceType",
+            "target",
+            "purpose",
+            "window"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "resourceType": {
+              "enum": [
+                "pull_request",
+                "issue"
+              ]
+            },
+            "target": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "resource"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "purpose": {
+              "const": "metadata"
+            },
+            "window": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "snapshot"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          },
+          "required": [
+            "resourceType",
+            "target",
+            "purpose",
+            "window"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "resourceType": {
+              "enum": [
+                "file_change"
+              ]
+            },
+            "target": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "resource"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "purpose": {
+              "const": "changes"
+            },
+            "window": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "snapshot"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          },
+          "required": [
+            "resourceType",
+            "target",
+            "purpose",
+            "window"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "resourceType": {
+              "enum": [
+                "pr_association"
+              ]
+            },
+            "target": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "resource"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "purpose": {
+              "const": "relations"
+            },
+            "window": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "snapshot"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          },
+          "required": [
+            "resourceType",
+            "target",
+            "purpose",
+            "window"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "resourceType": {
+              "enum": [
+                "review",
+                "commit",
+                "release",
+                "label_history"
+              ]
+            },
+            "target": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "resource"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "purpose": {
+              "const": "history"
+            },
+            "window": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "history"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          },
+          "required": [
+            "resourceType",
+            "target",
+            "purpose",
+            "window"
+          ]
+        }
+      ]
+    },
+    "collection": {
+      "allOf": [
+        {
+          "$ref": "urn:commitkin:schemas:evidence:v1:collections#/$defs/collection"
+        },
+        {
+          "$ref": "#/$defs/collectionShape"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "recordType": "state",
+  "rulesetVersion": "1.0.0",
+  "recordRevision": 1,
+  "owner": {
+    "accountId": "1001",
+    "profileRepositoryId": "9001"
+  },
+  "faction": {
+    "id": "bloomguard",
+    "confirmedAt": "2026-10-15T00:50:00Z"
+  },
+  "growth": {
+    "phase": "pending",
+    "startDate": "2026-07-17",
+    "totalXp": null
+  },
+  "class": null,
+  "traits": {
+    "habit": {
+      "currentId": null,
+      "pending": null
+    },
+    "activity": {
+      "currentId": null,
+      "pending": null
+    }
+  },
+  "observationClock": {
+    "lastNormalEvaluationOn": null,
+    "classLastCountedOn": null,
+    "habitLastCountedOn": null,
+    "activityLastCountedOn": null
+  },
+  "achievements": [],
+  "settings": {
+    "filePreviouslyUsed": true,
+    "lastAcceptedHash": "v1:sha256:17a7a06e59bc623ee72dc24c262bc49906d70c731237f769fcf76d754829674e"
+  },
+  "evaluation": null,
+  "integrity": {
+    "ledgerHash": "v1:sha256:4fe5af2471c124c75942a87ef248a8fdbc9383afce72fbf0da54238cbd882822"
+  }
+}
