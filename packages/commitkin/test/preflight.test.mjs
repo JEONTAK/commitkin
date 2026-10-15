@@ -200,3 +200,41 @@ test('successful empty detail cannot stand in for a required referenced PR detai
   const result = validate(input);
   assert.equal(result.decision, 'rejected'); assert.equal(result.code, 'DETAIL_RESPONSE_MISSING');
 });
+
+function omitFiles(evidence, resource) {
+  const collection = evidence.collections.find(item => item.ref === resource.fileCollectionRef);
+  collection.state = 'not_collected'; collection.pages = []; collection.reason = 'SOURCE_NOT_PROVIDED';
+  evidence.resources.fileChanges = evidence.resources.fileChanges.filter(item => item.parentRef !== resource.ref);
+}
+for (const [label, change] of [
+  ['other author', pr => { pr.author.accountId = '2002'; }],
+  ['bot author', pr => { pr.author.type = 'Bot'; }],
+  ['unmerged PR', pr => { pr.state = 'OPEN'; pr.mergedAt = null; }],
+]) test(`conclusively excluded ${label} needs no irrelevant file capture`, () => {
+  const input = mutate('ES-N02', (_c, e) => { const pr = e.resources.pullRequests[0]; change(pr); omitFiles(e, pr); });
+  const result = validate(input);
+  assert.equal(result.decision, 'preflight_passed', JSON.stringify(result));
+  assert.equal(result.progressionAuthorized, false);
+});
+test('unknown PR attribution is not an exclusion from required file proof', () => {
+  const input = mutate('ES-N02', (_c, e) => { const pr = e.resources.pullRequests[0]; pr.author = { status: 'unavailable', reason: 'SOURCE_NOT_PROVIDED' }; omitFiles(e, pr); });
+  assert.equal(validate(input).decision, 'hold');
+});
+for (const fraction of ['', '.000', '.000001']) test(`whole UTC window handles equivalent source precision ${fraction || 'seconds'}`, () => {
+  const changed = at => mutate('ES-N02', (_c, e) => { const pr = e.resources.pullRequests[0]; pr.createdAt = '2026-07-16T12:00:00Z'; pr.mergedAt = at; omitFiles(e, pr); });
+  assert.equal(validate(changed('2026-10-15T00:00:00' + fraction + 'Z')).decision, 'preflight_passed');
+  assert.equal(validate(changed('2026-07-17T00:00:00' + fraction + 'Z')).code, 'REQUIRED_COLLECTION_NOT_COLLECTED');
+});
+test('capture/context/candidate clocks compare exact arbitrary UTC fractions, not rounded milliseconds', () => {
+  const clock = value => '2026-10-15T01:00:00.' + value + 'Z';
+  const lateContext = mutate('ES-N01', (c, e) => { c.evaluation.inspectedAt = clock('0001'); e.evaluation.capturedThrough = clock('0009'); });
+  assert.equal(validate(lateContext).code, 'CAPTURE_CLOCK_INVALID');
+  const lateCandidate = mutate('ES-N01', (c, e) => { c.evaluation.inspectedAt = clock('0009'); e.evaluation.capturedThrough = clock('0001'); });
+  assert.equal(validate(lateCandidate).code, 'CANDIDATE_EVALUATION_PRECEDES_CAPTURE');
+  const reversedContext = mutate('ES-N01', c => { c.evaluation.startedAt = clock('0009'); c.evaluation.inspectedAt = clock('0001'); });
+  assert.equal(validate(reversedContext).code, 'CONTEXT_CLOCK_INVALID');
+  const latePage = mutate('ES-N01', (_c, e) => { e.collections[0].pages[0].capturedAt = clock('0001'); });
+  assert.equal(validate(latePage).code, 'CAPTURE_AFTER_COMPLETION');
+  const lateSnapshot = mutate('ES-N01', (_c, e) => { e.collections[0].window.observedAt = clock('0001'); });
+  assert.equal(validate(lateSnapshot).code, 'SNAPSHOT_AFTER_COMPLETION');
+});

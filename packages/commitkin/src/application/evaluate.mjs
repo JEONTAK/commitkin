@@ -18,7 +18,7 @@ function held(code,recordReport){return {decision:'hold',code,candidate:null,pre
  * It does not acquire/authenticate sources and never grants publication authority.
  */
 export function createSnapshotEvaluationUseCase({validateRecords:validate}) {
-  return function evaluateQualifiedSnapshot({previous,expectedOwner,activities,priorActivities=[],reviewHistoryFacts=[],repositoryIds,settings,settingsFileUsed=true,evaluationStartedAt,evaluatedAt,initialAssignmentVerified=false}) {
+  return function evaluateQualifiedSnapshot({previous,expectedOwner,activities,priorActivities=[],reviewHistoryFacts=[],repositoryIds,repositoryRows=null,settings,settingsFileUsed=true,evaluationStartedAt,evaluatedAt,initialAssignmentVerified=false}) {
     try {
       if (!previous || !expectedOwner || !Array.isArray(repositoryIds)) return held('PREVIOUS_SNAPSHOT_REQUIRED');
       const context={expectedOwner,now:evaluatedAt,operation:'normal',evaluationStartedAt};
@@ -30,13 +30,20 @@ export function createSnapshotEvaluationUseCase({validateRecords:validate}) {
       if (previous.ledger.corrections.length) return held('CORRECTION_REVIEW_REQUIRED');
       const windowStart=[start,shift(date,-90)].sort().at(-1);
       const current=scopeFor(repositoryIds);
-      if (!current.repositoryIds.every(id=>previous.ledger.repositories.some(repo=>repo.id===id))) return held('UNRESOLVED_REPOSITORY');
+      const rows=repositoryRows??previous.ledger.repositories;
+      if(!Array.isArray(rows)||new Set(rows.map(row=>row.id)).size!==rows.length)return held('REPOSITORY_TRACKING_INVALID');
+      for(const row of previous.ledger.repositories){
+        const next=rows.find(item=>item.id===row.id);
+        if(!next||row.firstObservedAt!==next.firstObservedAt||row.ownershipAtFirstObservation!==next.ownershipAtFirstObservation||row.discoveredVia.some(via=>!next.discoveredVia.includes(via)))return held('REPOSITORY_HISTORY_CHANGED');
+      }
+      if (!current.repositoryIds.every(id=>rows.some(repo=>repo.id===id&&repo.tracking==='active'))) return held('UNRESOLVED_REPOSITORY');
       if (!Array.isArray(activities) || activities.some(item=>item.fact.occurredAt.slice(0,10)<windowStart||item.fact.occurredAt.slice(0,10)>=date||!current.repositoryIds.includes(item.fact.repositoryId))) return held('ACTIVITY_OUTSIDE_COLLECTION_SCOPE');
       const normalized=normalizeSettings(settings);
       if (previous.state.settings.filePreviouslyUsed&&!settingsFileUsed) return held('SETTINGS_CONFIRMATION_REQUIRED');
       const settled=settleQualifiedActivities({activities,priorActivities,reviewHistoryFacts,previous:previous.state.growth.phase==='ready'?{facts:previous.ledger.facts,days:previous.ledger.days,totalXp:previous.state.growth.totalXp}:null});
       if(settled.decision!=='settled') return held(settled.code);
       const ledger=structuredClone(previous.ledger);
+      ledger.repositories=structuredClone(rows);
       const revision=previous.state.recordRevision+1;
       if(!Number.isSafeInteger(revision))return held('REVISION_LIMIT');
       ledger.recordRevision=revision;

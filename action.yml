@@ -1,0 +1,43 @@
+name: Commitkin
+description: Grow a pixel character from observed public GitHub activity. Dry-run preview is the safe default.
+author: JEONTAK
+inputs:
+  token:
+    description: Built-in repository-scoped GITHUB_TOKEN; no PAT is required.
+    required: true
+    default: ${{ github.token }}
+  faction:
+    description: First manual use only, bloomguard or ashbound. Leave empty for existing records.
+    required: false
+    default: ''
+  confirmation:
+    description: First use only, CONFIRM_PERMANENT_FACTION. Publication makes this choice permanent.
+    required: false
+    default: ''
+  dry-run:
+    description: Keep true to inspect without writes. Explicit false requires contents:write and publishes the grouped character files.
+    required: false
+    default: 'true'
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js 24
+      uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+      with:
+        node-version: '24'
+    - name: Install pinned first-party runtime dependencies without lifecycle scripts
+      shell: bash
+      env:
+        COMMITKIN_SOURCE: ${{ github.action_path }}
+      run: |
+        npm --prefix "$COMMITKIN_SOURCE/packages/record-validator" ci --ignore-scripts --no-audit --no-fund
+        npm --prefix "$COMMITKIN_SOURCE/packages/commitkin" ci --ignore-scripts --no-audit --no-fund
+    - name: Prepare or publish the verified character
+      shell: bash
+      env:
+        COMMITKIN_SOURCE: ${{ github.action_path }}
+        GITHUB_TOKEN: ${{ inputs.token }}
+        COMMITKIN_FACTION: ${{ inputs.faction }}
+        COMMITKIN_CONFIRMATION: ${{ inputs.confirmation }}
+        COMMITKIN_DRY_RUN: ${{ inputs.dry-run }}
+      run: node "$COMMITKIN_SOURCE/packages/commitkin/bin/commitkin-actions.mjs"

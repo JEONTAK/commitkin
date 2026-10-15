@@ -1,9 +1,9 @@
 import { normalizeSettings } from '../domain/settings.mjs';
 
 /** Deliberately small YAML subset for the approved settings contract. No tags, aliases, scripts or implicit types. */
-export function parseSettings(bytes, { previouslyUsed = false, firstInstallVerified = false } = {}) {
+export function parseSettings(bytes, { previouslyUsed = false, firstInstallVerified = false, defaultsPreviouslyAccepted = false } = {}) {
   if (bytes === null) {
-    if (previouslyUsed || !firstInstallVerified) throw new TypeError('SETTINGS_CONFIRMATION_REQUIRED');
+    if (previouslyUsed || !(firstInstallVerified || defaultsPreviouslyAccepted)) throw new TypeError('SETTINGS_CONFIRMATION_REQUIRED');
     return normalizeSettings({ version: 1, repositories: { additional: [], exclude: [] } });
   }
   if (!(bytes instanceof Uint8Array) || bytes.byteLength > 65536) throw new TypeError('SETTINGS_INPUT_INVALID');

@@ -16,6 +16,10 @@ test('missing settings never silently changes ongoing scope', () => {
   assert.throws(() => parseSettings(null, { previouslyUsed: true, firstInstallVerified: true }), /CONFIRMATION/);
   assert.deepEqual(parseSettings(null, { firstInstallVerified: true }).repositories, { additional: [], exclude: [] });
 });
+test('authenticated refresh may retain explicitly established empty defaults, never deleted used settings', () => {
+  assert.deepEqual(parseSettings(null, { defaultsPreviouslyAccepted: true }), { version: 1, repositories: { additional: [], exclude: [] } });
+  assert.throws(() => parseSettings(null, { previouslyUsed: true, defaultsPreviouslyAccepted: true }), /CONFIRMATION/);
+});
 test('size and UTF8 defenses', () => {
   assert.throws(() => parseSettings(Buffer.alloc(65537)), /INPUT/);
   assert.throws(() => parseSettings(Buffer.from([255])), /UTF8/);

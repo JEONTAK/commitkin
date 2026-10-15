@@ -1,27 +1,59 @@
-# Commitkin — local development build
+# Commitkin runtime
 
-Your GitHub activity, a growing pixel companion.
+Your GitHub activity. Your evolving pixel character.
 
-This is the **private local core**, not an installable GitHub Action or a public-release build. It implements the approved mechanics without granting unverified activity or publishing a real character. Node.js >=22 is required; verification used Node.js 24.8.0.
+Node.js >=22, native ESM, no hosted backend or separate signup. This package and sibling `record-validator`, root schemas and fixtures form one source distribution; this directory is not a standalone npm release.
 
-## Try a fictional character
+## Development
 
-From the workspace root:
+From the source repository root:
 
 ```sh
-npm --prefix packages/commitkin ci --ignore-scripts --no-audit --no-fund
 npm --prefix packages/record-validator ci --ignore-scripts --no-audit --no-fund
-npm --prefix packages/commitkin test
+npm --prefix packages/commitkin ci --ignore-scripts --no-audit --no-fund
+npm --prefix packages/record-validator test
 npm --prefix packages/commitkin run test:coverage
-node packages/commitkin/bin/commitkin.mjs demo --faction bloomguard --name my-bloom-preview
-node packages/commitkin/bin/commitkin.mjs demo --faction ashbound --name my-ash-preview
+node packages/commitkin/bin/commitkin.mjs demo --faction bloomguard --name first-bloom-preview
+node packages/commitkin/bin/commitkin.mjs demo --faction ashbound --name first-ash-preview
 ```
 
-Choose a new preview name each time. Existing output is never overwritten. Files are confined to `deliverables/commitkin-local-preview/NAME/`, explicitly marked synthetic, with fictional owner IDs, zero GitHub requests and no publication authority. Each contains a static card, Blacksmith's eleven-stage comparison, a schema-valid state/ledger/status proposal and an accessible managed README. They are **not** your actual GitHub activity or live owner records. Demo activities are internal qualified test signals, not source-verification proof.
+Use a fresh demo name: existing output is never overwritten. Demos write only fictional records/cards under `deliverables/commitkin-local-preview/NAME/`, use synthetic owner IDs, make zero GitHub requests and cannot authorize real progression. Dependency/generated directories must remain uncommitted.
 
-The original code-native fallback drawings provide 530 distinct generated appearances: 24 regular classes × two factions × eleven stages, plus two fixed Adventurers. They do not replace approval/rights checks for the existing AI concept sheets or certify final production art. No external font or AI concept image is loaded by the renderer.
+## Installation and publication
 
-## Read-only evidence inspection
+See the root [installation guide](../../README.md#installation). The composite [Action](../../action.yml) runs only for `workflow_dispatch` or `schedule` in a public personal profile repository `LOGIN/LOGIN`, from the current default branch, with owner/repository IDs bound to trusted Actions context. The product repository itself is not a valid profile target.
+
+- Default `dry-run: 'true'`: prepare five files in memory, emit a bounded summary, never construct a publisher or save a faction.
+- Explicit `dry-run: 'false'`: requires `contents: write`; publish only `.commitkin/state.json`, `ledger.json`, `status.json`, `card.png` and the managed region in `README.md` after safety gates.
+- First manual install requires `faction: bloomguard|ashbound` and `confirmation: CONFIRM_PERMANENT_FACTION`. The first published confirmation is permanent. Later runs leave both inputs empty.
+- Incomplete first analysis can reserve only the confirmed faction: XP, class and evaluation remain null, and the card says Analysis pending. This is not a successful zero-XP analysis.
+- Existing failures preserve the last valid character. Deleted/corrupt/incomplete files require recovery, not reinitialization. Pending initial assignment requires verified reachable same-owner pending-state history.
+
+Publication constructs five blobs, one base-tree-preserving tree and one commit, then applies fixed GraphQL `updateRefs` with `beforeOid=expectedHead` and `force:false`. Authoritative ref readback is required. Concurrent changes hold; ambiguous mutations are reconciled by reads, never blindly retried or downgraded to weaker ref updates. Other profile files and README bytes outside the single managed block remain unchanged.
+
+Write/recovery paths are tested with injected HTTP, not by changing the maintainer's real growth records. Current validation workflows use `contents: read` only. No live profile installation, scheduled growth write, release tag or complete provider-coverage claim is implied.
+
+## Source model
+
+The installed Action uses confirmed `observed-api-v1`:
+
+- Direct commit: currently reachable from a fixed default-branch head, attributed to the subject, using Git **committed date**, not first push/branch reflection or author date.
+- Release: `published_at` plus currently public, non-draft, non-prerelease state when first accepted.
+- Bug recovery: current exact case-insensitive `bug` label on an eligible merged PR or its current linked public closing issue when first accepted, not merge-time labels. A closing reference is not proof the issue was closed or fixed.
+
+Accepted facts retain their original date/family and XP. Collection covers the previous 90 completed UTC days; traits use 30 days. Original UTC-day caps/item limits, deterministic identity ordering, unpaid eligible facts, duplicate suppression, faction permanence and legitimate older growth remain intact. An affected settled date requires original ordering proof; inaccessible old evidence cannot be replaced with guessed ordering.
+
+Hybrid discovery combines public owned repositories, observed public events and manually added repositories, retaining tracked stable IDs. It is not every repository a user has ever helped operate. Known required failures hold the whole analysis; undiscovered repositories are not fabricated into scope or account-wide inactivity. Configure extra repositories/exclusions in `.github/commitkin.yml`.
+
+Changed-file inventories are complete and independently checked against fixed Git trees. Recognized source/documentation/test/deployment files require exact UTF-8 before/after bytes and matching Git blob hashes. Generated/lock/record paths and fully enumerated unmatched files are non-contributing; they do not create guessed families. Missing required recognized contents hold. Managed-README-only changes do not earn activity.
+
+## Mechanics and presentation
+
+25 classes: Adventurer plus six families of four regular classes. Twelve traits, twelve achievement series with Bronze/Silver/Gold tiers, uncapped numeric levels, 100 daily XP maximum and appearance milestones every five levels through 50. Classification keeps its original thresholds, seven eligible observations and change cooldown; traits use three observations. Missing days are not simulated observations.
+
+English 880 × 416 static PNG and accessible README share one verified snapshot. The original code-native renderer provides 530 appearances: 24 regular classes × two factions × eleven stages (Lv.1–4 base, then 5…50), plus two fixed Adventurers. These are programmatic fallback pixels and bitmap lettering, not cleared AI concept sheets, external fonts or 530 hand-painted assets.
+
+## Offline evidence inspection
 
 ```sh
 node packages/commitkin/bin/commitkin.mjs preflight \
@@ -30,57 +62,16 @@ node packages/commitkin/bin/commitkin.mjs preflight \
   --records test/fixtures/records/v1/valid/ready-empty
 ```
 
-`verify` uses the same arguments, optionally `--previous DIR`, and additionally reconstructs supported source/reward rules. Its built-in development registry intentionally **rejects fixture policy IDs**. There is no CLI policy override, trust flag, token, live, reset, automatic repair or migration option. The internal test composition supplies known synthetic policies only in tests.
+`verify` uses the same inputs, optionally `--previous DIR`. Older strict historical verifier/schema/fixtures remain separate and unchanged; a fixture named normal does not prove semantic eligibility. Fake file OIDs are rejected, not rewritten. Development policy registries reject fixture IDs in the CLI. No policy override, token, reset, migration or arbitrary JSON-to-live-record command exists.
 
-Inputs are strict, bounded UTF-8 JSON. Context/evidence files must be regular, no-follow final-component files. Parent directories are not an adversarial filesystem sandbox; use stable local copies. Records are opened through the unchanged read-only validator. Diagnostics do not echo input values, keys, paths, API payloads or stacks.
+`preflight_passed` and `accept_relative_to_evidence` mean only implemented supplied-input relationships passed. Offline tools always return `progressionAuthorized: false`, even on exit 0. `hold` preserves history for unavailable proof; `rejected` means a contradicted constraint. Local files are bounded strict UTF-8, final-component no-follow regular files; parent directories are not an adversarial filesystem sandbox. Diagnostics omit input values, payloads, paths and stacks.
 
-| Result | Meaning |
-|---|---|
-| `preflight_passed` | Implemented context, schema, record, binding, required-query, reference and capture-closure checks passed |
-| `accept_relative_to_evidence` | Supported supplied-source eligibility and reconstructed reward claims match; not authenticated GitHub truth |
-| `hold` | Missing, incomplete, incompatible or unsupported proof; preserve the prior valid character |
-| `rejected` | A supplied claim contradicts an implemented constraint; never replace legitimate history |
-| `progressionAuthorized: false` | Always false for offline tools and local proposals, including exit 0 |
+## Architecture, retention and licensing
 
-An old fixture named `normal` is not automatically a valid semantic source. In particular, historical repeated `1111…`/`2222…` file OIDs do not hash their full text and are rejected by the new blob-consistency check. Original fixtures/results remain unchanged. Separate in-memory cases use genuine Git blob hashes and independently validate the supported paths.
+`src/index.mjs` composes domain/application ports, bounded infrastructure and pure presentation. Domain has no filesystem/network/process dependencies. Imports perform no network writes. Analysis permits GET plus one fixed read-only GraphQL closing-issues query; only the explicit publisher has write capability.
 
-## Implemented core
+No raw source captures, titles, bodies, file contents, emails, tokens or participant lists enter public records. Original IDs are transient ordering inputs; approved hashes, stable repository IDs, dates and aggregates are public, not anonymous or encrypted. Same-date no-ops retain prior successful timestamps rather than falsely binding old snapshots to new captures.
 
-- Full approved class roster, weighted 90-day scoring, ownership/distribution filters, first-assignment provenance boundary, seven observations, cooldown, gap and scope handling.
-- Twelve 30-day traits, priority rules and three-observation changes/removals; twelve achievement series, all 36 tiers and automatic badge selection.
-- Original UTC date settlement, item limits, deterministic original-ID ordering, partial cap payment, eligible unpaid evidence retention, late `95→100` / `100→100` reconciliation and affected-date prior-proof holds.
-- Lossless decimal-string XP/levels above 50, five-level visual stages and fixed Adventurer.
-- Additive context/catalog schemas, original-preserving fixtures and pure preflight use case.
-- Supported evidence qualification: complete full-text/blob-consistent documentation/test/deployment PRs, other-person review history, qualified triage and conclusive exclusions. Unknown attribution/content/history does not become inactivity.
-- Candidate proposal through the unchanged record/transition safety validator; older saved facts/XP remain beyond the 90-day collection bound, and unresolved older periods remain explicit gaps.
-- English static PNG, exact approved English identities, accessible alt text, highest-tier collection, successful freshness and public-scope disclosure. Only one user-added managed region can be replaced; unrelated README bytes remain unchanged.
-- Strict settings subset, hybrid known-scope discovery and bounded read-only GitHub transport; an explicit separately constructed five-file grouped publisher, tested with injected mock HTTP only.
-- Bounded public-source collection port. Its capture is ephemeral acquisition material, not a normalized/trusted evidence envelope, complete account history or permission to publish.
+On uninstall, disable the workflow and optionally remove the managed README block; retain growth files. Restore matching state/ledger/status from one valid same-owner commit/backup set. Never mix revisions, delete records to change faction, automatically reset or roll back unrelated files. See [recovery](../../README.md#recovery).
 
-## Deliberate release blockers
-
-1. **Temporal evidence:** v1 cannot establish historical bug/no-bug state, direct default-branch reflection or original release lifecycle merely from `established` labels/current fields. Those activities hold. Full before/after acquisition and an explicit timestamped proof contract are not completed. Do not weaken the confirmed rules to make a test green.
-2. **Trusted installation:** actual personal-account/profile binding, genuine first-install/initial-assignment provenance, same-owner matched snapshot recovery and collection-to-evidence adaptation require an integrated trusted path and real installation checks.
-3. **Live operation:** basic `GITHUB_TOKEN` permissions, provider hard ceilings, source coverage, atomic grouped publication behavior, conflicts and actual scheduled/manual execution need separately authorized live verification. No workflow or Action runner is enabled by this package.
-4. **Art/distribution:** final sprite review, AI asset rights, component notices, installed packaging and release acceptance remain separate. This package references sibling `record-validator` and root schemas; copying/publishing this directory alone will not work.
-
-Consequently, “core tests pass” does not mean the requested full product or public release is complete.
-
-## Safety, retention and recovery
-
-- A known required failure holds the whole run. Do not partially pay successful repositories, add observations or advance successful freshness.
-- Missing/corrupt records require recovery, not zero initialization or a new faction. A normal refresh has no reset/faction-switch operation.
-- Restore matching same-owner state/ledger/status from one valid Git commit/backup set; never independently select revisions or roll back unrelated profile files. Actual recovery writer/ownership acquisition is not shipped here.
-- On uninstall, disable scheduled execution/remove the managed README block but retain `.commitkin` records. This package performs no automatic deletion or expiry. Deletion/redaction and Git-history removal require a separate explicit user action.
-- Public records contain stable repository IDs, dates, aggregates and hashes; hashes are not encryption or anonymity. Never commit source captures, tokens, file contents, titles/bodies or participant lists.
-- Future publication may change only the approved state/ledger/status/card/README paths, in one commit preserving the base tree. The adapter uses a fixed GraphQL `updateRefs` mutation with `beforeOid=expectedHead` and `force:false`, then reads the ref back. This expected-head compare-and-swap is mock-tested, not live publication proof. Actual Actions concurrency and live race/recovery checks are still needed. Ambiguous mutations are never blindly retried or downgraded to a weaker REST update.
-
-## Layers and integration
-
-`src/index.mjs` is the composition root. Domain code has no filesystem/network/process dependencies. Application use cases receive parser/schema/record-validator or read-only collection ports. Infrastructure owns bounded files, schemas, settings text and GitHub transport. Presentation owns pixel rendering/managed text, never source qualification or actual publication.
-
-Internal qualified activities carry ephemeral original IDs for ordering; only approved hashed facts/aggregates enter proposed public records. A prior untouched date needs no raw-ID cache; recomputing an affected settled date requires original ordering evidence. Pre-growth review history suppresses duplicate rewards without creating old growth rows or a durable raw activity archive.
-
-The snapshot evaluator is an internal **proposal builder** whose caller must establish qualification and known-scope collection first. Its self-consistency check is not that proof. It is not exposed as an arbitrary JSON-to-live-record CLI.
-
-Dependency versions are pinned, installed with scripts disabled. First-party code uses MIT; dependency licenses/notices retain their original terms (including canonicalize's Apache-2.0). No claim of a completed redistribution/security audit is made. See [implementation status](../../docs/product/github-character/local-mvp-implementation.md).
+First-party code is MIT; dependencies retain their licenses/notices, including canonicalize's Apache-2.0. No external font or AI image is loaded. AI-image rights remain mandatory before future redistribution. See [credits](../../README.md#credits) and [validation status](../../docs/product/github-character/local-mvp-implementation.md).

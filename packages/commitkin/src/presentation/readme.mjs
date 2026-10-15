@@ -52,6 +52,20 @@ export function managedContent({ state, status, username, classificationReason, 
   return lines.join('\n');
 }
 
+export function managedPendingContent({ state, status, username, preview = true }) {
+  if (!FACTION_NAMES[state?.faction?.id] || state.growth?.phase !== 'pending' || state.growth.totalXp !== null || state.class !== null || state.evaluation !== null || status?.state !== 'analysis_pending' || status.recordRevision !== state.recordRevision || status.lastSuccessfulRevision !== null || !/^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,37}[a-zA-Z0-9])?$/.test(username)) throw new TypeError('PENDING_README_INPUT_INVALID');
+  return [
+    `<p><img src=".commitkin/card.png" alt="${escape(username)}: ${FACTION_NAMES[state.faction.id]}. Analysis pending. XP and class are not finalized. Public activity only." width="880" /></p>`, '',
+    `Public activity only · Growth record starts ${state.growth.startDate} (UTC) · Scheduled daily`, '',
+    '<details>', '<summary>Character details</summary>', '', SCOPE_COPY, '',
+    `Faction: ${FACTION_NAMES[state.faction.id]} — confirmed permanently.`,
+    'Analysis pending: required activity data is not complete. XP, level and class are not finalized.',
+    'No successful analysis yet. Retry after the diagnostic cause is resolved; do not delete growth files or choose another faction.',
+    ...(preview ? ['', '**Development preview — no completed growth analysis.**'] : []), '',
+    '[How it works](https://github.com/JEONTAK/commitkin#how-it-works) · [Recovery guide](https://github.com/JEONTAK/commitkin#recovery) · [Credits](https://github.com/JEONTAK/commitkin#credits)', '', '</details>',
+  ].join('\n');
+}
+
 /** Exactly one user-added managed region; bytes outside the region are preserved. */
 export function updateManagedReadme(original, content) {
   if (typeof original !== 'string' || typeof content !== 'string' || !original.isWellFormed() || Buffer.byteLength(original) > 1048576 || content.includes(START) || content.includes(END)) throw new TypeError('README_INPUT_INVALID');

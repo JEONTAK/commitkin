@@ -2,17 +2,85 @@
 
 Your GitHub activity. Your evolving pixel character.
 
-Turn your public GitHub activity into an evolving pixel character on your profile README.
+An open-source, user-owned GitHub Action that turns observed public activity into a chunky pixel character on your profile README. No separate signup, hosted backend or personal access token.
 
 ## Status
 
-Pre-release local core and read-only integration validation. **Commitkin is not ready to install as a live character Action.**
+MVP implementation / pre-release validation. Class, trait, achievement, growth, rendering, collection and opt-in publication paths are implemented. Publication/recovery are covered by injected-HTTP tests; **a real profile growth write has not been performed**. Default mode is read-only. No release tag or automatic character workflow is enabled in this product repository.
 
-The source now includes the offline class/trait/achievement and XP engines, strict record/evidence validation, original code-native pixel previews, safe managed README generation and bounded GitHub adapters. Synthetic local tests are not proof of a complete installed character. Trusted acquisition, some historical proof, production artwork and actual growth-record publication remain gated. This source repository is never central storage for users' growth records.
+The [initial diagnostic run](https://github.com/JEONTAK/commitkin/actions/runs/38712379879) passed 773 then-current tests and a real basic-token known-scope read probe. Later source changes need separate validation. A green diagnostic is not proof of every endpoint, complete discoverability, live installation or publication.
 
-## Development source and validation
+## How it works
 
-Start with [local core instructions](packages/commitkin/README.md) and [implementation status](docs/product/github-character/local-mvp-implementation.md). Both packages and root schemas/fixtures must remain together; the private package directories are not standalone npm releases.
+- Choose **Bloomguard**, a cozy fantasy guild, or **Ashbound**, a dark fantasy order. First published choice is permanent.
+- Public commits, merged PRs, reviews, documentation, tests, bug-recovery signals, releases and qualifying issue operations shape 25 classes, 12 traits and 36 achievement tiers.
+- Regular-class appearance grows at five-level milestones through 50; numeric levels continue. Adventurer is a fixed starter until a clear activity pattern is established.
+- Daily analysis uses completed UTC days: 90-day class window, 30-day traits, original-date XP settlement and 100 XP daily cap. This reflects observed contribution style, **not skill, seniority or productivity**.
+- Minimal records live in your own public profile repository. This product repository is not central storage for user records.
+
+Confirmed `observed-api-v1` uses current default-branch reachability plus Git committed date for direct commits, `published_at` plus currently public/normal release state, and current exact `bug` labels at first eligible analysis. It does not reconstruct first push, original release lifecycle or merge-time labels. Accepted facts/XP remain when mutable metadata later changes.
+
+Automatic discovery is best-effort, supplemented by explicit repositories. Known required collection failures hold the whole analysis and preserve the last valid character; missing data is not inactivity. Bounded request/file limits may require narrowing scope. See [runtime details](packages/commitkin/README.md).
+
+## Installation
+
+This pre-release guide is opt-in, **not permission to write records on behalf of another user**.
+
+1. Use your public personal profile repository `YOUR_LOGIN/YOUR_LOGIN`, with default-branch `README.md`. Organization/product repositories are rejected.
+2. Add exactly one region yourself; Commitkin preserves bytes outside it:
+
+```md
+<!-- COMMITKIN:START -->
+<!-- COMMITKIN:END -->
+```
+
+3. Add a manual-only workflow based on [examples/commitkin.yml](examples/commitkin.yml). Replace its placeholder with a reviewed **full 40-character source commit SHA** containing `action.yml`; no `@v1` release tag exists.
+4. Preview manually with `dry-run` true, your faction and `CONFIRM_PERMANENT_FACTION`. Preview constructs no publisher and saves nothing. Inputs/logs in a public repository can be public.
+5. Only if you intentionally want public records, grant that job `contents: write` and explicitly set `dry-run` false. First publication permanently binds the faction. An incomplete first analysis may publish only a confirmed pending faction, with null XP/class/evaluation; this is not successful analysis.
+6. After first publication, leave faction/confirmation empty. Add a schedule only after reviewing your own successful installation. Use a non-round UTC minute and concurrency with `cancel-in-progress: false`. No schedule is needed for preview.
+
+The Action uses Node.js 24 and pinned dependencies with lifecycle scripts disabled. No working-tree checkout is required: profile inputs come from a fixed Git head. Intended public reads use the basic repository-scoped `GITHUB_TOKEN` with `contents: read`. **Publishing your five files needs `contents: write`**. Branch protection/rulesets may still reject publication; Commitkin does not bypass them or fall back to a PAT.
+
+### Extra repositories and exclusions
+
+Optional `.github/commitkin.yml`:
+
+```yaml
+version: 1
+repositories:
+  additional:
+    - owner/project
+  exclude:
+    - owner/generated-only-repo
+```
+
+Omit the file on first install to accept empty lists. Once a configuration has been used, deleting it requires attention, not silent defaults. Values are public `owner/repo` names, not URLs or credentials. Names normalize; stable IDs preserve tracking across renames. Explicit exclusions stop future analysis, not retained legitimate XP. An unavailable known required repository holds the run until access is restored or explicitly excluded. This does not prove undiscovered history.
+
+### Generated files
+
+Only these five paths publish together:
+
+```text
+.commitkin/state.json
+.commitkin/ledger.json
+.commitkin/status.json
+.commitkin/card.png
+README.md                 # one managed region only
+```
+
+IDs, dates, aggregates and hashes are public. Hashes are not encryption or anonymity. No raw activity content, file contents, titles/bodies, emails, participant lists or credentials are archived. Keep Git history for recovery. Same-date no-ops do not rewrite files or claim new successful freshness.
+
+## Recovery
+
+- `hold`: required proof is missing, inaccessible, over budget or contradictory. Preserve the character; inspect the bounded code and resolve the cause.
+- `Analysis pending`: faction confirmed, growth unknown. Retry without faction/confirmation; do not delete files or treat unknown XP as zero.
+- Missing/corrupt/mismatched records: restore **all three JSON files from one valid same-owner commit/backup**, keeping matched revisions. Do not mix snapshots, reset XP, reselect faction or revert unrelated files.
+- Competing publication: expected-head compare-and-swap rejects a changed branch. Read authoritative state before retrying; ambiguous writes are never blindly replayed.
+- Uninstall: disable/remove the workflow and optionally the managed block, retaining `.commitkin` and its history. No automatic expiry/deletion; history redaction is a separate explicit user operation.
+
+Rewritten-away user-managed history cannot always be detected. Old uncollected periods remain explicit gaps, not inactivity or guaranteed recoverable history. Required failures never advance successful freshness or growth observations.
+
+## Development and validation
 
 ```sh
 npm --prefix packages/record-validator ci --ignore-scripts --no-audit --no-fund
@@ -22,89 +90,12 @@ npm --prefix packages/commitkin run test:coverage
 node packages/commitkin/bin/commitkin.mjs demo --faction bloomguard --name first-demo
 ```
 
-The demo writes only a new, explicitly fictional directory under `deliverables/commitkin-local-preview/`; it never writes a real owner's `.commitkin` records or contacts GitHub. Developer dependencies/output are local-only: do not commit `node_modules`, coverage or generated demo directories.
+Demos write fictional output only in fresh `deliverables/commitkin-local-preview/NAME/`, never real records. Keep both packages, schemas and fixtures together. Do not commit `node_modules`, coverage or generated output. See [runtime instructions](packages/commitkin/README.md) and [implementation status](docs/product/github-character/local-mvp-implementation.md).
 
-The [Read-only core validation](.github/workflows/core-validation.yml) workflow is manual-only, uses `contents: read`, runs pinned-dependency tests and fictional previews, then exercises the actual read-only adapter with the job's built-in `GITHUB_TOKEN`. It has no publisher, schedule, PAT, arbitrary target input or growth-record write step. A green run proves only the named tests/known-scope reads; it does not authenticate arbitrary JSON history or demonstrate full product installation.
+[Read-only core validation](.github/workflows/core-validation.yml) is manual-only, `contents: read`: tests, fictional previews, actual basic-token read adapters and no-live-record footprint. Earlier [token](.github/workflows/token-probe.yml) and [discovery](.github/workflows/operations-discovery-probe.yml) probes remain diagnostic-only. None enables a scheduled publisher or writes growth files. Empty successful reads do not prove populated endpoint semantics.
 
-## Planned experience
+## Credits
 
-- A chunky pixel-art character shaped by observed public GitHub activity, not a rating of developer ability or productivity.
-- 25 classes, including the Adventurer starter; 12 traits; levels and 36 achievement tiers.
-- A permanent choice between Bloomguard, a cozy fantasy guild, and Ashbound, a dark fantasy order.
-- Appearance upgrades at five-level milestones for regular classes, with a fixed starter appearance per faction.
-- A user-owned workflow and minimum public growth record in the user's own profile repository, with no separate product signup or hosted backend.
+First-party code, README and workflows: [MIT](LICENSE), copyright 2026 JEONTAK. Keep package notices. Dependencies retain original licenses, including canonicalize's Apache-2.0. GitHub APIs/Actions and third-party activity retain their terms. Public fixtures such as `cli/cli` belong to their maintainers and imply no endorsement.
 
-The pure mechanics are implemented and locally tested; the complete installed experience is not shipped. This product source repository is separate from each user's profile repository and must not become central storage for user growth records.
-
-## Read-only token probe
-
-File: [`.github/workflows/token-probe.yml`](.github/workflows/token-probe.yml)
-
-Purpose: check whether an actual GitHub Actions `GITHUB_TOKEN`, with only `contents: read`, can access representative public REST and GraphQL data needed for later collection design.
-
-### Safety boundaries
-
-- Manual `workflow_dispatch` only. No push, pull-request or scheduled triggers.
-- Uses only the job's built-in `github.token`; no PAT, extra secrets or anonymous fallback.
-- Makes read-only REST GET requests and fixed GraphQL queries. No GraphQL mutations.
-- No checkout, dependency installation, third-party Actions, repository writes, artifacts, character state or README changes.
-- Fixed GitHub.com API destination, rejected redirects, bounded requests and a five-minute job timeout.
-- Logs only controlled result labels, HTTP status, allowlisted GraphQL error types and remaining rate quota. Never logs tokens, response payloads, activity content or raw errors.
-
-The intended later runtime will need separate design and verification for writing its own profile repository. This probe does not request write access.
-
-### What it checks
-
-The probe reads its own repository metadata and a fixed external public fixture, `cli/cli` PR #14485: repository visibility, merged PR details, changed-file names, reviews, releases, issue events and commits. It also checks public merged-PR search for the supplied username and a small GraphQL contribution sample from the previous 90 completed UTC days.
-
-The fixture belongs to its respective maintainers and is not affiliated with or endorsing Commitkin. Fixture availability and API behavior may change.
-
-### Future manual verification
-
-**Do not run this workflow as part of repository initialization.** A maintainer must separately approve the first execution. Once approved, select **Actions → Read-only GITHUB_TOKEN probe → Run workflow** and provide a public GitHub username, such as `JEONTAK`. Never enter credentials in that input.
-
-Workflow inputs and logs can be public in this public repository. The probe intentionally does not publish raw activity data.
-
-### Interpreting results
-
-| Result | Meaning |
-|---|---|
-| `PASS` | Request succeeded and the expected sample shape was present. |
-| `PASS_EMPTY` | Request succeeded with a valid empty collection; sample fields remain unproven. |
-| `FAIL_HTTP` | HTTP request was rejected; this alone does not identify the cause. |
-| `FAIL_GRAPHQL` | GraphQL returned errors, even if HTTP status was 200. |
-| `NO_SAMPLE_OR_SCHEMA_MISMATCH` | Expected fixture/sample fields were missing; this is not proof of a permission failure. |
-| `NETWORK_OR_RESPONSE_ERROR` | Network, timeout or response parsing failed. |
-| `SKIP_RATE_LIMIT` | Remaining probes were skipped after rate exhaustion. |
-
-Any result other than `PASS` or `PASS_EMPTY` makes the job unsuccessful. An empty account is not a collection failure and is not evidence of account-wide inactivity.
-
-Even all passing probes do **not** prove complete 90-day coverage, pagination, every public repository's discoverability, release/triage attribution, rate-budget feasibility, write access or a working character engine. No private/internal activity or restricted contribution totals are part of the planned MVP.
-
-## Licensing
-
-Commitkin-owned code/README/workflows are licensed under MIT; retain the notices in each package and [LICENSE](LICENSE). Third-party dependencies, services and data retain their own terms.
-
-No AI concept sheets or external image/font files are distributed here. The development renderer generates original code-native fallback pixels and bitmap lettering, not certified final artwork. Planned image licensing is CC BY 4.0 only after relevant rights are verified; AI-image rights verification remains a mandatory pre-distribution gate. Selected external fonts must retain their original OFL 1.1 notices. This does not license user profiles, activity or growth data under MIT.
-
-### MIT License
-
-Copyright (c) 2026 JEONTAK
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Original programmatic pixels and bitmap lettering provide 530 distinct appearance projections, not hand-painted assets. No external font, game asset or AI concept sheet is distributed. Future rights-cleared character images follow planned CC BY 4.0; AI image rights must be checked **before** redistribution. Selected OFL 1.1 fonts retain original notices. Code licensing does not license user profiles or growth data under MIT.

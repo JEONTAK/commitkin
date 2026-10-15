@@ -1,4 +1,5 @@
 import { requirePreflight as check } from './failure.mjs';
+import { compareTimestamps } from '../character/activity.mjs';
 
 const GROUP_TYPES = Object.freeze({
   repositories: 'repository', pullRequests: 'pull_request', commits: 'commit',
@@ -34,12 +35,12 @@ export function checkReferences(evidence) {
     put(collection.ref, { type: 'collection', collection }); collections.set(collection.ref, collection);
     for (const page of sorted(collection.pages)) {
       put(page.ref, { type: 'page', page, collection }); pages.set(page.ref, { page, collection });
-      check(Date.parse(page.capturedAt) <= Date.parse(evidence.evaluation.capturedThrough), 'references', 'CAPTURE_AFTER_COMPLETION');
+      check(compareTimestamps(page.capturedAt, evidence.evaluation.capturedThrough) <= 0, 'references', 'CAPTURE_AFTER_COMPLETION');
     }
     const observedAt = collection.window.observedAt;
-    if (observedAt) check(Date.parse(observedAt) <= Date.parse(evidence.evaluation.capturedThrough), 'references', 'SNAPSHOT_AFTER_COMPLETION');
+    if (observedAt) check(compareTimestamps(observedAt, evidence.evaluation.capturedThrough) <= 0, 'references', 'SNAPSHOT_AFTER_COMPLETION');
     if (collection.window.kind === 'history') {
-      check(Date.parse(collection.window.throughExclusive) <= Date.parse(`${evidence.evaluation.activityCutoffExclusive}T00:00:00Z`), 'references', 'HISTORY_AFTER_CUTOFF');
+      check(compareTimestamps(collection.window.throughExclusive, `${evidence.evaluation.activityCutoffExclusive}T00:00:00Z`) <= 0, 'references', 'HISTORY_AFTER_CUTOFF');
     }
   }
   const resource = (ref, allowed) => {

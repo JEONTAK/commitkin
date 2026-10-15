@@ -40,6 +40,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: node packages/commitkin/bin/commitkin-readonly-probe.mjs
+      - name: Verify observed-source reads and unsettled-day file acquisition without writing growth
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node packages/commitkin/bin/commitkin-observed-probe.mjs
       - name: Check no live growth record was created
         run: |
           test ! -e .commitkin

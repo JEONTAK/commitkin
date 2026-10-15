@@ -1,11 +1,11 @@
 import { digest, equivalent, scopeDigest } from '../../../../record-validator/src/domain/hash.js';
 import { requirePreflight as check } from './failure.mjs';
+import { compareTimestamps } from '../character/activity.mjs';
 
-const time = value => Date.parse(value);
 const numericSort = (a, b) => BigInt(a) < BigInt(b) ? -1 : BigInt(a) > BigInt(b) ? 1 : 0;
 
 export function checkContextClock(context) {
-  check(time(context.evaluation.startedAt) <= time(context.evaluation.inspectedAt), 'context', 'CONTEXT_CLOCK_INVALID');
+  check(compareTimestamps(context.evaluation.startedAt, context.evaluation.inspectedAt) <= 0, 'context', 'CONTEXT_CLOCK_INVALID');
 }
 
 /** Bind supplied expectations to actual supplied bytes, never to inferred ownership. */
@@ -33,13 +33,13 @@ export function checkBindings(context, evidence, candidate, previous) {
   check(candidate.state.settings.lastAcceptedHash === settingsHash, 'binding', 'CANDIDATE_SETTINGS_MISMATCH');
   check(evidence.evaluation.startedAt === startedAt, 'binding', 'EVALUATION_START_MISMATCH');
   check(evidence.evaluation.activityCutoffExclusive === day && candidate.state.evaluation.activityCutoffExclusive === day, 'binding', 'ACTIVITY_CUTOFF_MISMATCH');
-  check(time(startedAt) <= time(evidence.evaluation.capturedThrough) && time(evidence.evaluation.capturedThrough) <= time(inspectedAt), 'binding', 'CAPTURE_CLOCK_INVALID');
-  check(time(evidence.evaluation.capturedThrough) <= time(candidate.state.evaluation.evaluatedAt), 'binding', 'CANDIDATE_EVALUATION_PRECEDES_CAPTURE');
+  check(compareTimestamps(startedAt, evidence.evaluation.capturedThrough) <= 0 && compareTimestamps(evidence.evaluation.capturedThrough, inspectedAt) <= 0, 'binding', 'CAPTURE_CLOCK_INVALID');
+  check(compareTimestamps(evidence.evaluation.capturedThrough, candidate.state.evaluation.evaluatedAt) <= 0, 'binding', 'CANDIDATE_EVALUATION_PRECEDES_CAPTURE');
   for (const policy of Object.values(evidence.policies)) {
     if (policy.mode === 'inline') check(digest(policy.body) === policy.hash, 'binding', 'POLICY_DIGEST_MISMATCH');
   }
   const horizon = new Date(`${day}T00:00:00Z`);
   horizon.setUTCDate(horizon.getUTCDate() - 90);
   const start = [candidate.state.growth.startDate, horizon.toISOString().slice(0, 10)].sort().at(-1);
-  return Object.freeze({ day, cutoff, startAt: `${start}T00:00:00Z`, scopeId, repositoryIds: [...repositoryIds] });
+  return Object.freeze({ day, cutoff, startAt: `${start}T00:00:00Z`, scopeId, repositoryIds: [...repositoryIds], subjectAccountId: context.expected.subject.accountId });
 }

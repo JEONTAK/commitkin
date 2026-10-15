@@ -1,4 +1,5 @@
 import { digest } from '../../../record-validator/src/domain/hash.js';
+import { OBSERVED_FILE_RULES } from '../domain/evidence/files.mjs';
 
 // Explicit development registry. Unknown paths and temporal claims fail closed.
 // Fixture-* IDs are intentionally absent and cannot be enabled through the CLI.
@@ -17,5 +18,8 @@ const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).for
 export const DEVELOPMENT_POLICY_REGISTRY=freeze({
   fileRules:[{id:'commitkin-files-v1',version:'1',body}],
   bugLabels:[{id:'commitkin-bug-labels-none-v1',version:'1',body:bugs}],
+});
+export const OBSERVED_POLICY_REGISTRY=freeze({
+  fileRules:[{id:'commitkin-observed-files-v1',version:'1',body:OBSERVED_FILE_RULES}],
 });
 export function developmentPolicyDescriptors(){return Object.fromEntries(Object.entries(DEVELOPMENT_POLICY_REGISTRY).map(([name,entries])=>[name,{mode:'bundled',id:entries[0].id,version:entries[0].version,hash:digest(entries[0].body)}]));}

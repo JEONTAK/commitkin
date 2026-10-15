@@ -1,56 +1,54 @@
-# Commitkin local MVP implementation
+# Commitkin implementation and validation status
 
-Status: local core implemented and verified 2026-10-15; diagnostic CI approved. Not a full product/public-release approval.
+Updated 2026-10-15. MVP source / pre-release validation; no release tag or real profile installation claim.
 
-## Delegated authority and boundaries
+## Latest local gate
 
-The user authorized this chat to make bounded implementation decisions and delegate work until a functional local Commitkin MVP is complete. Previously confirmed class, trait, XP, achievement, faction and preservation mechanics remain authoritative. Historical documentation-only approvals are not retroactively described as implementation approval.
+- Runtime: 878/878 native tests; record validator: 295/295. Combined: 1,173 tests, without double-counting schema assertions.
+- Core coverage: 98.73% lines, 93.82% branches, 96.95% functions; configured minimums all 80%.
+- 198 protected original artifacts and the original mechanics baseline remained unchanged.
+- Publication uses explicit outcomes: confirmed `true / published`, definitive no-write `false / not_published`, or unconfirmed post-CAS `null / outcome_unknown`. No blind retry.
+- These are local synthetic/injected-HTTP results. The source head's diagnostic run must be checked separately; no actual owner growth write is included.
 
-The user subsequently authorized reflecting implementation source in `JEONTAK/commitkin` and executing diagnostic Actions. Actual owner growth-record changes remain forbidden. No live character Action or public release is approved. Public release requires separate live installation, trusted source, recovery and rights checks.
+## Implemented
 
-## Local acceptance target
+- Native Node.js ESM Actions runtime, no hosted backend/signup/PAT requirement.
+- 25 classes, 12 traits, twelve three-tier achievement series, permanent Bloomguard/Ashbound selection, uncapped numeric levels and five-level appearance milestones.
+- Original-date XP, per-item limits, 100 XP daily cap, deterministic identities, late reconciliation and preservation of legitimate prior growth.
+- Strict JSON schemas, additive context/catalog preflight, original read-only record/transition validator, fail-closed cross-file and compatibility checks.
+- Fixed-head personal profile acquisition with durable owner/repository binding, verified first confirmation, pending-state continuity and no deletion-to-reset path.
+- Hybrid public repository discovery, optional explicit additions/exclusions, bounded API pagination and fail-closed known-scope collection.
+- Observed-source acquisition/qualification, independent candidate settlement comparison, managed README and original code-native PNG rendering.
+- Default no-write Action composition. Explicit opt-in five-file publisher uses one preserved-base-tree commit and expected-head GraphQL compare-and-swap, then authoritative ref readback. Unknown outcomes require reconciliation, not blind retries.
 
-1. Strict evidence/context input, compatibility, cross-file bindings and independently derived collection completeness checks.
-2. Fail-closed source qualification and deterministic original-date XP settlement, retaining legitimate older and unpaid evidence.
-3. All 25 classes, 12 traits, levels, appearance milestones and achievement series under the approved rules.
-4. One English static PNG layout and accessible, bounded managed README output from the same snapshot.
-5. A local candidate pipeline with explicit synthetic/demo provenance, replay and preservation tests. No supplied JSON can authorize live progression.
-6. Bounded GitHub adapters behind injected transports, tested offline. Unsupported historical proof stays held rather than using mutable fields or commit author time.
-7. Installation, retention, recovery, permission, license and release-blocker documentation, with commands and measured test results.
+## Confirmed source semantics
 
-## Technical decisions made within delegated scope
+Production composition uses `observed-api-v1`. Direct commits use current fixed-head default-branch reachability and Git committed date. Releases use `published_at` and currently public/normal state when accepted. Exact current `bug` labels on eligible merged PRs or linked public closing issues are observations at first eligible acceptance, not historical merge-time proof. Accepted facts retain their original date/family.
 
-- Follow the existing Node.js >=22 ESM/native `node:test` implementation. No hosted service, database, NestJS server or separate account is necessary for the selected Actions model.
-- Reuse the existing read-only record validator unchanged. Keep new product composition in `packages/commitkin`; local sibling/schema dependencies must be shipped together for a future release.
-- A preflight pass proves only implemented relationships in supplied inputs. Source authenticity, historical truth and actual owner/settings acquisition are separate checks; offline reports never authorize publication.
-- Begin with an original code-native procedural pixel preview and bitmap lettering. These are development fallback assets, not a claim that the existing AI concept sheets are cleared, final production sprites or approved public artwork.
-- Use an 880 × 416 PNG development card and explicit `<!-- COMMITKIN:START -->` / `<!-- COMMITKIN:END -->` boundaries. Missing, duplicate or malformed boundaries hold README publication.
-- Keep all demo output under a clearly synthetic local directory, never at the live `.commitkin` root of this workspace.
-- Do not promote fixture policy IDs into production or allow a command-line override to weaken verification.
+The older strict historical evidence path, schemas and synthetic fixtures remain separate and unchanged. Other numerical growth rules and retention are preserved. No arbitrary supplied JSON can authorize live progression.
 
-## Work ownership
+Full changed-file inventories are independently checked against Git trees. Recognized source/docs/test/deployment changes require exact UTF-8 bytes and matching Git blob hashes; fully enumerated unmatched files and explicit excluded paths do not contribute. Missing required recognized contents hold rather than inventing a family.
 
-| Workstream | Responsibility |
-|---|---|
-| Contracts | Additive context/catalog schemas, preservation-first fixtures, product preflight |
-| Growth | Pure original-date settlement, lossless level and appearance arithmetic |
-| Character | Pure class/trait observation and cumulative achievement evaluation |
-| Main | Integration, configuration, rendering, safe output, adapters, documentation and final acceptance |
+## Evidence boundaries
 
-## Release gates still separate
+The [initial real Actions run](https://github.com/JEONTAK/commitkin/actions/runs/38712379879) passed 773 then-current native tests, fictional previews and actual basic `GITHUB_TOKEN` known-scope reads, without creating live growth files. This is not proof of subsequent source changes.
 
-- Real basic `GITHUB_TOKEN` end-to-end installation and source coverage, including provider caps/history.
-- Authenticated first-install/initial-assignment provenance, owner/repository continuity and real publication conflict recovery.
-- Public art/provenance and any external font rights review; no AI concept-sheet redistribution by the runtime.
-- Production temporal/file/bug policy capability review wherever the current evidence cannot establish the approved semantics.
-- Public repository publication, version pinning, trademark/name availability and final release approval.
+Newer collection, full Action composition, permanent pending reservation, grouped publication, ownership changes and CAS conflicts are covered with injected HTTP. Current local source gates include both first-party packages; final remote results must match their source head.
 
-## Verified local boundary
+The manual `core-validation.yml` workflow has `contents: read` only. Its observed-source probe exercises completed-day collection/qualification/settlement in memory, separate current-day acquisition-only file reads, and a fixed public closing-issues query. Unsettled current-day acquisition is never qualified, settled or described as a completed analysis. No source captures, real XP records or artifacts are published.
 
-The core implements the approved pure class/trait/achievement/XP rules, additive preflight, supported source/reward verification, safe synthetic candidate/PNG/managed README generation and bounded injected GitHub adapters. Historical records beyond the collection horizon remain preserved and uncovered periods remain explicit gaps. Same-date substantive replays do not create fresh revisions/timestamps.
+## Not established by diagnostics
 
-There is no trusted collection-to-evidence adapter or live character runner yet. General source PR bug/no-bug history, direct default-branch first reflection and original eligible release lifecycle cannot be certified by the current snapshot-only proof fields. A terminal page, current label set or `established` flag is not that historical proof. The code holds these cases rather than changing the confirmed mechanics.
+- Real user's first profile installation/publication or live recovery/race behavior.
+- Every provider endpoint with populated data, all pagination sizes or complete repository discoverability.
+- Historical first push, original release lifecycle or merge-time bug labels.
+- Perfect detection of user-rewritten-away history or guaranteed reconstruction of older gaps.
+- Final hand-painted/AI artwork rights, marketplace/version release or production-scale cost limits.
 
-The manual validation workflow uses `contents: read`, pinned official checkout/setup actions, script-disabled pinned dependencies, local tests/fictional previews and the actual read-only transport/collector. It never imports the publisher or writes actual growth records. Passing this workflow is not a full installed-product acceptance.
+No real owner growth write or scheduled character publisher has been enabled in this repository.
 
-The source tree excludes AI artwork, external font files, actual owner records and raw captures. First-party code is MIT; dependency notices retain their own terms. Preview images are code-generated development fallbacks, not final approved production art.
+## Distribution and rights
+
+Both packages, root schemas and synthetic fixtures ship together. Dependencies are pinned and lifecycle scripts disabled; retain original dependency notices. First-party code is MIT. The renderer uses original programmatic pixels and bitmap lettering, no external fonts/game assets/AI sheets. Future AI image redistribution requires separate rights verification; planned image/OFL notices remain mandatory where applicable.
+
+Developer dependencies, generated previews, raw captures, credentials, user records and unrelated planning material are excluded from the source publication.

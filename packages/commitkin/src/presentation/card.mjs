@@ -77,3 +77,21 @@ export function renderCard({ state, username, classificationReason = '', preview
   out.text(line,270,294+row*11,muted,1,580);
   return encodePng(out);
 }
+
+/** A confirmed faction with unknown growth is not a zero-XP/level-one result. */
+export function renderPendingCard({ state, username, preview = true }) {
+  if (!/^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,37}[a-zA-Z0-9])?$/.test(username) || !FACTION_NAMES[state?.faction?.id] || state.growth?.phase !== 'pending' || state.growth.totalXp !== null || state.class !== null || state.evaluation !== null) throw new TypeError('PENDING_CARD_INPUT_INVALID');
+  const bloom = state.faction.id === 'bloomguard', accent = bloom ? [154,221,167] : [245,166,110];
+  const out = canvas(880,416,bloom ? [17,30,28] : [32,23,28]);
+  out.rect(0,0,880,5,accent); out.text('COMMITKIN',24,22,accent,2);
+  if (preview) out.text('DEVELOPMENT PREVIEW',570,22,[164,176,173],1);
+  drawCharacter(out,{classId:'adventurer',factionId:state.faction.id,level:'1',x:38,y:70,scale:6});
+  out.text(username,270,55,[239,239,224],3,580);
+  out.text(FACTION_NAMES[state.faction.id],270,105,accent,2);
+  out.text('ANALYSIS PENDING',270,165,[239,239,224],3,580);
+  out.text('FACTION CONFIRMED / PERMANENT',270,220,accent,2,580);
+  out.text('XP AND CLASS ARE NOT FINALIZED',270,265,[164,176,173],2,580);
+  out.text('PUBLIC ACTIVITY ONLY',24,341,accent,2);
+  out.text('NO SUCCESSFUL ANALYSIS YET',24,368,[164,176,173],1);
+  return encodePng(out);
+}

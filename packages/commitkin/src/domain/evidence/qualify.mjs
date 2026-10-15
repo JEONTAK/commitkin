@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import canonicalize from 'canonicalize';
+import { classifyFileEvidence, FileEvidenceFailure } from './files.mjs';
 
 /** Offline, evidence-relative qualification. No source authenticity or write authority. */
 class QualificationFailure extends Error {
@@ -9,11 +10,6 @@ function demand(condition, code, decision = 'hold', temporal = false) { if (!con
 function numeric(value) { return typeof value === 'string' && /^[1-9][0-9]*$/.test(value); }
 function compareId(a, b) { return BigInt(a) < BigInt(b) ? -1 : BigInt(a) > BigInt(b) ? 1 : 0; }
 function hash(value) { return 'v1:sha256:' + createHash('sha256').update(canonicalize(value), 'utf8').digest('hex'); }
-function blobHash(text, oid) {
-  demand(typeof text === 'string' && text.isWellFormed() && typeof oid === 'string' && [40, 64].includes(oid.length), 'FILE_CONTENT_OID_MISMATCH', 'rejected');
-  const bytes = new TextEncoder().encode(text);
-  return createHash(oid.length === 40 ? 'sha1' : 'sha256').update(`blob ${bytes.length}\0`, 'utf8').update(bytes).digest('hex');
-}
 function day(value) { return value.slice(0, 10); }
 function dateValid(value) { return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(value + 'T00:00:00Z')) && new Date(value + 'T00:00:00Z').toISOString().slice(0, 10) === value; }
 function source(resource, type = 'numeric') {
@@ -33,20 +29,6 @@ export function activityIdentity({ kind, accountId, repositoryId, sourceId }) {
   return hash({ kind, accountId, repositoryId, sourceId });
 }
 
-function glob(pattern, path) {
-  demand(typeof pattern === 'string' && pattern.length > 0, 'POLICY_BODY_UNSUPPORTED');
-  let expression = '^';
-  for (let index = 0; index < pattern.length; index += 1) {
-    const char = pattern[index];
-    if (char === '*' && pattern[index + 1] === '*') {
-      if (pattern[index + 2] === '/') { expression += '(?:.*/)?'; index += 2; }
-      else { expression += '.*'; index += 1; }
-    } else if (char === '*') expression += '[^/]*';
-    else if (char === '?') expression += '[^/]';
-    else expression += char.replace(/[\^$.*+?()[\]{}|\\]/g, '\\$&');
-  }
-  return new RegExp(expression + '$', 'u').test(path);
-}
 
 function resolvePolicies(evidence, registry) {
   const result = {};
@@ -167,27 +149,10 @@ export function qualifyEvidence({ evidence, context, previousLedger = null, poli
     };
     const familiesFromFiles = parent => {
       const files = parentCapture(parent.fileCollectionRef, parent, 'file_change', 'changes');
-      const families = new Set();
       for (const file of files) {
         demand(file.parentRef === parent.ref && file.repositoryId === parent.repositoryId, 'FILE_PARENT_MISMATCH', 'rejected');
-        const path = file.afterPath ?? file.beforePath;
-        demand(typeof path === 'string' && !path.startsWith('/') && !path.split('/').includes('..') && !/[\\\u0000]/u.test(path), 'FILE_PATH_UNSUPPORTED');
-        if (policies.fileRules.exclusions.some(rule => rule.patterns.some(pattern => glob(pattern, path)))) { exclude('EXCLUDED_FILE'); continue; }
-        demand(file.content?.mode === 'text_pair', 'FILE_CONTENT_PROOF_UNAVAILABLE');
-        for (const side of ['before', 'after']) {
-          const text = file.content[side + 'Text']; const oid = file[side + 'Oid'];
-          demand(oid === null ? text === null : typeof text === 'string' && blobHash(text, oid) === oid, 'FILE_CONTENT_OID_MISMATCH', 'rejected');
-        }
-        const before = file.content.beforeText ?? ''; const after = file.content.afterText ?? '';
-        demand(typeof before === 'string' && typeof after === 'string', 'FILE_CONTENT_PROOF_UNAVAILABLE');
-        if (before.replace(/\s/gu, '') === after.replace(/\s/gu, '')) { exclude('WHITESPACE_ONLY_CHANGE'); continue; }
-        let category = null;
-        for (const current of policies.fileRules.precedence) if (policies.fileRules.categories.some(rule => rule.category === current && rule.patterns.some(pattern => glob(pattern, path)))) { category = current; break; }
-        demand(category !== null, 'FILE_CATEGORY_UNSUPPORTED');
-        if (category === 'source') throw new QualificationFailure('BUG_TEMPORAL_PROOF_UNSUPPORTED', 'hold', true);
-        families.add({ deployment: 'operations', test: 'verification', documentation: 'knowledge' }[category]);
       }
-      return ['knowledge', 'verification', 'operations'].filter(family => families.has(family));
+      return classifyFileEvidence({ files, ruleBody: policies.fileRules, exclude });
     };
     for (const pr of resources.pullRequests) {
       if (pr.state !== 'MERGED') { exclude('PR_NOT_MERGED'); continue; }
@@ -307,7 +272,7 @@ export function qualifyEvidence({ evidence, context, previousLedger = null, poli
     activities.sort(order); reviewHistoryFacts.sort((a, b) => a.eventKey < b.eventKey ? -1 : a.eventKey > b.eventKey ? 1 : 0);
     return { decision: 'qualified', code: 'QUALIFIED_RELATIVE_TO_EVIDENCE', activities, reviewHistoryFacts, exclusions: orderedExclusions(), needsTemporalProof: [], sourceEligibility: 'passed_relative_to_evidence', coverageConsistency: 'not_checked', sourceAuthenticity: 'not_checked', progressionAuthorized: false };
   } catch (error) {
-    const known = error instanceof QualificationFailure;
+    const known = error instanceof QualificationFailure || error instanceof FileEvidenceFailure;
     return { decision: known ? error.decision : 'rejected', code: known ? error.code : 'EVIDENCE_INPUT_INVALID', activities: [], reviewHistoryFacts: [], exclusions: orderedExclusions(), needsTemporalProof: known && error.temporal ? [error.code] : [], sourceEligibility: 'not_checked', coverageConsistency: 'not_checked', sourceAuthenticity: 'not_checked', progressionAuthorized: false };
   }
 }

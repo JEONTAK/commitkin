@@ -1,0 +1,37 @@
+# Inert installation example. Copy into YOUR_LOGIN/YOUR_LOGIN only after review.
+# Replace the SHA placeholder; it deliberately is not a runnable release ref.
+name: Commitkin manual preview
+
+"on":
+  workflow_dispatch:
+    inputs:
+      faction:
+        description: First use only; leave empty after publication
+        type: choice
+        options: ['', bloomguard, ashbound]
+        default: ''
+      confirmation:
+        description: First use only; type CONFIRM_PERMANENT_FACTION
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: commitkin-profile
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: JEONTAK/commitkin@<reviewed-40-character-commit-sha>
+        with:
+          faction: ${{ inputs.faction }}
+          confirmation: ${{ inputs.confirmation }}
+          dry-run: 'true'
+
+# Publication requires explicit user choice: contents: write AND dry-run: 'false'.
+# Add no schedule until your own initial publication/recovery review succeeds.

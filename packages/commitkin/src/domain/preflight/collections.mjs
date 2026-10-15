@@ -32,8 +32,25 @@ export function checkRequiredCollections(evidence, scope, index) {
     const target = { kind: 'resource', repositoryId: r.repositoryId, resourceRef: ref };
     if (type === 'pull_request' || type === 'issue') requireRequest(type, target, 'metadata');
     if (type === 'pull_request' || type === 'commit') {
-      required.add(r.fileCollectionRef);
-      if (type === 'commit') required.add(r.pullRequestCollectionRef);
+      const actor = r.author;
+      // Conclusive exclusions need no irrelevant file/history retrieval. Unknown
+      // attribution is not an exclusion; source qualification still owns rewards.
+      const other = actor.status === 'identified' && (actor.type === 'Bot' || actor.accountId !== scope.subjectAccountId);
+      const outside = !effective.has(r.repositoryId);
+      const repository = index.repositories.get(r.repositoryId);
+      const excluded = other || outside || repository.visibility !== 'public' ||
+        (type === 'pull_request' && (r.state !== 'MERGED' || r.mergedAt.slice(0, 10) < scope.startAt.slice(0, 10) || r.mergedAt.slice(0, 10) >= scope.cutoff.slice(0, 10))) ||
+        (type === 'commit' && repository.fork);
+      if (!excluded) {
+        if (type === 'commit') {
+          required.add(r.pullRequestCollectionRef);
+          const relations = index.collections.get(r.pullRequestCollectionRef);
+          const represented = relations.state === 'captured' && relations.pages.some(page => page.response.status === 'success' && page.response.itemRefs.some(pr => index.resources.get(pr)?.resource.state === 'MERGED'));
+          // The relation capture itself must close before it can establish this
+          // exclusion; malformed/incomplete relation claims cannot become proof.
+          if (!represented) required.add(r.fileCollectionRef);
+        } else required.add(r.fileCollectionRef);
+      }
     }
   }
   // History necessity is qualification-dependent. Its shape/references are checked,

@@ -95,6 +95,11 @@ test('pagination follows bounded verified sameendpoint Links and preservescaptur
   const client = createGithubClient(options(async () => ++calls === 1 ? response([{ id: 1 }], 200, { link: '<https://api.github.com/users/owner/repos?per_page=100&page=2>; rel="next"' }) : response([{ id: 2 }])));
   const result = await client.paginate('/users/owner/repos?per_page=100');
   assert.equal(result.complete, true); assert.deepEqual(result.items.map(item => item.id), [1, 2]); assert.equal(result.pages, 2);
+  assert.deepEqual(result.pageSnapshots, [
+    { sequence: 1, requestPath: '/users/owner/repos?per_page=100', itemCount: 1, nextPath: '/users/owner/repos?per_page=100&page=2', startIndex: 0, endIndexExclusive: 1 },
+    { sequence: 2, requestPath: '/users/owner/repos?per_page=100&page=2', itemCount: 1, nextPath: null, startIndex: 1, endIndexExclusive: 2 },
+  ]);
+  assert.equal(JSON.stringify(result.pageSnapshots).includes('id'), false);
 });
 test('pagination rejects external link/path swap/query rewrite/cycle and invalidsyntax', async () => {
   const cases = [
@@ -113,6 +118,27 @@ test('pagebudget is explicit incomplete, never successful empty activity', async
   const client = createGithubClient(options(async () => response([], 200, { link: '<https://api.github.com/repos/owner/project/issues?page=2>; rel="next"' })));
   const result = await client.paginate('/repos/owner/project/issues', { maxPages: 1 });
   assert.equal(result.ok, false); assert.equal(result.complete, false); assert.equal(result.code, 'PAGE_LIMIT_REACHED');
+});
+test('page snapshots preserve real empty-page boundaries and do not duplicate raw resource payloads', async () => {
+  let calls = 0;
+  const client = createGithubClient(options(async () => {
+    calls += 1;
+    if (calls === 1) return response([{ id: '1', body: 'RAW_BODY_NOT_IN_PAGE_SNAPSHOT' }, { id: '2' }], 200, { link: '<https://api.github.com/repos/owner/project/pulls?state=all&page=2>; rel="next"' });
+    if (calls === 2) return response([], 200, { link: '<https://api.github.com/repos/owner/project/pulls?state=all&page=3>; rel="next"' });
+    return response([{ id: '3' }]);
+  }));
+  const result = await client.paginate('/repos/owner/project/pulls?state=all');
+  assert.equal(result.complete, true);
+  assert.deepEqual(result.pageSnapshots.map(page => [page.itemCount, page.startIndex, page.endIndexExclusive]), [[2, 0, 2], [0, 2, 2], [1, 2, 3]]);
+  assert.equal(result.pageSnapshots.at(-1).nextPath, null);
+  assert.equal(JSON.stringify(result.pageSnapshots).includes('RAW_BODY'), false);
+});
+test('failed later page preserves only observed successful page snapshots without completing the capture', async () => {
+  let calls = 0;
+  const client = createGithubClient(options(async () => ++calls === 1 ? response([{ id: '1' }], 200, { link: '<https://api.github.com/repos/owner/project/pulls?page=2>; rel="next"' }) : response({}, 403)));
+  const result = await client.paginate('/repos/owner/project/pulls');
+  assert.equal(result.complete, false); assert.equal(result.code, 'ACCESS_DENIED');
+  assert.equal(result.pageSnapshots.length, 1); assert.equal(result.pageSnapshots[0].nextPath, '/repos/owner/project/pulls?page=2');
 });
 test('invalid options are rejected without network', () => {
   for (const extra of [{ token: 'secret\nHeader:bad' }, { requestBudget: 0 }, { timeoutMs: 60001 }, { maxRetries: 4 }, { fetchImpl: undefined }]) assert.throws(() => createGithubClient(options(async () => response({}), extra)), /GITHUB_OPTIONS_INVALID/);
