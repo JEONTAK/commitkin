@@ -179,7 +179,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Preview the profile block without publishing
-        uses: JEONTAK/commitkin/profile-sync@72e2a0a0f6f9cac2bf78fface9e1d5ecea719c15
+        uses: JEONTAK/commitkin/profile-sync@6e507b17f0eaafaa81f4eef6df83404df72a684a
         with:
           token: ${{ github.token }}
           source-repository: ${{ inputs.source_repository }}
@@ -187,6 +187,8 @@ jobs:
 ```
 
 The full SHA pins the reviewed pre-release renderer with six-row Markdown graphs; there is no `@v1` release tag. The reusable [unfilled template](examples/profile-sync.yml) is also available, but the complete example above needs no SHA placeholder replacement. Future code updates should be reviewed before changing the pin.
+
+Commit attribution was corrected on 2026-10-16. This pin has the same reviewed code as the previous renderer; see [identity migration notes](docs/commit-identity-migration.md) for the old-to-new references. Historical Actions links remain evidence of their original runs, not reruns against the rewritten history.
 
 Commit the file, then open **Actions → Commitkin profile sync (manual) → Run workflow** in the **profile repository**, using its default branch. Confirm the source field names your fork, not `JEONTAK/commitkin` or your profile repository.
 
