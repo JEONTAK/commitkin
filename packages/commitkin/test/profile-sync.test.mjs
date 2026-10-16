@@ -9,6 +9,7 @@ import { createGithubProfilePublisher } from '../src/infrastructure/github/publi
 import { renderProfileMarkdown, validateProfileModel } from '../src/presentation/profile.mjs';
 import { updateManagedReadme, START, END } from '../src/presentation/readme.mjs';
 import { canvas, encodePng } from '../src/presentation/pixel.mjs';
+import { AUTHOR_STORAGE, PRODUCT_OWNER_ID } from '../src/infrastructure/github/storage.mjs';
 
 // All provider calls and CAS effects are in-memory fixtures, never real GitHub.
 const TOKEN = 'synthetic-profile-sync-token';
@@ -38,7 +39,12 @@ function metadata(source = false) {
     fork: source, ...(source ? { source: { id: 1420061458, owner: { id: 76037656 } } } : {}) };
 }
 function fixture(options = {}) {
-  const value = modelAndPng(); options.changeModel?.(value.model);
+  const TARGET = options.author ? 'JEONTAK/JEONTAK' : 'HeroA/HeroA', SOURCE = options.author ? AUTHOR_STORAGE.fullName : 'HeroA/commitkin';
+  const OWNER_ID = options.author ? PRODUCT_OWNER_ID : '1001', TARGET_ID = options.author ? '773666201' : '9001', SOURCE_ID = options.author ? AUTHOR_STORAGE.repositoryId : '9002';
+  const repositoryMetadata = source => options.author ? { ...metadata(source), id: Number(source ? SOURCE_ID : TARGET_ID), owner: { id: Number(OWNER_ID), login: 'JEONTAK', type: 'User' }, name: source ? 'commitkin-character' : 'JEONTAK', full_name: source ? SOURCE : TARGET, fork: false, source: undefined } : metadata(source);
+  const value = modelAndPng();
+  if (options.author) { value.model.owner = { accountId: OWNER_ID, storageRepositoryId: SOURCE_ID }; value.model.username = 'JEONTAK'; }
+  options.changeModel?.(value.model);
   if (options.pending) {
     value.model.classId = null; for (const key of Object.keys(value.model.growth)) value.model.growth[key] = null;
     Object.assign(value.model.analysis, { phase: 'pending', dataStatus: 'analysis_pending', evaluatedAt: null, cutoffExclusive: null, classWindowStart: null, recentWindowStart: null, knownRepositories: null });
@@ -56,8 +62,8 @@ function fixture(options = {}) {
     assert.equal(parsed.origin, 'https://api.github.com'); assert.equal(init.redirect, 'error'); assert.equal(init.headers.Authorization, 'Bearer '+TOKEN);
     const body = init.body === undefined ? null : JSON.parse(init.body); calls.push({ path, search: parsed.search, method, body });
     if (method === 'GET') {
-      if (path === '/repos/'+TARGET) { const data = metadata(); targetMetadataReads += 1; options.changeTarget?.(data, targetMetadataReads); return response(data); }
-      if (path === '/repos/'+SOURCE) { const data = metadata(true); options.changeSource?.(data); return response(data); }
+      if (path === '/repos/'+TARGET) { const data = repositoryMetadata(false); targetMetadataReads += 1; options.changeTarget?.(data, targetMetadataReads); return response(data); }
+      if (path === '/repos/'+SOURCE) { const data = repositoryMetadata(true); options.changeSource?.(data); return response(data); }
       if (path === `/repos/${TARGET}/git/ref/heads/main`) {
         if (controls.casSubmitted && options.readbackFailure) return response({ message: TOKEN }, 503);
         return response({ object: { type: 'commit', sha: options.targetHead ?? controls.head } });
@@ -132,6 +138,24 @@ test('production profile sync defaults to dry run and reads only display JSON, P
   const readPaths = mock.calls.filter(call => call.path.includes('/contents/')).map(call => call.path);
   assert.deepEqual(readPaths.sort(), [`/repos/${SOURCE}/contents/.commitkin/character.png`, `/repos/${SOURCE}/contents/.commitkin/profile.json`, `/repos/${TARGET}/contents/README.md`].sort());
   assert.equal(mock.calls.some(call => call.path.includes('/git/blobs/')), false);
+});
+test('bound ordinary author source supports the same projection/PNG dry-run and missing-data safety hold', async () => {
+  const authorInput = { workflowContext: workflow({ repository: 'JEONTAK/JEONTAK', repositoryId: '773666201', ownerAccountId: PRODUCT_OWNER_ID, actorAccountId: PRODUCT_OWNER_ID }), sourceRepository: AUTHOR_STORAGE.fullName };
+  const mock = fixture({ author: true }), before = [...mock.targetFiles];
+  const result = await mock.run(authorInput);
+  assert.equal(result.decision, 'prepared', JSON.stringify(result)); assert.equal(result.profileChanged, false);
+  assert.equal(result.growthRecordsChanged, false); assert.equal(result.progressionAuthorized, false);
+  assert.equal(mock.calls.every(call => call.method === 'GET'), true); assert.deepEqual([...mock.targetFiles], before);
+  const writer = fixture({ author: true }), sourceBefore = [...writer.sourceFiles];
+  const published = await writer.run({ ...authorInput, dryRun: false });
+  assert.equal(published.decision, 'published', JSON.stringify(published)); assert.equal(published.growthRecordsChanged, false);
+  assertOutsideSame(writer.targetFiles.get('README.md'), writer.stored().get('README.md'));
+  assert.deepEqual([...writer.sourceFiles], sourceBefore);
+  const missing = fixture({ author: true, changeTree(data, repo) { if (repo === AUTHOR_STORAGE.fullName) data.tree = data.tree.filter(entry => entry.path !== '.commitkin'); } });
+  assertSafeHold(await missing.run(authorInput), 'PROFILE_SOURCE_DIRECTORY_INVALID');
+  assert.equal(missing.calls.every(call => call.method === 'GET'), true);
+  const rebound = fixture({ author: true, changeSource(data) { data.id += 1; } });
+  assertSafeHold(await rebound.run(authorInput), 'PROFILE_SOURCE_BINDING_INVALID');
 });
 
 test('only explicit live mock capability publishes a single README CAS commit, preserving unrelated files and BOM/CRLF', async () => {

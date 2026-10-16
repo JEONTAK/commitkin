@@ -21,6 +21,8 @@ Use a fresh demo name: existing output is never overwritten. Demos write only fi
 
 ## Installation and publication
 
+The author has one explicitly reviewed ordinary-repository exception: public `JEONTAK/commitkin-character`, repository ID `1421634321`, owned by account ID `76037656`. All identities and the canonical slug must match; rename, transfer or delete/recreate fails closed until reviewed. It uses the same five-file layout, safety gates and separate profile sync, not a caller-controlled bypass. Other new users still need an actual public personal fork. The upstream remains preview-only. No records are migrated or rebound.
+
 See the root [installation guide](../../README.md#installation). New installations run the composite [Action](../../action.yml) in a public personal fork of `JEONTAK/commitkin`. Durable owner/repository IDs, root fork-network identity and current default-branch head are verified. The maintainer's original product repository permits read-only preview, never personal-record publication or profile-sync storage: seeding it with records would make future forks inherit the wrong owner's history. Its immutable ID is blocked by every publication layout. The supplied workflows are manual-only; no schedule is added or enabled.
 
 - Default `dry-run: 'true'`: prepare five files in memory, emit a bounded summary, never construct a publisher or save a faction.

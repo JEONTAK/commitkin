@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isCommitkinStorageRepository, isCommitkinPreviewRepository } from '../src/infrastructure/github/storage.mjs';
+import { AUTHOR_STORAGE, PRODUCT_OWNER_ID, isCommitkinStorageRepository, isCommitkinPreviewRepository } from '../src/infrastructure/github/storage.mjs';
 import { createGithubPublisher, createGithubProfilePublisher } from '../src/infrastructure/github/publication.mjs';
 
 const HEAD = 'a'.repeat(40), AFTER = 'e'.repeat(40), TOKEN = 'synthetic-fork-token';
@@ -8,13 +8,13 @@ const metadata = () => ({ id: 9001, node_id: 'R_ForkFixture', name: 'commitkin',
   owner: { id: 1001, login: 'Owner', type: 'User' }, fork: true, source: { id: 1420061458, owner: { id: 76037656 } } });
 const files = () => ['state.json', 'ledger.json', 'status.json', 'character.png', 'profile.json'].map(file => ({ path: '.commitkin/' + file, content: Buffer.from(file) }));
 const request = () => ({ repository: 'Owner/commitkin', defaultBranch: 'main', expectedHead: HEAD, expectedRepositoryId: '9001', expectedOwnerAccountId: '1001', files: files() });
-function fixture(change = {}) {
+function fixture(change = {}, repository = 'Owner/commitkin') {
   const calls = []; let current = HEAD;
   const publisher = createGithubPublisher({ token: TOKEN, maxRetries: 0, fetchImpl: async (url, options) => {
     const path = new URL(url).pathname, body = options.body ? JSON.parse(options.body) : null;
     calls.push({ path, method: options.method, body });
     let data;
-    if (path === '/repos/Owner/commitkin') data = { ...metadata(), ...change };
+    if (path === '/repos/' + repository) data = { ...metadata(), ...change };
     else if (path.endsWith('/git/ref/heads/main')) data = { object: { sha: current } };
     else if (path.endsWith('/git/commits/' + HEAD)) data = { sha: HEAD, tree: { sha: 'b'.repeat(40) } };
     else if (path.endsWith('/git/blobs')) data = { sha: 'c'.repeat(40) };
@@ -32,6 +32,30 @@ test('storage roots use durable network/owner IDs across rename, not names or lo
   assert.equal(isCommitkinStorageRepository(upstream), false); assert.equal(isCommitkinPreviewRepository(upstream), true);
   assert.equal(isCommitkinPreviewRepository(metadata()), true); assert.equal(isCommitkinPreviewRepository({ ...upstream, private: true }), false);
   for (const change of [{ private: true }, { visibility: 'internal' }, { fork: false }, { source: null }, { owner: { type: 'Organization' } }, { source: { id: 1420061458 } }, { source: { id: '01420061458', owner: { id: 76037656 } } }, { id: 1420061458 }]) assert.equal(isCommitkinStorageRepository({ ...metadata(), ...change }), false);
+});
+const authorMetadata = () => ({ ...metadata(), id: Number(AUTHOR_STORAGE.repositoryId), name: 'commitkin-character', full_name: AUTHOR_STORAGE.fullName,
+  owner: { id: Number(PRODUCT_OWNER_ID), login: 'JEONTAK', type: 'User' }, fork: false, source: null });
+test('ordinary author storage is bound to one immutable repository, account and exact canonical slug', () => {
+  assert.equal(Object.isFrozen(AUTHOR_STORAGE), true);
+  assert.equal(isCommitkinStorageRepository(authorMetadata()), true); assert.equal(isCommitkinPreviewRepository(authorMetadata()), true);
+  assert.equal(isCommitkinStorageRepository({ ...authorMetadata(), id: AUTHOR_STORAGE.repositoryId, full_name: AUTHOR_STORAGE.fullName.toLowerCase() }), true);
+  for (const change of [{ id: Number(AUTHOR_STORAGE.repositoryId) + 1 }, { id: '0' + AUTHOR_STORAGE.repositoryId }, { id: null }, { id: 1420061458 },
+    { fork: true }, { fork: null }, { private: true }, { visibility: 'internal' }, { full_name: 'JEONTAK/copy' }, { full_name: null }, { name: 'copy' },
+    { owner: { id: 1001, login: 'JEONTAK', type: 'User' } }, { owner: { id: 76037656, login: 'renamed', type: 'User' } }, { owner: { id: 76037656, type: 'User' } }, { owner: { id: 76037656, login: 'JEONTAK', type: 'Organization' } }]) {
+    assert.equal(isCommitkinStorageRepository({ ...authorMetadata(), ...change }), false, JSON.stringify(change));
+  }
+  assert.equal(isCommitkinStorageRepository({ ...metadata(), fork: false, full_name: 'Other/commitkin-character' }), false);
+});
+test('bound ordinary author publisher preserves the exact five-file CAS boundary; copies cannot write', async () => {
+  const binding = { ...request(), repository: AUTHOR_STORAGE.fullName, expectedRepositoryId: AUTHOR_STORAGE.repositoryId, expectedOwnerAccountId: PRODUCT_OWNER_ID };
+  const accepted = fixture(authorMetadata(), AUTHOR_STORAGE.fullName);
+  assert.equal((await accepted.publisher.publish(binding)).published, true);
+  assert.deepEqual(accepted.calls.find(call => call.path.endsWith('/git/trees')).body.tree.map(entry => entry.path).sort(), files().map(file => file.path).sort());
+  for (const change of [{ full_name: 'JEONTAK/copy' }, { id: Number(AUTHOR_STORAGE.repositoryId) + 1 }]) {
+    const rejected = fixture({ ...authorMetadata(), ...change }, AUTHOR_STORAGE.fullName);
+    assert.equal((await rejected.publisher.publish(binding)).published, false);
+    assert.equal(rejected.calls.some(call => call.method === 'POST'), false);
+  }
 });
 test('the product upstream can preview but can never publish owner records inherited by future forks', async () => {
   const legacy = ['.commitkin/state.json', '.commitkin/ledger.json', '.commitkin/status.json', '.commitkin/card.png', 'README.md'].map(path => ({ path, content: Buffer.from('fixture') }));

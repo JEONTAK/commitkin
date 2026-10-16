@@ -2,26 +2,32 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createGithubClient, createReadonlyRefresh, createObservedReadonlyRefresh } from '../src/index.mjs';
+import { AUTHOR_STORAGE, PRODUCT_OWNER_ID } from '../src/infrastructure/github/storage.mjs';
 const hash = bytes => createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 const owner = '1001', repositoryId = '9001', name = 'HeroA/HeroA', head = 'a'.repeat(40), tree = 'b'.repeat(40);
 const workflowContext = { serverUrl: 'https://github.com', apiUrl: 'https://api.github.com', eventName: 'workflow_dispatch', repository: name, repositoryId, ownerAccountId: owner, actorAccountId: owner, ref: 'refs/heads/main', sha: head, startedAt: '2026-10-15T01:00:00Z' };
 const metadata = { id: 9001, owner: { id: 1001, login: 'HeroA', type: 'User' }, name: 'HeroA', full_name: name, visibility: 'public', private: false, fork: false, archived: false, default_branch: 'main' };
-function fixture({ prior = null, bom = false, fork = false, missingReadme = false } = {}) {
+function fixture({ prior = null, bom = false, fork = false, missingReadme = false, author = false } = {}) {
+  const name = author ? 'JEONTAK/JEONTAK' : 'HeroA/HeroA';
+  const login = name.split('/')[0];
+  const installation = author ? AUTHOR_STORAGE.fullName : 'HeroA/commitkin';
+  const owner = author ? PRODUCT_OWNER_ID : '1001', repositoryId = author ? AUTHOR_STORAGE.repositoryId : '9001';
+  const baseMetadata = author ? { ...metadata, id: Number(repositoryId), owner: { id: Number(owner), login, type: 'User' }, name: login, full_name: name } : metadata;
   const stored = new Map([
     ['README.md', Buffer.from('# My profile\n\n<!-- COMMITKIN:START -->\n<!-- COMMITKIN:END -->\n\nKeep this text.\n')],
     ['.github/commitkin.yml', Buffer.from('version: 1\nrepositories:\n  additional: []\n  exclude:\n    - heroa/heroa\n')],
   ]);
-  const repositoryMetadata = fork ? { ...metadata, name: 'commitkin', full_name: 'HeroA/commitkin', fork: true, source: { id: 1420061458, owner: { id: 76037656 } } } : metadata;
-  if (fork) stored.set('.github/commitkin.yml', Buffer.from('version: 1\nrepositories:\n  additional: []\n  exclude:\n    - heroa/commitkin\n'));
+  const repositoryMetadata = author ? { ...baseMetadata, name: 'commitkin-character', full_name: installation, fork: false } : fork ? { ...metadata, name: 'commitkin', full_name: installation, fork: true, source: { id: 1420061458, owner: { id: 76037656 } } } : metadata;
+  if (fork || author) stored.set('.github/commitkin.yml', Buffer.from('version: 1\nrepositories:\n  additional: []\n  exclude:\n    - ' + installation.toLowerCase() + '\n'));
   if (missingReadme) stored.delete('README.md');
   if (bom) stored.set('README.md', Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), stored.get('README.md')]));
   if (prior) for (const role of ['state', 'ledger', 'status']) stored.set('.commitkin/' + role + '.json', Buffer.from(JSON.stringify(prior[role])));
   const requests = [];
   const client = createGithubClient({ token: 'synthetic-token-only', maxRetries: 0, fetchImpl: async (url, options) => {
     assert.equal(options.method, 'GET'); requests.push(url);
-    const parsed = new URL(url), path = fork ? parsed.pathname.replace('/repos/HeroA/commitkin', '/repos/HeroA/HeroA').replace('/repos/heroa/commitkin', '/repos/heroa/heroa') : parsed.pathname;
+    const parsed = new URL(url), path = fork || author ? parsed.pathname.replace('/repos/' + installation, '/repos/' + name).replace('/repos/' + installation.toLowerCase(), '/repos/' + name.toLowerCase()) : parsed.pathname;
     let data;
-    if (path.toLowerCase() === '/repos/heroa/heroa') data = repositoryMetadata;
+    if (path.toLowerCase() === '/repos/' + name.toLowerCase()) data = repositoryMetadata;
     else if (path === '/repos/' + name + '/git/ref/heads/main') data = { object: { sha: head } };
     else if (path === '/repos/' + name + '/git/commits/' + head) data = { sha: head, tree: { sha: tree } };
     else if (path === '/repos/' + name + '/git/trees/' + tree) data = { sha: tree, truncated: false, tree: [
@@ -35,12 +41,12 @@ function fixture({ prior = null, bom = false, fork = false, missingReadme = fals
       assert.ok(content); data = { type: 'file', path: file, sha: hash(content), size: content.length, encoding: 'base64', content: content.toString('base64') };
     }
     else if (path === '/repos/' + name + '/commits') { assert.ok(parsed.searchParams.get('path')); data = prior ? [{ sha: head }] : []; }
-    else if (path === '/users/HeroA/repos') data = [repositoryMetadata];
-    else if (path === '/users/HeroA/events/public') data = [];
+    else if (path === '/users/' + login + '/repos') data = [repositoryMetadata];
+    else if (path === '/users/' + login + '/events/public') data = [];
     else throw new TypeError('UNEXPECTED_MOCK_REQUEST');
     return new Response(JSON.stringify(data), { status: 200 });
   } });
-  return { client, requests, stored };
+  return { client, requests, stored, context: { ...workflowContext, repository: author || fork ? installation : name, repositoryId, ownerAccountId: owner, actorAccountId: owner }, owner };
 }
 test('actual GET-only composition acquires fixed-head first setup, discovers excluded empty scope and prepares five bytes without writing', async () => {
   const input = fixture(), before = [...input.stored].map(([path, bytes]) => [path, Buffer.from(bytes)]);
@@ -92,4 +98,19 @@ test('actual observed fork composition prepares growth plus a display projection
     assert.deepEqual([...input.stored], before); assert.equal(result.published, false); assert.equal(result.progressionAuthorized, false);
     assert.equal(input.requests.some(url => new URL(url).pathname.toLowerCase().startsWith('/repos/heroa/heroa')), false);
   }
+});
+test('bound ordinary author installation uses the same read-only growth/display composition without a fork or README dependency', async () => {
+  const input = fixture({ author: true, missingReadme: true });
+  const before = [...input.stored].map(([path, content]) => [path, Buffer.from(content)]);
+  const result = await createObservedReadonlyRefresh({ client: input.client, clock: () => '2026-10-15T01:01:00Z' })({
+    workflowContext: input.context,
+    initialSelection: { accountId: input.owner, factionId: 'ashbound', confirmation: 'CONFIRM_PERMANENT_FACTION' },
+  });
+  assert.equal(result.decision, 'prepared', JSON.stringify(result));
+  assert.deepEqual(result.files.map(file => file.path).sort(), ['.commitkin/character.png', '.commitkin/ledger.json', '.commitkin/profile.json', '.commitkin/state.json', '.commitkin/status.json']);
+  const model = JSON.parse(Buffer.from(result.files.find(file => file.path === '.commitkin/profile.json').content));
+  assert.deepEqual(model.owner, { accountId: PRODUCT_OWNER_ID, storageRepositoryId: AUTHOR_STORAGE.repositoryId });
+  assert.equal(result.published, false); assert.equal(result.progressionAuthorized, false);
+  assert.deepEqual([...input.stored], before);
+  assert.equal(input.requests.some(url => new URL(url).pathname.startsWith('/repos/JEONTAK/JEONTAK')), false);
 });

@@ -27,6 +27,8 @@ Automatic discovery is best-effort, supplemented by explicit repositories. Known
 
 ## Installation
 
+Author-only exception: `JEONTAK/commitkin-character` is an ordinary public installation, explicitly bound in reviewed code to repository ID `1421634321`, owner ID `76037656` and its canonical slug. It uses the same storage and profile-sync guards. This is not a configurable bypass for copied repositories: other new users still follow the actual-fork setup below. Rename/transfer/recreation requires review; no saved record IDs are rebound.
+
 This pre-release guide is opt-in, **not permission to write records on behalf of another user**.
 
 1. Fork this repository to your personal account, normally `YOUR_LOGIN/commitkin`. Keep it public. GitHub's root fork-network ID binds it to Commitkin; a copied unrelated repository is not an installation. Enable Actions in the fork when you intentionally want to preview. There are no push/timer triggers.
@@ -74,7 +76,7 @@ Only these five paths publish together **in the fork**:
 
 The fork README is not rewritten. The separate profile writer can update only `README.md`; it copies no records or images into that repository. The PNG link pins the same fork commit as the display JSON, preventing mixed-revision image/text. Markdown is generated from validated structured data, never imported as arbitrary remote Markdown/HTML.
 
-The product upstream remains free of personal growth records so future forks do not inherit someone else's character/history. It permits maintainer read-only previews only; publication to its durable repository ID is rejected as `UPSTREAM_PREVIEW_ONLY`, including legacy layouts. It is not a storage-source exception for profile sync. The maintainer's own future fork-layout installation requires a separately reviewed storage location; this implementation does not create one or relax the fork/owner checks.
+The product upstream remains free of personal growth records so future forks do not inherit someone else's character/history. It permits maintainer read-only previews only; publication to its durable repository ID is rejected as `UPSTREAM_PREVIEW_ONLY`, including legacy layouts. It is not a storage-source exception for profile sync. Only the separately reviewed author repository described above is an ordinary-repository exception; fork/owner validation for other users stays unchanged. No actual author growth or display snapshot has been published.
 
 IDs, dates, aggregates and hashes are public. Hashes are not encryption or anonymity. No raw activity content, file contents, titles/bodies, emails, participant lists or credentials are archived. Keep fork Git history for recovery. Same-date no-ops do not rewrite files or claim new successful freshness. Family scores are independent 0–100 contribution-style indicators, not percentages that sum to 100 or skill rankings. Recent summary counts refer to qualified facts in the verified scope/window, not account-wide totals or coding time.
 
