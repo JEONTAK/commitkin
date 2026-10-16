@@ -1,6 +1,6 @@
 # Commitkin implementation and validation status
 
-Updated 2026-10-16. MVP source / pre-release validation; real known-scope read-only profile preview verified. No release tag or real owner growth publication.
+Updated 2026-10-16. MVP source / pre-release validation; one explicitly authorized real author snapshot is saved and its profile preparation passed actual dry-run. No actual profile publication, automatic growth execution or release tag.
 
 ## Latest local gate
 
@@ -8,7 +8,21 @@ Updated 2026-10-16. MVP source / pre-release validation; real known-scope read-o
 - Core coverage: 99.01% lines, at least 94.37% branches, 97.38% functions across repeat local runs; configured minimums all 80%.
 - 198 protected original artifacts and the original mechanics baseline remained unchanged.
 - Publication uses explicit outcomes: confirmed `true / published`, definitive no-write `false / not_published`, or unconfirmed post-CAS `null / outcome_unknown`. No blind retry.
-- These test/coverage figures are local synthetic/injected-HTTP results. The real profile dry-run below is separate API proof; no actual owner growth write is included.
+- These test/coverage figures are local synthetic/injected-HTTP results, not double-counted live proof. First author storage and positive profile preparation below are separate actual basic-token evidence.
+
+## First author storage and positive profile dry-run — 2026-10-16
+
+After explicit permanent **Bloomguard** confirmation, [first-storage Actions](https://github.com/JEONTAK/commitkin-character/actions/runs/38854047488) succeeded with `PUBLISHED`: 22 known public repositories, 607 total runtime requests (594 read-side + 13 publication). The [saved commit](https://github.com/JEONTAK/commitkin-character/commit/d89ede9193f85b77e8bb847a6157de805c9edd04) changes exactly the three matched records, character PNG and display-only projection, preserving every unrelated tree entry. It used the installation job's basic GITHUB_TOKEN with temporary job-local contents-write, not a personal token. Runtime remains pinned to `735f54311584f1f3b44fec0491f4e3d99eaed5dc`; no growth/schema/code/dependency rule changed.
+
+Saved result: **Bloomguard, Lv.1 Adventurer, 20 XP**, growth start `2026-07-18`, successful evaluation `2026-10-16T05:08:22.882Z`, cutoff `2026-10-16`. Strict schema/cross-file/owner verification returned `ACCEPT`; model fields independently match the records, the saved PNG digest matches its model, and decoded pixel rows match the local renderer. PNG compressed bytes need not be identical across runtimes; audit the actual stored digest and image structure/pixels, not a regenerated cross-runtime digest. Record revision 2 is the first persisted ready snapshot: initial pending revision 1 existed in memory only, not an earlier live write or duplicate XP.
+
+Author restore commit `5985bf2ea347318c0d7fb92fdc67f88cc04f92e4` changes only its README/workflow and removes temporary write authority. Current preview is manual-only, contents-read, literal dry-run true and supplies no new faction/confirmation. The five saved blob IDs remain unchanged.
+
+The [saved-snapshot profile dry-run](https://github.com/JEONTAK/JEONTAK/actions/runs/38854623804) succeeded with `PROFILE_SYNC_PREPARED` and one README change prepared in memory. `dryRun: true`; `published`, `profileChanged`, `growthRecordsChanged` and `progressionAuthorized` are false. The job logs contents-read. This proves actual source/model/PNG/Markdown/managed-block preparation, not real profile publication or the README-only CAS write path.
+
+After both runs, profile HEAD remains `da04bc6662bdf1f70a86858f8c7f4e6b31834c10`, its README and unrelated workflow/assets are unchanged, and product/profile contain no root growth directory. The original upstream remains unpublishable; only the bound author repository stores this user's records. No new automatic trigger or follow-up growth run is enabled. Other-user genuine-fork Actions, live recovery, actual profile publication and release/rights gates remain separate. Keep saved history when stopping use; never reset/rebind it or delete records to change faction.
+
+The matching full local baseline remains 1,042 core + 295 record-validator tests; 120 relevant existing tests were rechecked for this operation, not counted as additional unique tests. All 198 protected original artifacts remain unchanged. No later growth settlement or actual profile update is authorized by this first-save approval.
 
 ## Implemented
 
@@ -28,9 +42,11 @@ Updated 2026-10-16. MVP source / pre-release validation; real known-scope read-o
 - Separate profile sync checks same-owner public fork lineage, immutable source head, display version/IDs/times and complete PNG structure/hash. Default dry-run and unchanged snapshots construct no writer. The profile's own basic token can opt in to one fixed `README.md`-only expected-head CAS writer; no growth calculation, settings/record copy, PAT or cross-repository write. Missing/pending/invalid source preserves the existing profile. Both supplied workflows remain manual-only `contents: read`, literal dry-run true.
 - Both faction demos passed actual offline CLI generation into fresh synthetic preview directories, including character PNG/display JSON/native Markdown and no HTTP. The real preview-directory writer round-trip is tested; unknown paths and overwrites still reject. Independently reviewed legacy/fork write-layout isolation includes a regression preventing a legacy five-file bundle from writing a fork README.
 
-The new storage/profile-sync adapters ran in actual basic-token Actions through the separately bound ordinary author installation, as recorded below. Genuine other-user fork Actions execution remains unverified. No real profile display or growth record has been published. No schedule, automatic dispatch or live migration has been enabled.
+The new storage/profile-sync adapters ran in actual basic-token Actions through the separately bound ordinary author installation. One real first growth snapshot and positive profile dry-run are recorded above; no actual profile README publication occurred. Genuine other-user fork Actions, automatic execution and live migration remain unverified/unperformed.
 
 ## Author installation dry-runs — 2026-10-16
+
+Historical evidence before the separately confirmed first storage above: no growth/display data was saved by these two earlier runs, so the missing-data hold was expected at that time.
 
 Runtime source `735f54311584f1f3b44fec0491f4e3d99eaed5dc` is pinned by both installed workflows. Author commit `914033f1eebb4c98b8309cb1d9e57461a6ffe59b` contains only README, optional empty-list settings and the manual read-only preview workflow. Profile commit `da04bc6662bdf1f70a86858f8c7f4e6b31834c10` adds only the separate manual read-only profile-sync preview. Both jobs log `Contents: read`, use their own basic GITHUB_TOKEN and literal dry-run true; no personal token, new automatic trigger or real record write is enabled.
 
