@@ -1,0 +1,42 @@
+name: Commitkin guided setup
+description: Preview or save a fork-owned character and show personalized profile connection code.
+author: JEONTAK
+inputs:
+  token:
+    description: This fork's built-in GITHUB_TOKEN.
+    required: true
+    default: ${{ github.token }}
+  mode:
+    description: preview (no writes) or save (explicit publication).
+    required: false
+    default: preview
+  faction:
+    description: First use only; leave empty after any saved snapshot.
+    required: false
+    default: ''
+  confirm-faction:
+    description: First save only; acknowledge the permanent faction, including a pending reservation.
+    required: false
+    default: 'false'
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+      with:
+        node-version: '24'
+    - name: Install pinned dependencies without lifecycle scripts
+      shell: bash
+      env:
+        COMMITKIN_SOURCE: ${{ github.action_path }}/..
+      run: |
+        npm --prefix "$COMMITKIN_SOURCE/packages/record-validator" ci --ignore-scripts --no-audit --no-fund
+        npm --prefix "$COMMITKIN_SOURCE/packages/commitkin" ci --ignore-scripts --no-audit --no-fund
+    - name: Run guided setup and show profile connection code
+      shell: bash
+      env:
+        COMMITKIN_SOURCE: ${{ github.action_path }}/..
+        GITHUB_TOKEN: ${{ inputs.token }}
+        COMMITKIN_SETUP_MODE: ${{ inputs.mode }}
+        COMMITKIN_FACTION: ${{ inputs.faction }}
+        COMMITKIN_CONFIRM_FACTION: ${{ inputs.confirm-faction }}
+      run: node "$COMMITKIN_SOURCE/packages/commitkin/bin/commitkin-setup.mjs"

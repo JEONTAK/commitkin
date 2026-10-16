@@ -58,23 +58,16 @@ You need a personal GitHub.com account and two public repositories:
 | `YOUR_LOGIN/YOUR_LOGIN` | Your profile: README display |
 
 1. Fork [JEONTAK/commitkin](https://github.com/JEONTAK/commitkin).
-2. Preview a faction, then explicitly save your character.
-3. Add these markers to your profile README **once**:
+2. Run **Actions → Set up Commitkin**. Choose a faction, select **save** and confirm the permanent choice. Use **preview** first if you prefer.
+3. Copy your personalized connection code from the run's **Summary** into one workflow file in your profile repository. Run **Commitkin profile → publish** with **connect_if_missing** checked for the first connection.
 
-```md
-<!-- COMMITKIN:START -->
-<!-- COMMITKIN:END -->
-```
+**[Three-step setup →](docs/installation.md)**
 
-4. Install profile sync, preview it, then publish when ready.
-
-**[Copyable workflows and step-by-step setup →](docs/installation.md)**
-
-Private activity is not included. Both workflows are manual; updating your fork does not automatically update your profile. You never paste the generated stats yourself.
+No repeated YAML edits or manual stats. First connection appends the managed block; your existing README stays intact. Both workflows are manual, and updating your fork does not automatically update your profile. Private activity is not included.
 
 ### Installation troubleshooting
 
-A preview saves nothing. A missing or pending snapshot cannot publish a profile. Keep your records and [check the reported reason](docs/installation.md#troubleshooting).
+A preview saves nothing. Missing, pending or invalid data cannot publish a profile. Keep your records and [check the reported reason](docs/installation.md#troubleshooting).
 
 ## How it works
 

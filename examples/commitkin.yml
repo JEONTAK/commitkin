@@ -1,19 +1,24 @@
-# Inert alternative fork workflow. The fork already includes commitkin.yml.
-# Replace the SHA placeholder; it deliberately is not a runnable release ref.
-name: Commitkin manual preview
+# SPDX-License-Identifier: MIT
+# Included in every new fork. Manual choices only; no YAML edits or timers.
+name: Set up Commitkin
 
 "on":
   workflow_dispatch:
     inputs:
+      mode:
+        description: Preview without writes, or save/update your character
+        type: choice
+        options: [preview, save]
+        default: preview
       faction:
-        description: First use only; leave empty after publication
+        description: First use only; leave empty after any saved snapshot
         type: choice
         options: ['', bloomguard, ashbound]
         default: ''
-      confirmation:
-        description: First use only; type CONFIRM_PERMANENT_FACTION
-        type: string
-        default: ''
+      confirm_faction:
+        description: First save only; faction becomes permanent even if analysis is pending
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -24,14 +29,34 @@ concurrency:
 
 jobs:
   preview:
+    if: ${{ inputs.mode == 'preview' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
-      - uses: JEONTAK/commitkin@<reviewed-40-character-commit-sha>
+      - name: Check out this fork at the requested commit
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
+          persist-credentials: false
+      - name: Preview without saving
+        uses: ./setup
+        with:
+          mode: preview
           faction: ${{ inputs.faction }}
-          confirmation: ${{ inputs.confirmation }}
-          dry-run: 'true'
-
-# Publication requires explicit user choice: contents: write AND dry-run: 'false'.
-# No schedule or automatic trigger is enabled by this example.
+          confirm-faction: ${{ inputs.confirm_faction }}
+  save:
+    if: ${{ inputs.mode == 'save' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: ./setup
+        with:
+          mode: save
+          faction: ${{ inputs.faction }}
+          confirm-faction: ${{ inputs.confirm_faction }}

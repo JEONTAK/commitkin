@@ -2,179 +2,100 @@
 
 [← Commitkin](../README.md)
 
-Use a **personal GitHub.com account** with two public repositories under the same owner:
+**Fork → Set up → Connect your profile.** No repeated YAML edits, PAT, custom secret, signup or server.
 
-- `YOUR_LOGIN/commitkin`: a real fork of [JEONTAK/commitkin](https://github.com/JEONTAK/commitkin).
+Use a personal GitHub.com account and two public repositories under the same owner:
+
+- `YOUR_LOGIN/commitkin`: your real fork of [JEONTAK/commitkin](https://github.com/JEONTAK/commitkin); renamed forks work too.
 - `YOUR_LOGIN/YOUR_LOGIN`: your profile repository, with a `README.md`.
 
-Replace `YOUR_LOGIN` with your username. No PAT, custom secret or server is needed. Both Actions use their own built-in `${{ github.token }}`. Private activity and organization-owned installations are unsupported.
-
-This is a pre-release. Other-user installation and live recovery remain unverified. Every run below is manual.
+Private activity and organization-owned installations are unsupported. This is a pre-release: other-user live installation and live recovery remain unverified. Every run below is manual.
 
 ## 1. Fork
 
-Fork the product into your personal account, keep it public and enable Actions if prompted. Use the default branch, normally `main`.
+Fork the product into your personal account, keep it public and enable Actions if prompted. Use its default branch, normally `main`.
 
-Do not use a template/copied repository, fork `commitkin-character`, or copy someone else's `.commitkin` files.
+Do not use a template/copied repository, fork `commitkin-character`, or copy someone else's `.commitkin` files. Existing forks need to sync the product changes once to receive the guided setup; do not discard records or overwrite custom workflows.
 
-## 2. Preview your faction
+## 2. Set up your character
 
-Your fork includes [`.github/workflows/commitkin.yml`](../.github/workflows/commitkin.yml).
+Open **your fork → Actions → Set up Commitkin → Run workflow**.
 
-Open **Actions → Commitkin fork preview → Run workflow**:
+| Input | First preview (optional) | First save | Later preview/update |
+| --- | --- | --- | --- |
+| `mode` | `preview` | `save` | `preview` or `save` |
+| `faction` | Choose either faction | Your chosen faction | Leave empty |
+| `confirm_faction` | Unchecked | Checked | Unchecked |
 
-| Input | Value |
-| --- | --- |
-| `faction` | `bloomguard` or `ashbound` |
-| `confirmation` | `CONFIRM_PERMANENT_FACTION` |
+**First save makes your faction permanent—even if analysis is pending.** Bloomguard and Ashbound cannot be switched later. Public records and Git history include repository IDs, dates, aggregates and identity hashes. Hashes are not encryption or anonymity.
 
-The preview uses `contents: read` and `dry-run: 'true'`. A ready result reports `decision: prepared`, `published: false` and `actualRecordsChanged: false`.
+There is no phrase to type and no workflow file to edit. Preview runs in a read-only job. Save runs in a separate write-capable job and publishes only the five character files in your fork; it never edits the fork README or your profile.
 
-**Nothing is saved or locked.** You may preview either faction. Stop on `hold` or `pending` and inspect the reason.
+Open the completed run's **Summary**:
 
-## 3. Save your character
+- **Preview:** nothing saved or locked. Review the JSON result in the step log; saving remains your explicit choice.
+- **Character saved / Saved character unchanged:** your personalized profile connection code is shown. It uses the actual fork path, including renamed forks.
+- **Faction saved permanently. Analysis is pending:** no connection code yet. Fix the reported cause, then retry `save` with faction empty and confirmation unchecked. Never delete records or reselect a faction.
+- **Setup stopped / outcome unknown:** follow the diagnostic and inspect uncertain writes before retrying.
 
-**First publication makes the faction permanent—even if analysis remains pending.** Repository IDs, dates, aggregates and identity hashes become public in your fork and Git history. Hashes are not encryption or anonymity.
+The first save may take several minutes. Before profile connection, the saved `state.json` must have `growth.phase: "ready"` and `profile.json` must have `analysis.phase: "ready"`.
 
-When ready, replace **your fork's** `.github/workflows/commitkin.yml` with:
+## 3. Connect your profile
 
-```yaml
-name: Commitkin character (manual)
+1. Open your public **`YOUR_LOGIN/YOUR_LOGIN`** repository. Create it with a README if needed.
+2. Create **`.github/workflows/commitkin-profile-sync.yml`** on its default branch. Paste the **entire YAML block from the successful setup Summary**, then commit. Your account and fork path are already filled in; do not paste the generated stats or replace anything.
+3. Open **Actions → Commitkin profile → Run workflow**.
 
-"on":
-  workflow_dispatch:
-    inputs:
-      faction:
-        description: First save only; leave empty after any saved snapshot
-        type: choice
-        options: ['', bloomguard, ashbound]
-        default: ''
-      confirmation:
-        description: First save only; CONFIRM_PERMANENT_FACTION
-        type: string
-        default: ''
+| Input | First connection | Later preview/update |
+| --- | --- | --- |
+| `mode` | `publish` | `preview` or `publish` |
+| `connect_if_missing` | Checked | Unchecked |
 
-permissions:
-  contents: write
+You can select `preview` with the first-connection checkbox checked before publishing. A preview prepares the display without writing it.
 
-concurrency:
-  group: commitkin-fork
-  cancel-in-progress: false
+On first connection, Commitkin appends its managed block to the end of your existing README. All existing bytes stay in place. If you already have one valid marker pair, Commitkin updates only that region and preserves the surrounding content. Malformed, escaped, duplicate or code-fenced marker examples stop first connection safely.
 
-jobs:
-  character:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - name: Check out this fork
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
-        with:
-          persist-credentials: false
-      - name: Save verified character files in this fork only
-        uses: ./
-        with:
-          token: ${{ github.token }}
-          faction: ${{ inputs.faction }}
-          confirmation: ${{ inputs.confirmation }}
-          dry-run: 'false'
-```
-
-Commit to the default branch, then manually run **Commitkin character (manual)** with your faction and confirmation. Committing the workflow does not run it.
-
-Check the [five generated files](#generated-files). Before profile setup, `state.json` must show `growth.phase: "ready"` and `profile.json` must show `analysis.phase: "ready"`.
-
-If saved as `pending`, the faction is already fixed but XP/class remain unknown. Resolve the cause and retry with **both inputs empty**. Do not delete or edit records.
-
-## 4. Add profile markers
-
-In **`YOUR_LOGIN/YOUR_LOGIN`**, add this pair to `README.md` exactly once:
+For a custom position, optionally put this pair where you want the character before connecting:
 
 ```md
 <!-- COMMITKIN:START -->
 <!-- COMMITKIN:END -->
 ```
 
-Paste the lines, not the surrounding code fence. Do not escape them or copy a generated block. Commitkin fills the region and preserves everything outside it.
+Paste only the two lines, not the surrounding fence. Markers are optional for normal first connection; Commitkin creates them after your explicit checkbox approval.
 
-## 5. Preview profile sync
+Expect `PROFILE_SYNC_PREPARED` for a changed preview, `published: true` for a confirmed README-only publication, or `PROFILE_ALREADY_CURRENT` with no commit. Open your profile: the character is the only image; all six stat bars and recent activity remain Markdown.
 
-In **your profile repository**, create `.github/workflows/commitkin-profile-sync.yml`. Replace `YOUR_LOGIN/commitkin` with your fork:
+The generated workflow runs a reviewed, commit-pinned product renderer—not code or arbitrary Markdown from your fork. It never calculates growth or writes your fork. Both workflows use their own built-in GitHub token. GitHub scopes each token to its own repository, so this one-time profile file is still necessary. [GitHub token documentation](https://docs.github.com/en/actions/concepts/security/github_token).
 
-```yaml
-name: Commitkin profile sync (manual)
+## Update without editing YAML
 
-"on":
-  workflow_dispatch:
-    inputs:
-      source_repository:
-        description: Your public Commitkin fork
-        type: string
-        required: true
-        default: YOUR_LOGIN/commitkin
+1. In the fork, run **Set up Commitkin → save**, faction empty, confirmation unchecked.
+2. After a ready save, in the profile run **Commitkin profile → publish**, connection checkbox unchecked.
 
-permissions:
-  contents: read
+Use the preview modes whenever you want no-write checks. Only the selected job runs; previews have `contents: read`, publishers have `contents: write`. The first run does not trigger the second. No schedules, push hooks or cross-repository dispatches are installed.
 
-concurrency:
-  group: commitkin-profile-display
-  cancel-in-progress: false
+To recover the connection code, reopen the successful setup run's Summary. A read-only, same-date unchanged preview also shows it. Do not save a character merely to retrieve installation code.
 
-jobs:
-  profile:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    steps:
-      - name: Preview the profile block without publishing
-        uses: JEONTAK/commitkin/profile-sync@6e507b17f0eaafaa81f4eef6df83404df72a684a
-        with:
-          token: ${{ github.token }}
-          source-repository: ${{ inputs.source_repository }}
-          dry-run: 'true'
-```
-
-Commit, then open **Actions → Commitkin profile sync (manual) → Run workflow** on the default branch. The source must be your same-owner public fork—not the product upstream or your profile.
-
-Expect `PROFILE_SYNC_PREPARED`, `dryRun: true`, `published: false`. `PROFILE_ALREADY_CURRENT` is also valid. The README remains unchanged; missing/pending/invalid source data safely holds.
-
-The renderer is pinned to reviewed code, not an unissued `@v1` tag. See [identity migration](commit-identity-migration.md) for the corrected SHA.
-
-## 6. Publish your profile
-
-After a successful preview, change only these values in the full profile workflow:
-
-```diff
- permissions:
--  contents: read
-+  contents: write
-
--          dry-run: 'true'
-+          dry-run: 'false'
-```
-
-This is an edit illustration, not a standalone workflow. Commit and manually run profile sync again.
-
-Expect `published: true` and a **README-only commit**, or `PROFILE_ALREADY_CURRENT` with no commit. Open your profile and check the character, six Markdown stat bars and recent activity. Only the character is an image; its URL is generated and commit-pinned.
-
-Profile sync never calculates growth or writes your fork.
-
-## 7. Update manually
-
-1. Run the fork's **Commitkin character (manual)** with **both faction inputs empty**.
-2. Once the saved snapshot is ready, run the profile's **Commitkin profile sync (manual)**.
-
-The first run does not trigger the second. To return either workflow to preview-only, restore `contents: read` and `dry-run: 'true'`. No schedule is added.
+Existing installed workflows keep working unchanged. This release does not migrate your existing workflow permissions, pins, records or automatic-run settings.
 
 ## Troubleshooting
 
 | Problem | Check |
 | --- | --- |
-| No Run workflow button | Enable Actions and commit the YAML to the default branch. Fork and profile have separate Actions pages. |
-| Preview passed, nothing appeared | Preview saves nothing. Publish a ready fork snapshot, then separately publish the profile. |
-| `FACTION_ALREADY_CONFIRMED` | Clear **both** faction inputs, including after a saved pending reservation. |
-| Profile holds | Check the source owner/fork, ready snapshot and one unescaped marker pair. |
-| Collection is pending or over budget | Inspect the reason/request diagnostics and retry after quota reset where applicable. Missing data is not zero. |
-| Write denied or branch changed | Verify write/false, then inspect policy/conflict. Do not add a PAT, force-push or weaken protection. Check uncertain writes before retrying. |
-| Expected activity is absent | Only qualified public activity counts. Discovery is best-effort; add known public repositories below. |
+| No Run workflow button | Enable Actions and commit the workflow to the default branch. Fork and profile have separate Actions pages. |
+| Setup workflow still has the old name | Sync your fork with upstream once; preserve existing records and review workflow conflicts instead of overwriting custom files. |
+| Preview passed, nothing appeared | Preview saves nothing. Save a ready fork snapshot, then run profile `publish`. |
+| `SETUP_FACTION_CONFIRMATION_REQUIRED` | First save requires a faction and the confirmation checkbox. |
+| `SETUP_FACTION_REQUIRED` | Choose a faction for first use, or clear the checkbox for an existing character. |
+| `FACTION_ALREADY_CONFIRMED` | Leave faction empty and the confirmation unchecked, including after a saved pending reservation. |
+| Missing profile block | First connection needs `connect_if_missing` checked. Later missing blocks hold unless you explicitly reconnect. |
+| Invalid profile markers | Keep one unescaped marker pair outside code fences. Never delete records to fix README markup. |
+| Missing or pending source | Check the source fork's ready snapshot; profile sync cannot initialize or repair growth. |
+| `SETUP_SUMMARY_UNAVAILABLE` | Inspect the JSON result and fork files first. A missing Summary is not evidence that publication failed. |
+| Collection pending or over budget | Inspect diagnostics and retry after quota reset where applicable. Missing data is not zero. |
+| Write denied / branch changed / outcome unknown | Inspect repository policy and authoritative state. Do not add a PAT, force-push or weaken protection. |
+| Expected activity absent | Only qualified public activity counts. Add known public repositories below; discovery is best-effort. |
 
 ## Repository settings
 

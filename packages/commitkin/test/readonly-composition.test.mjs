@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createGithubClient, createReadonlyRefresh, createObservedReadonlyRefresh } from '../src/index.mjs';
 import { AUTHOR_STORAGE, PRODUCT_OWNER_ID } from '../src/infrastructure/github/storage.mjs';
+import { executeSetup } from '../bin/commitkin-setup.mjs';
 const hash = bytes => createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 const owner = '1001', repositoryId = '9001', name = 'HeroA/HeroA', head = 'a'.repeat(40), tree = 'b'.repeat(40);
 const workflowContext = { serverUrl: 'https://github.com', apiUrl: 'https://api.github.com', eventName: 'workflow_dispatch', repository: name, repositoryId, ownerAccountId: owner, actorAccountId: owner, ref: 'refs/heads/main', sha: head, startedAt: '2026-10-15T01:00:00Z' };
@@ -23,7 +24,7 @@ function fixture({ prior = null, bom = false, fork = false, missingReadme = fals
   if (bom) stored.set('README.md', Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), stored.get('README.md')]));
   if (prior) for (const role of ['state', 'ledger', 'status']) stored.set('.commitkin/' + role + '.json', Buffer.from(JSON.stringify(prior[role])));
   const requests = [];
-  const client = createGithubClient({ token: 'synthetic-token-only', maxRetries: 0, fetchImpl: async (url, options) => {
+  const fetchImpl = async (url, options) => {
     assert.equal(options.method, 'GET'); requests.push(url);
     const parsed = new URL(url), path = fork || author ? parsed.pathname.replace('/repos/' + installation, '/repos/' + name).replace('/repos/' + installation.toLowerCase(), '/repos/' + name.toLowerCase()) : parsed.pathname;
     let data;
@@ -45,9 +46,24 @@ function fixture({ prior = null, bom = false, fork = false, missingReadme = fals
     else if (path === '/users/' + login + '/events/public') data = [];
     else throw new TypeError('UNEXPECTED_MOCK_REQUEST');
     return new Response(JSON.stringify(data), { status: 200 });
-  } });
-  return { client, requests, stored, context: { ...workflowContext, repository: author || fork ? installation : name, repositoryId, ownerAccountId: owner, actorAccountId: owner }, owner };
+  };
+  const client = createGithubClient({ token: 'synthetic-token-only', maxRetries: 0, fetchImpl });
+  return { client, fetchImpl, requests, stored, context: { ...workflowContext, repository: author || fork ? installation : name, repositoryId, ownerAccountId: owner, actorAccountId: owner }, owner };
 }
+for (const faction of ['bloomguard', 'ashbound']) test('guided UI → actual Action → fork acquisition → collection → render is read-only for '+faction, async () => {
+  const mock = fixture({ fork: true, missingReadme: true }); const before = [...mock.stored];
+  const result = await executeSetup({ environment: {
+    GITHUB_ACTIONS: 'true', GITHUB_TOKEN: 'synthetic-token-only', GITHUB_EVENT_NAME: 'workflow_dispatch',
+    GITHUB_SERVER_URL: 'https://github.com', GITHUB_API_URL: 'https://api.github.com', GITHUB_REPOSITORY: mock.context.repository,
+    GITHUB_REPOSITORY_ID: mock.context.repositoryId, GITHUB_REPOSITORY_OWNER_ID: mock.owner, GITHUB_ACTOR_ID: mock.owner,
+    GITHUB_REF: 'refs/heads/main', GITHUB_SHA: head, COMMITKIN_FACTION: faction,
+  }, fetchImpl: mock.fetchImpl, clock: () => '2026-10-15T01:01:00Z' });
+  assert.equal(result.report.decision, 'prepared', JSON.stringify(result.report)); assert.equal(result.report.dryRun, true);
+  assert.equal(result.report.filesPrepared, 5); assert.equal(result.report.actualRecordsChanged, false);
+  assert.equal(result.report.summary.firstInstallation, true); assert.equal(result.report.summary.totalXp, '0');
+  assert.match(result.summary, /Nothing was saved or locked/); assert.doesNotMatch(result.summary, /```yaml/);
+  assert.deepEqual([...mock.stored], before); assert.equal(mock.requests.length, result.report.githubRequests);
+});
 test('actual GET-only composition acquires fixed-head first setup, discovers excluded empty scope and prepares five bytes without writing', async () => {
   const input = fixture(), before = [...input.stored].map(([path, bytes]) => [path, Buffer.from(bytes)]);
   const run = createReadonlyRefresh({ client: input.client, clock: () => '2026-10-15T01:01:00Z' });
