@@ -74,6 +74,8 @@ Only these five paths publish together **in the fork**:
 
 The fork README is not rewritten. The separate profile writer can update only `README.md`; it copies no records or images into that repository. The PNG link pins the same fork commit as the display JSON, preventing mixed-revision image/text. Markdown is generated from validated structured data, never imported as arbitrary remote Markdown/HTML.
 
+The product upstream remains free of personal growth records so future forks do not inherit someone else's character/history. It permits maintainer read-only previews only; publication to its durable repository ID is rejected as `UPSTREAM_PREVIEW_ONLY`, including legacy layouts. It is not a storage-source exception for profile sync. The maintainer's own future fork-layout installation requires a separately reviewed storage location; this implementation does not create one or relax the fork/owner checks.
+
 IDs, dates, aggregates and hashes are public. Hashes are not encryption or anonymity. No raw activity content, file contents, titles/bodies, emails, participant lists or credentials are archived. Keep fork Git history for recovery. Same-date no-ops do not rewrite files or claim new successful freshness. Family scores are independent 0–100 contribution-style indicators, not percentages that sum to 100 or skill rankings. Recent summary counts refer to qualified facts in the verified scope/window, not account-wide totals or coding time.
 
 ## Recovery

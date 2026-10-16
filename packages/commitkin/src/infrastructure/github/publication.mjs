@@ -1,5 +1,5 @@
 import { createTransport } from './transport.mjs';
-import { isCommitkinStorageRepository } from './storage.mjs';
+import { isCommitkinStorageRepository, PRODUCT_REPOSITORY_ID } from './storage.mjs';
 
 const PATHS = ['.commitkin/state.json', '.commitkin/ledger.json', '.commitkin/status.json', '.commitkin/card.png', 'README.md'];
 const FORK_PATHS = ['.commitkin/state.json', '.commitkin/ledger.json', '.commitkin/status.json', '.commitkin/character.png', '.commitkin/profile.json'];
@@ -42,6 +42,9 @@ function createFixedPublisher(options, profileOnly) {
     if (!metadata.ok) return hold(metadata.code);
     const stableId = value => typeof value === 'string' && /^[1-9][0-9]*$/.test(value) ? value : Number.isSafeInteger(value) && value > 0 ? String(value) : null;
     if (expectedRepositoryId !== undefined && (!stableId(expectedRepositoryId) || stableId(metadata.data?.id) !== expectedRepositoryId) || expectedOwnerAccountId !== undefined && (!stableId(expectedOwnerAccountId) || stableId(metadata.data?.owner?.id) !== expectedOwnerAccountId)) return hold('PUBLICATION_OWNER_BINDING_MISMATCH');
+    // Never seed the distribution root with personal records, including through
+    // a legacy layout or after an account/repository rename.
+    if (stableId(metadata.data?.id) === PRODUCT_REPOSITORY_ID) return hold('UPSTREAM_PREVIEW_ONLY');
     if (metadata.data.default_branch !== defaultBranch || metadata.data.private !== false || metadata.data.visibility && metadata.data.visibility !== 'public') return hold('PUBLICATION_REPOSITORY_MISMATCH');
     if (matchedPaths === FORK_PATHS && (!isCommitkinStorageRepository(metadata.data) || metadata.data.owner.login?.toLowerCase() === metadata.data.name?.toLowerCase())) return hold('PUBLICATION_REPOSITORY_MISMATCH');
     if ((profileOnly || matchedPaths === PATHS) && (metadata.data.owner?.type !== 'User' || typeof metadata.data.owner.login !== 'string' || typeof metadata.data.name !== 'string' || metadata.data.owner.login.toLowerCase() !== metadata.data.name.toLowerCase() || metadata.data.full_name?.toLowerCase() !== repository.toLowerCase())) return hold('PUBLICATION_REPOSITORY_MISMATCH');

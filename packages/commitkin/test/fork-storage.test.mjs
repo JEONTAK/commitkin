@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isCommitkinStorageRepository } from '../src/infrastructure/github/storage.mjs';
+import { isCommitkinStorageRepository, isCommitkinPreviewRepository } from '../src/infrastructure/github/storage.mjs';
 import { createGithubPublisher, createGithubProfilePublisher } from '../src/infrastructure/github/publication.mjs';
 
 const HEAD = 'a'.repeat(40), AFTER = 'e'.repeat(40), TOKEN = 'synthetic-fork-token';
@@ -28,8 +28,19 @@ function fixture(change = {}) {
 }
 test('storage roots use durable network/owner IDs across rename, not names or loose numeric coercion', () => {
   assert.equal(isCommitkinStorageRepository(metadata()), true);
-  assert.equal(isCommitkinStorageRepository({ ...metadata(), id: 1420061458, owner: { id: 76037656, type: 'User' }, fork: false, source: null }), true);
+  const upstream = { ...metadata(), id: 1420061458, owner: { id: 76037656, type: 'User' }, fork: false, source: null };
+  assert.equal(isCommitkinStorageRepository(upstream), false); assert.equal(isCommitkinPreviewRepository(upstream), true);
+  assert.equal(isCommitkinPreviewRepository(metadata()), true); assert.equal(isCommitkinPreviewRepository({ ...upstream, private: true }), false);
   for (const change of [{ private: true }, { visibility: 'internal' }, { fork: false }, { source: null }, { owner: { type: 'Organization' } }, { source: { id: 1420061458 } }, { source: { id: '01420061458', owner: { id: 76037656 } } }, { id: 1420061458 }]) assert.equal(isCommitkinStorageRepository({ ...metadata(), ...change }), false);
+});
+test('the product upstream can preview but can never publish owner records inherited by future forks', async () => {
+  const legacy = ['.commitkin/state.json', '.commitkin/ledger.json', '.commitkin/status.json', '.commitkin/card.png', 'README.md'].map(path => ({ path, content: Buffer.from('fixture') }));
+  for (const paths of [files(), legacy]) {
+    const input = fixture({ id: 1420061458, owner: { id: 76037656, login: 'Owner', type: 'User' }, fork: false, source: null });
+    const result = await input.publisher.publish({ ...request(), files: paths, expectedRepositoryId: '1420061458', expectedOwnerAccountId: '76037656' });
+    assert.equal(result.code, 'UPSTREAM_PREVIEW_ONLY'); assert.equal(result.actualRecordsChanged, false);
+    assert.equal(input.calls.some(call => call.method === 'POST'), false);
+  }
 });
 test('fork publication is exactly three records, character PNG and safe display model in one atomic group', async () => {
   const input = fixture(), result = await input.publisher.publish(request());

@@ -21,7 +21,7 @@ Use a fresh demo name: existing output is never overwritten. Demos write only fi
 
 ## Installation and publication
 
-See the root [installation guide](../../README.md#installation). New installations run the composite [Action](../../action.yml) in a public personal fork of `JEONTAK/commitkin` (the maintainer may use the root product repository). Durable owner/repository IDs, root fork-network identity and current default-branch head are verified. The supplied workflows are manual-only; no schedule is added or enabled.
+See the root [installation guide](../../README.md#installation). New installations run the composite [Action](../../action.yml) in a public personal fork of `JEONTAK/commitkin`. Durable owner/repository IDs, root fork-network identity and current default-branch head are verified. The maintainer's original product repository permits read-only preview, never personal-record publication or profile-sync storage: seeding it with records would make future forks inherit the wrong owner's history. Its immutable ID is blocked by every publication layout. The supplied workflows are manual-only; no schedule is added or enabled.
 
 - Default `dry-run: 'true'`: prepare five files in memory, emit a bounded summary, never construct a publisher or save a faction.
 - Explicit `dry-run: 'false'`: requires `contents: write`; publish only `.commitkin/state.json`, `ledger.json`, `status.json`, `character.png` and display-only `profile.json` **in the fork**, after safety gates. The fork README is not modified.

@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { parseStrictJson } from '../../../../record-validator/src/infrastructure/strict-json.js';
 import { digest } from '../../../../record-validator/src/domain/hash.js';
 import { compareTimestamps } from '../../domain/character/activity.mjs';
-import { isCommitkinStorageRepository } from './storage.mjs';
+import { isCommitkinPreviewRepository } from './storage.mjs';
 
 const RECORDS = Object.freeze({ state: '.commitkin/state.json', ledger: '.commitkin/ledger.json', status: '.commitkin/status.json' });
 const LIMITS = Object.freeze({ '.commitkin/state.json': 1048576, '.commitkin/ledger.json': 33554432, '.commitkin/status.json': 65536, 'README.md': 1048576, '.github/commitkin.yml': 65536 });
@@ -201,7 +201,7 @@ export async function acquireInstallation({ client, workflowContext, initialSele
     // Legacy profile installations remain readable in place. New distribution
     // binds storage to the owner's actual Commitkin fork, never a profile copy.
     const storageLayout = actual.owner.login.toLowerCase() === actual.name.toLowerCase() ? 'legacy-profile' : 'fork';
-    if (storageLayout === 'fork' && !isCommitkinStorageRepository(actual)) return hold('INSTALLATION_REPOSITORY_MISMATCH');
+    if (storageLayout === 'fork' && !isCommitkinPreviewRepository(actual)) return hold('INSTALLATION_REPOSITORY_MISMATCH');
     if (context.actorAccountId !== context.ownerAccountId) return hold('INSTALLATION_ACTOR_MISMATCH');
     if (context.ref !== 'refs/heads/' + actual.default_branch) return hold('INSTALLATION_DEFAULT_BRANCH_REQUIRED');
     const head = await client.get(`${root}/git/ref/heads/${actual.default_branch.split('/').map(encodeURIComponent).join('/')}`);
