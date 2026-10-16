@@ -13,6 +13,10 @@ inputs:
     description: True prepares the Markdown in memory. Explicit false writes only the profile README.
     required: false
     default: 'true'
+  initialize-if-missing:
+    description: Explicit first connection only; append a missing managed block without changing existing README content. Malformed markers still hold.
+    required: false
+    default: 'false'
 runs:
   using: composite
   steps:
@@ -33,4 +37,5 @@ runs:
         GITHUB_TOKEN: ${{ inputs.token }}
         COMMITKIN_SOURCE_REPOSITORY: ${{ inputs.source-repository }}
         COMMITKIN_DRY_RUN: ${{ inputs.dry-run }}
+        COMMITKIN_INITIALIZE_README: ${{ inputs.initialize-if-missing }}
       run: node "$COMMITKIN_SOURCE/packages/commitkin/bin/commitkin-profile-sync.mjs"

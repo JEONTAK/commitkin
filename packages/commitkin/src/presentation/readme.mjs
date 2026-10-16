@@ -66,14 +66,35 @@ export function managedPendingContent({ state, status, username, preview = true 
   ].join('\n');
 }
 
-/** Exactly one user-added managed region; bytes outside the region are preserved. */
-export function updateManagedReadme(original, content) {
-  if (typeof original !== 'string' || typeof content !== 'string' || !original.isWellFormed() || Buffer.byteLength(original) > 1048576 || content.includes(START) || content.includes(END)) throw new TypeError('README_INPUT_INVALID');
+function insideFence(text) {
+  let fence = null;
+  for (const line of text.split(/\r?\n/)) {
+    const match = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line);
+    if (!match) continue;
+    if (!fence) fence = match[1];
+    else if (match[1][0] === fence[0] && match[1].length >= fence.length && match[2].trim() === '') fence = null;
+  }
+  return fence !== null;
+}
+
+/** Existing regions stay strict. Explicit first connection may append, never replace, a missing region. */
+export function updateManagedReadme(original, content, { initializeIfMissing = false } = {}) {
+  if (typeof initializeIfMissing !== 'boolean' || typeof original !== 'string' || typeof content !== 'string' || !original.isWellFormed() || !content.isWellFormed() || Buffer.byteLength(original) > 1048576 || content.includes(START) || content.includes(END)) throw new TypeError('README_INPUT_INVALID');
   const starts = [...original.matchAll(/<!-- COMMITKIN:START -->/g)];
   const ends = [...original.matchAll(/<!-- COMMITKIN:END -->/g)];
+  const newline = original.includes('\r\n') ? '\r\n' : '\n';
+  if (initializeIfMissing && starts.length === 0 && ends.length === 0 && !/COMMITKIN\s*:/i.test(original)) {
+    if (insideFence(original)) throw new TypeError('README_CONNECTION_REQUIRED');
+    const separator = original.length === 0 || original.endsWith(newline + newline) ? '' : original.endsWith(newline) ? newline : newline + newline;
+    return original + separator + START + newline + content.replace(/\r?\n/g, newline) + newline + END + newline;
+  }
+  // Escaped, inline or code-fenced marker examples are not an installation target.
+  if (initializeIfMissing) {
+    const lines = original.replace(/^\ufeff/, '').split(/\r?\n/);
+    if (!lines.includes(START) || !lines.includes(END) || insideFence(original.slice(0, starts[0]?.index ?? 0))) throw new TypeError('README_CONNECTION_REQUIRED');
+  }
   if (starts.length !== 1 || ends.length !== 1 || starts[0].index >= ends[0].index || /<!--\s*COMMITKIN(?::|\s)/i.test(original.replace(START,'').replace(END,''))) throw new TypeError('README_CONNECTION_REQUIRED');
   const from = starts[0].index + START.length;
   const to = ends[0].index;
-  const newline = original.includes('\r\n') ? '\r\n' : '\n';
   return original.slice(0,from) + newline + content.replace(/\r?\n/g,newline) + newline + original.slice(to);
 }

@@ -8,10 +8,10 @@ function hold(code, stage, dryRun, profileChanged = false) {
 
 /** Display-only orchestration. No network, filesystem or publisher is implicit. */
 export function createProfileSyncUseCase({ acquire, render, updateReadme, createPublisher }) {
-  return async function syncProfile({ workflowContext, sourceRepository, dryRun = true } = {}) {
+  return async function syncProfile({ workflowContext, sourceRepository, dryRun = true, initializeIfMissing = false } = {}) {
     let stage = 'input'; let publicationStarted = false;
     try {
-      if (typeof dryRun !== 'boolean' || typeof acquire !== 'function' || typeof render !== 'function' || typeof updateReadme !== 'function') return hold('PROFILE_SYNC_INPUT_INVALID', stage, true);
+      if (typeof dryRun !== 'boolean' || typeof initializeIfMissing !== 'boolean' || typeof acquire !== 'function' || typeof render !== 'function' || typeof updateReadme !== 'function') return hold('PROFILE_SYNC_INPUT_INVALID', stage, true);
       stage = 'acquisition';
       const source = await acquire({ workflowContext, sourceRepository });
       if (source?.decision !== 'acquired') return hold(source?.code, stage, dryRun);
@@ -20,7 +20,7 @@ export function createProfileSyncUseCase({ acquire, render, updateReadme, create
       if (source.model?.analysis?.phase !== 'ready') return hold('PROFILE_SOURCE_ANALYSIS_PENDING', stage, dryRun);
       stage = 'render';
       const content = render({ model: source.model, characterImageUrl: source.characterImageUrl });
-      const readme = updateReadme(source.readme, content);
+      const readme = updateReadme(source.readme, content, { initializeIfMissing });
       if (typeof readme !== 'string' || !readme.isWellFormed()) return hold('PROFILE_README_INVALID', stage, dryRun);
       const bytes = new TextEncoder().encode(readme);
       if (bytes.length < 1 || bytes.length > 1048576) return hold('PROFILE_README_TOO_LARGE', stage, dryRun);

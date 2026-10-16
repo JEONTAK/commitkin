@@ -196,6 +196,50 @@ test('unchanged block invokes no writer even in explicit live mode', async () =>
   assert.equal(result.decision, 'unchanged', JSON.stringify(result)); assert.equal(result.filesPrepared, 0); assert.equal(mock.calls.some(call => call.method !== 'GET'), false); assert.equal(result.profileChanged, false);
 });
 
+for (const original of ['# My profile', '# My profile\n', '# My profile\n\n', '\ufeff# Keep\r\n한글 🧑\r\n', '```js\nconst x = 1;\n```\n# Keep']) {
+  test('explicit first connection appends one block and preserves every original byte: '+JSON.stringify(original), async () => {
+    const preview = fixture({ readme: original });
+    assert.equal((await preview.run(input({ initializeIfMissing: true }))).decision, 'prepared');
+    assert.equal(preview.calls.every(call => call.method === 'GET'), true);
+    assert.deepEqual(preview.stored().get('README.md'), Buffer.from(original));
+    const live = fixture({ readme: original });
+    assert.equal((await live.run(input({ dryRun: false, initializeIfMissing: true }))).decision, 'published');
+    const after = live.stored().get('README.md');
+    assert.deepEqual(after.subarray(0, Buffer.byteLength(original)), Buffer.from(original));
+    const markdown = after.toString('utf8');
+    assert.equal(markdown.split(START).length, 2); assert.equal(markdown.split(END).length, 2);
+    if (original.includes('\r\n')) assert.doesNotMatch(markdown, /(?<!\r)\n/);
+    assert.deepEqual([...live.sourceFiles], [...preview.sourceFiles]);
+    const repeat = fixture({ readme: markdown });
+    assert.equal((await repeat.run(input({ dryRun: false, initializeIfMissing: true }))).decision, 'unchanged');
+    assert.equal(repeat.calls.every(call => call.method === 'GET'), true);
+  });
+}
+for (const readme of [START, END, END+'\n'+START, START+'\n'+END+'\n'+START, '<!-- commitkin:start -->', '<!-- COMMITKIN : START -->', '\\'+START+'\n\\'+END, '```md\n'+START+'\n'+END+'\n```', '~~~\nopen code block']) {
+  test('first connection cannot repair or duplicate malformed/example markers: '+JSON.stringify(readme), async () => {
+    const mock = fixture({ readme });
+    assertSafeHold(await mock.run(input({ dryRun: false, initializeIfMissing: true })));
+    assert.equal(mock.calls.every(call => call.method === 'GET'), true);
+    assert.deepEqual(mock.stored().get('README.md'), Buffer.from(readme));
+  });
+}
+test('connection opt-in is strictly boolean and checked before acquisition', async () => {
+  const mock = fixture();
+  assertSafeHold(await mock.run(input({ initializeIfMissing: 'true' })), 'PROFILE_SYNC_INPUT_INVALID');
+  assert.deepEqual(mock.calls, []);
+});
+test('first connection refuses oversized final README without constructing a writer', async () => {
+  const mock = fixture({ readme: 'x'.repeat(1048500) });
+  assertSafeHold(await mock.run(input({ dryRun: false, initializeIfMissing: true })), 'PROFILE_README_TOO_LARGE');
+  assert.equal(mock.calls.every(call => call.method === 'GET'), true);
+});
+test('first connection still holds on missing or pending source without adding a block', async () => {
+  const mock = fixture({ pending: true, readme: '# Keep' });
+  assertSafeHold(await mock.run(input({ dryRun: false, initializeIfMissing: true })), 'PROFILE_SOURCE_ANALYSIS_PENDING');
+  assert.equal(mock.calls.every(call => call.method === 'GET'), true);
+  assert.deepEqual(mock.stored().get('README.md'), Buffer.from('# Keep'));
+});
+
 test('byte-verified Git blob fallback supports source and README without following download URLs', async () => {
   const mock = fixture({ blobFallback: true }); const result = await mock.run(input()); assert.equal(result.decision, 'prepared', JSON.stringify(result));
   assert.equal(mock.calls.filter(call => call.path.includes('/git/blobs/')).length, 3); assert.equal(mock.calls.every(call => call.method === 'GET'), true);
@@ -332,7 +376,7 @@ test('acquisition requires supplied read port and rejects malformed contexts wit
   assert.throws(() => createGithubProfileSync({ token: TOKEN, fetchImpl: null }), /OPTIONS/);
 });
 
-for (const [label, changes, args = []] of [['outside Actions', { GITHUB_ACTIONS: '' }], ['schedule forbidden', { GITHUB_EVENT_NAME: 'schedule' }], ['invalid boolean', { COMMITKIN_DRY_RUN: 'TRUE' }], ['args forbidden', {}, ['--live']]]) {
+for (const [label, changes, args = []] of [['outside Actions', { GITHUB_ACTIONS: '' }], ['schedule forbidden', { GITHUB_EVENT_NAME: 'schedule' }], ['invalid boolean', { COMMITKIN_DRY_RUN: 'TRUE' }], ['invalid connection boolean', { COMMITKIN_INITIALIZE_README: 'yes' }], ['args forbidden', {}, ['--live']]]) {
   test('profile CLI fails closed before network: '+label, () => {
     const env = { PATH: process.env.PATH, GITHUB_ACTIONS: 'true', GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_TOKEN: TOKEN, ...changes };
     const result = spawnSync(process.execPath, [fileURLToPath(new URL('../bin/commitkin-profile-sync.mjs', import.meta.url)), ...args], { env, encoding: 'utf8' });
