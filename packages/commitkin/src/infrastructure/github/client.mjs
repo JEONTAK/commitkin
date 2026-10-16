@@ -167,5 +167,5 @@ export function createGithubClient(options) {
     }
     return closingFailure('PAGE_LIMIT_REACHED', maxPages);
   }
-  return Object.freeze({ get, paginate, closingIssues, commitFiles, budget: transport.budget });
+  return Object.freeze({ get, paginate, closingIssues, commitFiles, budget: transport.budget, diagnostics: transport.diagnostics });
 }

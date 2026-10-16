@@ -17,6 +17,9 @@ const held = (stage, code) => ({ decision: 'hold', stage, code, files: null, pre
  */
 export function createRefreshUseCase(ports) {
   return async function prepareRefresh({ workflowContext, initialSelection = null }) {
+    let collectionDiagnostics;
+    const withDiagnostics = () => collectionDiagnostics === undefined ? {} : { collectionDiagnostics };
+    const finishHold = (stage, code) => ({ ...held(stage, code), ...withDiagnostics() });
     try {
       const installation = await ports.acquire({ workflowContext, initialSelection });
       if (installation.decision !== 'acquired') return held('installation', installation.code);
@@ -36,10 +39,10 @@ export function createRefreshUseCase(ports) {
       const initial = previous ? null : prepareInitialSnapshot({ installation, discovery, settings, settingsFileUsed: installation.settingsFileUsed, startedAt, evaluatedAt: ports.clock() });
       if (initial && initial.decision !== 'prepared') return held('initialization', initial.code);
       const base = previous ?? initial.snapshot;
-      const reservePending = code => {
+      const reservePending = (code, causeStage) => {
         if (!initial || !ports.reserveInitialPending || typeof ports.presentPending !== 'function') return null;
         const files = ports.presentPending({ candidate: base, username: installation.login, originalReadme });
-        return { decision: 'pending', stage: 'initialization', code: 'INITIAL_FACTION_RESERVED_ANALYSIS_PENDING', causeCode: code, files, candidate: base,
+        return { decision: 'pending', stage: 'initialization', code: 'INITIAL_FACTION_RESERVED_ANALYSIS_PENDING', causeCode: code, causeStage, ...withDiagnostics(), files, candidate: base,
           repository: installation.repository.fullName, owner: installation.expectedOwner, defaultBranch: installation.defaultBranch, expectedHead: installation.expectedHead,
           summary: { firstInstallation: true, classId: null, totalXp: null, deltaXp: '0', knownRepositories: discovery.repositories.length },
           verification: { decision: 'initial_pending_reservation', initialConfirmation: 'verified', growthAnalysis: 'not_checked' }, sourceModel: ports.sourceModel, sourceAuthenticity: 'not_checked', progressionAuthorized: false, published: false };
@@ -47,7 +50,8 @@ export function createRefreshUseCase(ports) {
       const startDate = [base.state.growth.startDate, shift(cutoffDate, -90)].sort().at(-1);
       const repositoryIds = scopeFor(discovery.repositories.map(repo => repo.id)).repositoryIds;
       const captured = await ports.collect({ repositories: discovery.repositories, subjectAccountId: installation.expectedOwner.accountId, startDate, cutoffDate });
-      if (captured.decision !== 'ready') return reservePending(captured.code) ?? held('collection', captured.code);
+      collectionDiagnostics = captured.diagnostics;
+      if (captured.decision !== 'ready') return reservePending(captured.code, 'collection') ?? finishHold('collection', captured.code);
       const completedAt = ports.clock();
       if (typeof completedAt !== 'string' || !Number.isFinite(Date.parse(completedAt)) || compareTimestamps(completedAt, startedAt) < 0) return held('clock', 'EVALUATION_TIME_INVALID');
       const context = { contextVersion: 1, operation: 'normal', expected: { subject: installation.expectedOwner, evidenceVersion: 1, rulesetVersion: '1.0.0', adapter: { id: 'github.com', version: '1' } }, evaluation: { startedAt, inspectedAt: completedAt }, normalizedSettings: settings, scope: { repositoryIds }, comparison: { mode: 'with_previous' } };
@@ -69,7 +73,7 @@ export function createRefreshUseCase(ports) {
       checkCollectionClosure(evidence, checkRequiredCollections(evidence, scope, index));
       qualification = qualifyEvidence({ evidence, context, previousLedger: previous?.ledger ?? null, policyRegistry: ports.policyRegistry, growthStartDate: base.state.growth.startDate });
       }
-      if (qualification.decision !== 'qualified') return (qualification.decision === 'hold' ? reservePending(qualification.code) : null) ?? held('qualification', qualification.code);
+      if (qualification.decision !== 'qualified') return (qualification.decision === 'hold' ? reservePending(qualification.code, 'qualification') : null) ?? finishHold('qualification', qualification.code);
       const priorKeys = new Set(base.ledger.facts.map(fact => fact.eventKey));
       const repositoryRows = reconcileRepositoryTracking({ previousRows: base.ledger.repositories, repositories: discovery.repositories, tracked: discovery.tracked, subjectAccountId: installation.expectedOwner.accountId, observedAt: completedAt });
       const evaluationInput = { previous: base, expectedOwner: installation.expectedOwner, activities: qualification.activities, priorActivities: qualification.activities.filter(item => priorKeys.has(item.fact.eventKey)), reviewHistoryFacts: qualification.reviewHistoryFacts, repositoryIds, repositoryRows, settings, settingsFileUsed: installation.settingsFileUsed, evaluationStartedAt: startedAt, evaluatedAt: completedAt, initialAssignmentVerified: installation.initialAssignmentVerified };
@@ -101,7 +105,7 @@ export function createRefreshUseCase(ports) {
       const files = ports.present({ candidate: evaluated.candidate, username: installation.login, classificationReason: evaluated.character.classificationReason, originalReadme });
       return { decision: evaluated.decision === 'unchanged' ? 'unchanged' : 'prepared', stage: 'complete', code: 'DRY_RUN_READY', files, candidate: evaluated.candidate,
         repository: installation.repository.fullName, owner: installation.expectedOwner, defaultBranch: installation.defaultBranch, expectedHead: installation.expectedHead,
-        summary, verification, sourceModel: ports.sourceModel ?? 'github-public-historical-v1', sourceAuthenticity: 'not_checked', progressionAuthorized: false, published: false };
+        summary, verification, ...withDiagnostics(), sourceModel: ports.sourceModel ?? 'github-public-historical-v1', sourceAuthenticity: 'not_checked', progressionAuthorized: false, published: false };
     } catch (error) {
       const allowed = new Set(['README_CONNECTION_REQUIRED', 'README_INPUT_INVALID', 'SETTINGS_CONFIRMATION_REQUIRED', 'SETTINGS_INVALID', 'SETTINGS_UTF8_INVALID', 'SETTINGS_DUPLICATE', 'SETTINGS_INPUT_INVALID', 'REQUIRED_COLLECTION_NOT_COLLECTED', 'REQUIRED_COLLECTION_FAILED', 'REQUIRED_COLLECTION_TRUNCATED_OR_UNKNOWN', 'NEXT_PAGE_MISSING', 'COLLECTION_TERMINATION_UNKNOWN']);
       return held('preparation', allowed.has(error?.code ?? error?.message) ? error.code ?? error.message : 'REFRESH_PREPARATION_UNAVAILABLE');

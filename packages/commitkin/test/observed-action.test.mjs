@@ -207,6 +207,8 @@ test('initial pending reservation remains read-only under default Action dry run
   const mock = profileHttp({ excludeSelf: false, failCollection: true }); const before = mock.filesBefore();
   const result = await createCommitkinAction({ client: mock.client, publisher: mock.publisher, clock: () => '2026-10-15T01:01:00Z' })({ workflowContext: workflow(), initialSelection: selection('bloomguard') });
   assert.equal(result.decision, 'pending', JSON.stringify(result)); assert.equal(result.dryRun, true); assert.equal(result.published, false); assert.equal(result.progressionAuthorized, false);
+  assert.equal(result.causeCode, 'ACCESS_DENIED'); assert.equal(result.causeStage, 'collection');
+  assert.deepEqual(result.collectionDiagnostics, { repositories: [{ repositoryId: REPOSITORY, requests: 3, completed: false }], operation: 'pull_requests' });
   assert.equal(result.summary.totalXp, null); assert.equal(mock.publisher.budget().used, 0); assert.deepEqual(mock.filesBefore(), before);
 });
 

@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { collectPublicSources } from '../src/application/collect-public-sources.mjs';
 import { createGithubClient } from '../src/infrastructure/github/client.mjs';
+import { qualifyObservedCapture } from '../src/domain/evidence/observed.mjs';
+import { OBSERVED_FILE_RULES } from '../src/domain/evidence/files.mjs';
 
 const prefix = '/repos/owner/project';
 const user = { id: '1001', type: 'User', login: 'not-returned', email: 'private-email-not-returned' };
@@ -415,6 +417,53 @@ test('old/future/current-cutoff/bot/other/fork direct commits never cause unnece
     const result = await ready(mock); assert.equal(result.capture.files.length, 0, condition);
     assert.equal(result.capture.commits[0].fileProof, 'not_collected');
     assert.equal(mock.calls.some(call => call.path.includes('/git/blobs/') || call.path.endsWith('/commits/' + '8'.repeat(40) + '?per_page=100')), false, condition);
+  }
+});
+
+test('observed old fixed-HEAD ancestry stays complete without per-old-commit association requests or changed qualified activity', async () => {
+  const baseline = observed(); addCommit(baseline, { root: true, beforeText: null, authoredAt: '2010-01-01T00:00:00Z' }); const baselineResult = await ready(baseline);
+  const mock = observed(); addCommit(mock, { root: true, beforeText: null, authoredAt: '2010-01-01T00:00:00Z' });
+  const oldCount = 125;
+  mock.routes.get(paths.commits).items.unshift(...Array.from({ length: oldCount }, (_, index) => ({ sha: BigInt(index + 1).toString(16).padStart(40, '0'), author: user, commit: { author: { date: '2026-10-14T09:00:00Z' }, committer: { date: '2020-01-01T00:00:00Z' } } })));
+  mock.routes.get(paths.commits).pages = 2;
+  const result = await ready(mock); const ancestry = result.capture.queries.find(query => query.kind === 'default_branch_commits');
+  assert.equal(result.capture.commits.length, oldCount + 1); assert.equal(ancestry.receivedItems, oldCount + 1); assert.equal(ancestry.pages, 2); assert.equal(ancestry.pageSnapshots.length, 2);
+  assert.deepEqual(ancestry.filters, { branch: 'main', headOid: '9'.repeat(40), ancestry: 'all', reflectionTimeFromAuthorDate: false });
+  assert.equal(mock.calls.filter(call => /\/commits\/[a-f0-9]+\/pulls\?/.test(call.path)).length, 1);
+  assert.equal(mock.calls.length, baseline.calls.length); // 125 extra ancestry rows, no extra detail requests.
+  assert.equal(result.capture.commits.filter(commit => commit.associatedPrIds === null && commit.fileProof === 'not_collected').length, oldCount);
+  const qualify = capture => qualifyObservedCapture({ capture, subjectAccountId: '1001', growthStartDate: '2026-07-17', cutoffDate: '2026-10-15', policyRegistry: { fileRules: [{ id: 'commitkin-observed-files-v1', version: '1', body: OBSERVED_FILE_RULES }] } });
+  const before = qualify(baselineResult.capture); const after = qualify(result.capture); assert.equal(before.decision, 'qualified', before.code); assert.equal(after.decision, 'qualified', after.code); assert.deepEqual(after.activities, before.activities); assert.deepEqual(after.reviewHistoryFacts, before.reviewHistoryFacts);
+});
+
+test('observed associations use committed-date inclusive start and exclusive cutoff, never authored-date shortcuts', async () => {
+  for (const [committedAt, eligible] of [
+    ['2026-07-16T23:59:59.9999999Z', false], ['2026-07-17T00:00:00Z', true], ['2026-07-17T00:00:00.0000001Z', true],
+    ['2026-10-14T23:59:59.9999999Z', true], ['2026-10-15T00:00:00Z', false], ['2026-10-15T00:00:00.0000001Z', false], ['2026-10-16T00:00:00Z', false],
+  ]) {
+    const mock = observed(); addCommit(mock, { committedAt, authoredAt: eligible ? '2010-01-01T00:00:00Z' : '2026-10-14T09:00:00Z' });
+    if (!eligible) mock.routes.delete(prefix + '/commits/' + '8'.repeat(40) + '/pulls?per_page=100');
+    const result = await ready(mock); const commit = result.capture.commits[0]; assert.equal(commit.committedAt, committedAt);
+    assert.equal(mock.calls.some(call => call.path === prefix + '/commits/' + '8'.repeat(40) + '/pulls?per_page=100'), eligible, committedAt);
+    assert.deepEqual(commit.associatedPrIds, eligible ? [] : null); assert.equal(result.capture.files.length, eligible ? 1 : 0);
+    assert.equal(result.capture.queries.some(query => query.kind === 'commit_pull_requests'), eligible);
+  }
+});
+
+test('observed malformed committed dates still hold before association requests, including otherwise irrelevant actors', async () => {
+  for (const committedAt of [undefined, null, 'not-a-date', '2026-02-30T00:00:00Z', '2026-10-14T09:00:00+09:00']) {
+    for (const author of [user, { id: '2002', type: 'User' }]) {
+      const mock = observed(); addCommit(mock, { authoredAt: '2010-01-01T00:00:00Z', author }); mock.routes.get(paths.commits).items[0].commit.committer.date = committedAt;
+      await held(mock, 'SOURCE_TIMESTAMP_INVALID'); assert.equal(mock.calls.some(call => /\/commits\/[a-f0-9]+\/pulls\?/.test(call.path)), false);
+    }
+  }
+});
+
+test('legacy commit associations are not window-filtered and still need no committed-date field', async () => {
+  for (const committedAt of [undefined, '2010-01-01T00:00:00Z', '2026-10-15T00:00:00Z', 'not-a-date']) {
+    const mock = setup(); const sha = '8'.repeat(40); mock.routes.get(paths.commits).items = [{ sha, author: user, commit: { author: { date: '2026-10-14T09:00:00Z' }, committer: { date: committedAt } } }];
+    const path = prefix + '/commits/' + sha + '/pulls?per_page=100'; mock.routes.set(path, { kind: 'paginate', pages: 1, items: [{ id: '17' }] });
+    const result = await ready(mock); assert.deepEqual(result.capture.commits[0].associatedPrIds, ['17']); assert.equal(mock.calls.some(call => call.path === path), true); assert.equal(Object.hasOwn(result.capture.commits[0], 'committedAt'), false);
   }
 });
 

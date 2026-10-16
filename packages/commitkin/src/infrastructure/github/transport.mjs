@@ -4,6 +4,29 @@ const API = 'https://api.github.com';
 const MAX_BUDGET = 10000;
 function boundedInteger(value, minimum, maximum) { return Number.isSafeInteger(value) && value >= minimum && value <= maximum; }
 function safeFailure(code, status = null) { return { ok: false, code, status }; }
+// Fixed labels only: never expose request paths, branch names, source text or
+// credentials in the public diagnostic report.
+function requestKind(pathname) {
+  if (pathname === '/graphql') return 'graphql';
+  if (/\/git\/ref\//.test(pathname)) return 'git_ref';
+  if (/\/git\/commits\//.test(pathname)) return 'git_commit';
+  if (/\/git\/trees\//.test(pathname)) return 'git_tree';
+  if (/\/git\/blobs\//.test(pathname)) return 'git_blob';
+  if (/\/contents\//.test(pathname)) return 'contents';
+  if (/\/pulls\/\d+\/reviews$/.test(pathname)) return 'pr_reviews';
+  if (/\/pulls\/\d+\/files$/.test(pathname)) return 'pr_files';
+  if (/\/pulls\/\d+$/.test(pathname)) return 'pr_detail';
+  if (/\/commits\/[^/]+\/pulls$/.test(pathname)) return 'commit_associations';
+  if (/\/commits\/[^/]+$/.test(pathname)) return 'commit_files';
+  if (/\/commits$/.test(pathname)) return 'commit_list';
+  if (/\/pulls$/.test(pathname)) return 'pr_list';
+  if (/\/issues\/events$/.test(pathname)) return 'issue_events';
+  if (/\/issues\/\d+\/labels$/.test(pathname)) return 'current_labels';
+  if (/\/issues\/\d+$/.test(pathname)) return 'issue_detail';
+  if (/\/releases$/.test(pathname)) return 'releases';
+  if (/\/compare\//.test(pathname)) return 'compare';
+  return 'metadata_or_discovery';
+}
 function pathUrl(path) {
   if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//') || /[\\\s#\x00-\x1f]/u.test(path)) return null;
   // Encoded separators/traversal are dangerous in endpoint paths, not in query
@@ -44,6 +67,18 @@ export function createTransport({ token, fetchImpl, requestBudget = 300, timeout
   if (typeof token !== 'string' || token.length < 8 || token.length > 4096 || !/^[\x21-\x7e]+$/.test(token) || typeof fetchImpl !== 'function' || typeof waitImpl !== 'function' ||
     !boundedInteger(requestBudget, 1, MAX_BUDGET) || !boundedInteger(timeoutMs, 1, 60000) || !boundedInteger(maxResponseBytes, 1, 32 * 1024 * 1024) || !boundedInteger(maxRetries, 0, 3)) throw new TypeError('GITHUB_OPTIONS_INVALID');
   let used = 0;
+  const requestsByKind = {}; const rateLimits = {};
+  function observeHeaders(headers) {
+    const resource = headers.get('x-ratelimit-resource');
+    if (!['core', 'graphql'].includes(resource)) return;
+    const values = {};
+    for (const field of ['limit', 'remaining', 'used', 'reset']) {
+      const raw = headers.get('x-ratelimit-' + field);
+      if (typeof raw !== 'string' || !/^\d{1,12}$/.test(raw) || !Number.isSafeInteger(Number(raw))) return;
+      values[field] = Number(raw);
+    }
+    rateLimits[resource] = values;
+  }
   async function waitForRetry(attempt) { try { await waitImpl(Math.min(1000 * 2 ** attempt, 4000)); return true; } catch { return false; } }
   async function request(method, path, body) {
     const url = pathUrl(path);
@@ -51,6 +86,8 @@ export function createTransport({ token, fetchImpl, requestBudget = 300, timeout
     for (let attempt = 0; ; attempt += 1) {
       if (used >= requestBudget) return safeFailure('REQUEST_BUDGET_EXHAUSTED');
       used += 1;
+      const kind = requestKind(url.pathname);
+      requestsByKind[kind] = (requestsByKind[kind] ?? 0) + 1;
       const abort = new AbortController();
       let rejectDeadline;
       const deadline = new Promise((resolve, reject) => { rejectDeadline = reject; });
@@ -61,6 +98,7 @@ export function createTransport({ token, fetchImpl, requestBudget = 300, timeout
           headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': 'Commitkin', ...(body === undefined ? {} : { 'Content-Type': 'application/json' }) },
           ...(body === undefined ? {} : { body: JSON.stringify(body) }) }), deadline]);
         if (!response || response.redirected || (response.url && new URL(response.url).href !== url.href) || response.status >= 300 && response.status < 400) return safeFailure('REDIRECT_REJECTED', response?.status ?? null);
+        observeHeaders(response.headers);
         if (method === 'GET' && [502, 503, 504].includes(response.status) && attempt < maxRetries) { await response.body?.cancel(); if (!await waitForRetry(attempt)) return safeFailure('RETRY_WAIT_UNAVAILABLE'); continue; }
         if (response.status < 200 || response.status >= 300) {
           const code = response.status === 404 ? 'REPOSITORY_UNAVAILABLE' : response.status === 429 || response.status === 403 && response.headers.get('x-ratelimit-remaining') === '0' ? 'RATE_LIMITED' : response.status === 403 ? 'ACCESS_DENIED' : response.status === 422 || response.status === 409 ? 'REMOTE_CONFLICT' : 'HTTP_UNAVAILABLE';
@@ -79,7 +117,7 @@ export function createTransport({ token, fetchImpl, requestBudget = 300, timeout
       } finally { clearTimeout(timer); }
     }
   }
-  return Object.freeze({ request, budget: () => ({ used, remaining: requestBudget - used, limit: requestBudget }) });
+  return Object.freeze({ request, budget: () => ({ used, remaining: requestBudget - used, limit: requestBudget }), diagnostics: () => structuredClone({ requests: used, requestsByKind, rateLimits }) });
 }
 
 function paginationPathnames(previous, binding) {

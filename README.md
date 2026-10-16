@@ -84,6 +84,12 @@ Rewritten-away user-managed history cannot always be detected. Old uncollected p
 
 First regular assignment after an earlier successful Adventurer analysis requires a verified reachable matched-record lineage (at most 100 state-history entries, also subject to request budget). This scan happens only when there is an actual first-class candidate; ordinary no-candidate XP/traits continue without it. Insufficient origin proof explicitly holds rather than trusting an empty class history or rewriting the faction.
 
+### Request diagnostics
+
+Action reports expose the underlying pending cause, per-public-repository request counts/completion and fixed endpoint-category totals, including retries and available provider quota headers. No request URLs, source text or credentials are included. These diagnostics live in the run log, not growth records. The 900-request analysis ceiling is unchanged; quota exhaustion still holds the entire analysis.
+
+The observed collector still enumerates the complete fixed-HEAD ancestry and every PR/review history. After validating each Git committed date, it skips commit-to-PR association requests for commits already outside the eligible analysis window. It does not use author dates, stop ancestry pagination early, exclude repositories or turn missing activity into zero. Legacy historical collection is unchanged.
+
 ## Development and validation
 
 ```sh

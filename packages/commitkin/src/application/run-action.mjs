@@ -8,8 +8,9 @@ export function createActionRunUseCase({ prepare, publish }) {
     try {
       if (typeof dryRun !== 'boolean' || typeof prepare !== 'function') return hold('ACTION_INPUT_INVALID');
       const result = await prepare({ workflowContext, initialSelection });
-      if (!['prepared', 'pending', 'unchanged'].includes(result.decision)) return { ...hold(result.code), stage: result.stage };
-      const report = { reportVersion: 1, decision: result.decision, code: result.code, sourceModel: result.sourceModel ?? MODEL, summary: result.summary, published: false, progressionAuthorized: false, actualRecordsChanged: false, publicationOutcome: 'not_published' };
+      const diagnostics = result.collectionDiagnostics === undefined ? {} : { collectionDiagnostics: result.collectionDiagnostics };
+      if (!['prepared', 'pending', 'unchanged'].includes(result.decision)) return { ...hold(result.code), stage: result.stage, ...diagnostics };
+      const report = { reportVersion: 1, decision: result.decision, code: result.code, ...(result.causeCode === undefined ? {} : { causeCode: result.causeCode, causeStage: result.causeStage }), ...diagnostics, sourceModel: result.sourceModel ?? MODEL, summary: result.summary, published: false, progressionAuthorized: false, actualRecordsChanged: false, publicationOutcome: 'not_published' };
       if (dryRun || result.decision === 'unchanged') return { ...report, dryRun, filesPrepared: result.files?.length ?? 0 };
       const pending = result.decision === 'pending' && result.verification?.decision === 'initial_pending_reservation' && result.verification.initialConfirmation === 'verified' && result.candidate?.state.growth.phase === 'pending' && result.candidate.state.growth.totalXp === null && result.candidate.state.class === null && result.candidate.state.evaluation === null;
       if (result.sourceModel !== MODEL || !pending && result.verification?.decision !== 'accept_relative_to_capture' && result.verification?.code !== 'PRIMARY_SNAPSHOT_UNCHANGED') return hold('ACTION_SOURCE_VERIFICATION_REQUIRED');

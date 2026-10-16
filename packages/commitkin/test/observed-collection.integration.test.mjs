@@ -17,7 +17,7 @@ const response = (data, headers = {}, status = 200) => new Response(JSON.stringi
 const clone = value => structuredClone(value);
 
 /** All requests terminate in this local mock. The real GitHub client/collector run. */
-function fixture({ ownBug = false, linkedBug = true, unknownLinkedIssue = false, numericAliases = false } = {}) {
+function fixture({ ownBug = false, linkedBug = true, unknownLinkedIssue = false, numericAliases = false, oldOwnedCommits = 0 } = {}) {
   const routes = new Map(); const calls = []; const metadata = { id: REPO, full_name: 'owner/project', owner: { id: ACCOUNT, type: 'User' }, private: false, visibility: 'public', fork: false, archived: false, default_branch: 'main' };
   const put = (path, data) => routes.set(path, clone(data));
   const addBlob = text => { const sha = blobOid(text); put(PREFIX + '/git/blobs/' + sha, { sha, encoding: 'base64', size: Buffer.byteLength(text), content: Buffer.from(text).toString('base64') }); return sha; };
@@ -40,7 +40,9 @@ function fixture({ ownBug = false, linkedBug = true, unknownLinkedIssue = false,
   }
   put(PREFIX + '/issues/events?per_page=100', []);
   put(PREFIX + '/releases?per_page=100', [{ id: '41', author: USER, draft: false, prerelease: false, published_at: '2026-10-14T12:00:00Z', body: 'RAW_BODY', name: 'RAW_TITLE' }]);
-  put(PREFIX + '/commits?sha=' + DIRECT + '&per_page=100', [{ sha: DIRECT, author: USER, commit: { author: { date: '2010-01-01T00:00:00Z' }, committer: { date: '2026-10-14T10:00:00Z' }, message: 'RAW_MESSAGE' } }]);
+  const ancestryPath = PREFIX + '/commits?sha=' + DIRECT + '&per_page=100';
+  put(ancestryPath, [{ sha: DIRECT, author: USER, commit: { author: { date: '2010-01-01T00:00:00Z' }, committer: { date: '2026-10-14T10:00:00Z' }, message: 'RAW_MESSAGE' } },
+    ...Array.from({ length: oldOwnedCommits }, (_, index) => ({ sha: BigInt(index + 1).toString(16).padStart(40, '0'), author: USER, commit: { author: { date: '2026-10-14T10:00:00Z' }, committer: { date: '2020-01-01T00:00:00Z' }, message: 'RAW_OLD_MESSAGE' } }))]);
   put(PREFIX + '/commits/' + DIRECT + '/pulls?per_page=100', []);
   put(PREFIX + '/git/commits/' + DIRECT, { sha: DIRECT, tree: { sha: DIRECT_TREE }, parents: [] });
   const directPaths = [...Array.from({ length: 99 }, (_, index) => `src/direct-${index}.ts`), 'docs/direct.md', 'assets/direct.png'];
@@ -66,6 +68,10 @@ function fixture({ ownBug = false, linkedBug = true, unknownLinkedIssue = false,
       ], pageInfo: { hasNextPage: false, endCursor: 'last-cursor' } } } } } });
     }
     assert.equal(init.method, 'GET');
+    if (oldOwnedCommits > 0 && (path === ancestryPath || path === ancestryPath + '&page=2')) {
+      const second = path.endsWith('&page=2');
+      return response(routes.get(ancestryPath).slice(second ? 100 : 0, second ? undefined : 100), second ? {} : { link: `<https://api.github.com${ancestryPath}&page=2>; rel="next"` });
+    }
     if (unknownLinkedIssue && path === '/repos/external/issue-repository/issues/8') return response({ message: 'RAW_PRIVATE_ERROR' }, {}, 404);
     if (numericAliases && path === pullPath) return response(routes.get(pullPath), { link: `<https://api.github.com${numericPullPath}>; rel="next"` });
     if (numericAliases && path === numericPullPath) return response([]);
@@ -136,4 +142,23 @@ test('actual named-to-verified-numeric Link aliases survive collection and stric
   assert.equal(settleQualifiedActivities({ activities: result.activities }).totalXp, '65'); assert.equal(result.progressionAuthorized, false);
   assert.ok(mock.calls.some(call => call.path.startsWith('/repositories/9001/commits/')));
   assert.ok(mock.calls.some(call => call.path.startsWith('/repositories/9001/pulls?')));
+});
+
+test('real client pagination adds exactly one request for 125 old owned commits while qualified growth and full ancestry remain unchanged', async () => {
+  const baseline = fixture(); const first = await collect(baseline); assert.equal(first.decision, 'ready', first.code);
+  const expanded = fixture({ oldOwnedCommits: 125 }); const second = await collect(expanded); assert.equal(second.decision, 'ready', second.code);
+  const ancestry = second.capture.queries.find(query => query.kind === 'default_branch_commits');
+  assert.equal(second.capture.commits.length, 126); assert.equal(ancestry.receivedItems, 126); assert.equal(ancestry.pages, 2);
+  assert.deepEqual(ancestry.pageSnapshots.map(page => page.itemCount), [100, 26]);
+  assert.deepEqual(ancestry.filters, { branch: 'main', headOid: DIRECT, ancestry: 'all', reflectionTimeFromAuthorDate: false });
+  assert.equal(ancestry.pageSnapshots[0].nextPath, PREFIX + '/commits?sha=' + DIRECT + '&per_page=100&page=2');
+  assert.equal(expanded.calls.length, baseline.calls.length + 1);
+  assert.equal(expanded.client.budget().used, baseline.client.budget().used + 1);
+  assert.deepEqual(expanded.calls.filter(call => /\/commits\/[a-f0-9]+\/pulls\?/.test(call.path)), baseline.calls.filter(call => /\/commits\/[a-f0-9]+\/pulls\?/.test(call.path)));
+  const old = second.capture.commits.filter(commit => commit.oid !== DIRECT);
+  assert.equal(old.length, 125); assert.ok(old.every(commit => commit.committedAt === '2020-01-01T00:00:00Z' && commit.associatedPrIds === null && commit.fileProof === 'not_collected'));
+  for (const commit of old) assert.equal(expanded.calls.some(call => call.path.includes('/commits/' + commit.oid + '/pulls?')), false);
+  const before = qualify(first.capture); const after = qualify(second.capture); assert.equal(before.decision, 'qualified', before.code); assert.equal(after.decision, 'qualified', after.code);
+  assert.deepEqual(after.activities, before.activities); assert.deepEqual(after.reviewHistoryFacts, before.reviewHistoryFacts);
+  assert.equal(settleQualifiedActivities({ activities: after.activities, reviewHistoryFacts: after.reviewHistoryFacts }).totalXp, '65');
 });

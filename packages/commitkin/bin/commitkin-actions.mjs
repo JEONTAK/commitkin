@@ -21,7 +21,7 @@ export async function executeAction({ environment, fetchImpl, clock = () => new 
     // capability and can run only after exact owner/source/safety gates pass.
     const publisher = dryRun ? undefined : createGithubPublisher({ ...options, requestBudget: 30, maxRetries: 0, fetchImpl });
     const report = await createCommitkinAction({ client, publisher, clock })({ workflowContext, initialSelection, dryRun });
-    return { ...report, githubRequests: client.budget().used + (publisher?.budget().used ?? 0) };
+    return { ...report, githubRequests: client.budget().used + (publisher?.budget().used ?? 0), requestDiagnostics: client.diagnostics() };
   } catch { return invalid(); }
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

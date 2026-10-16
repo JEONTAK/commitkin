@@ -64,6 +64,17 @@ function baseResponse(model) {
 }
 
 export async function collectPublicSources({ client, repositories, subjectAccountId, startDate, cutoffDate, model = 'legacy-v1' }) {
+  const diagnostics = { repositories: [], operation: 'input' };
+  let activeRepository = null; let repositoryStartRequests = 0;
+  function diagnosticSnapshot() {
+    if (activeRepository !== null) {
+      try {
+        const delta = client.budget().used - repositoryStartRequests;
+        if (Number.isSafeInteger(delta) && delta >= 0) activeRepository.requests = delta;
+      } catch { /* Diagnostic failures never conceal the original hold. */ }
+    }
+    return structuredClone(diagnostics);
+  }
   try {
     requireThat(['legacy-v1', 'observed-api-v1'].includes(model), 'COLLECTION_MODEL_UNSUPPORTED');
     const observed = model === 'observed-api-v1';
@@ -81,6 +92,7 @@ export async function collectPublicSources({ client, repositories, subjectAccoun
       requireThat(budget.remaining > 0, 'REQUEST_BUDGET_EXHAUSTED');
     }
     async function get(path) {
+      diagnostics.operation = /\/git\/blobs\//.test(path) ? 'git_blob' : /\/git\/trees\//.test(path) ? 'git_tree' : /\/git\/commits\//.test(path) ? 'git_commit' : /\/compare\//.test(path) ? 'compare' : /\/issues\//.test(path) ? 'issue_detail' : /\/git\/ref\//.test(path) ? 'git_ref' : /\/pulls\//.test(path) ? 'pr_detail' : 'repository_metadata';
       budgetAvailable(); const result = await client.get(path);
       requireThat(result?.ok === true, SAFE_CODES.has(result?.code) ? result.code : 'SOURCE_UNAVAILABLE');
       requireThat(result.data && typeof result.data === 'object' && !Array.isArray(result.data)); return result.data;
@@ -98,6 +110,7 @@ export async function collectPublicSources({ client, repositories, subjectAccoun
       capture.queries.push({ ...query, pages: result.pages, receivedItems, closed: true, pageSnapshots: structuredClone(result.pageSnapshots) });
     }
     async function enumerate(path, query, maxPages = 100) {
+      diagnostics.operation = query.kind;
       budgetAvailable(); const result = await client.paginate(path, { maxPages, repositoryId: query.repositoryId });
       requireThat(result?.ok === true && result.complete === true, SAFE_CODES.has(result?.code) ? result.code : 'INCOMPLETE_COLLECTION');
       requireThat(Array.isArray(result.items), 'CAPTURE_CLOSURE_INVALID');
@@ -126,6 +139,7 @@ export async function collectPublicSources({ client, repositories, subjectAccoun
       issueCache.set(key, projection); capture.issues.push(projection); return projection;
     }
     async function closingIssues(repositoryName, projection) {
+      diagnostics.operation = 'observed_closing_issues';
       requireThat(typeof client.closingIssues === 'function', 'CLOSING_ISSUES_CAPABILITY_UNAVAILABLE');
       budgetAvailable();
       const result = await client.closingIssues({ repository: repositoryName, pullNumber: projection.number, maxPages: 10 });
@@ -257,6 +271,7 @@ export async function collectPublicSources({ client, repositories, subjectAccoun
       await capturePairs(prefix, pairs, needsContents);
     }
     async function acquireCommitFiles(prefix, projection) {
+      diagnostics.operation = 'commit_files';
       requireThat(typeof client.commitFiles === 'function', 'COMMIT_FILES_CAPABILITY_UNAVAILABLE');
       budgetAvailable();
       const result = await client.commitFiles({ repository: prefix.slice('/repos/'.length), repositoryId: projection.repositoryId, oid: projection.oid, maxPages: 30 });
@@ -279,6 +294,9 @@ export async function collectPublicSources({ client, repositories, subjectAccoun
       await capturePairs(prefix, pairs, true);
     }
     for (const input of inputs) {
+      repositoryStartRequests = client.budget().used;
+      activeRepository = { repositoryId: input.repositoryId, requests: 0, completed: false };
+      diagnostics.repositories.push(activeRepository);
       const rawRepository = await get('/repositories/' + input.repositoryId);
       const repositoryId = stableId(rawRepository.id);
       requireThat(repositoryId === input.repositoryId, 'REPOSITORY_ID_MISMATCH');
@@ -380,16 +398,19 @@ export async function collectPublicSources({ client, repositories, subjectAccoun
       listUnique(commits, item => oid(item.sha));
       for (const commit of commits) {
         const sha = oid(commit.sha); const author = actor(commit.author); let associatedPrIds = null;
+        const committedAt = observed ? timestamp(commit.commit?.committer?.date) : null;
+        const withinWindow = !observed || inWindow(committedAt);
         // Full ancestry already closed before actor/fork eligibility exclusions.
-        if (!repository.fork && author.status === 'identified' && author.type === 'User' && author.accountId === subjectAccountId) {
+        // Only the observed model can exclude by original Git committed date.
+        if (withinWindow && !repository.fork && author.status === 'identified' && author.type === 'User' && author.accountId === subjectAccountId) {
           const associations = await enumerate(prefix + '/commits/' + sha + '/pulls?per_page=100', { kind: 'commit_pull_requests', repositoryId, parentId: sha, filters: { enumeration: 'all' } });
           listUnique(associations, item => stableId(item.id));
           associatedPrIds = associations.map(pr => stableId(pr.id)).sort(numericOrder);
         }
         const projection = { repositoryId, sourceId: { type: 'opaque', value: sha }, oid: sha, author, defaultBranchReflectionProof: 'unsupported', fullFileContents: 'not_collected', associatedPrIds };
         if (observed) {
-          Object.assign(projection, { committedAt: timestamp(commit.commit?.committer?.date), defaultBranchMembership: 'current_ancestry', fileProof: 'not_collected' });
-          if (!repository.fork && author.status === 'identified' && author.type === 'User' && author.accountId === subjectAccountId && inWindow(projection.committedAt)) {
+          Object.assign(projection, { committedAt, defaultBranchMembership: 'current_ancestry', fileProof: 'not_collected' });
+          if (withinWindow && !repository.fork && author.status === 'identified' && author.type === 'User' && author.accountId === subjectAccountId) {
             const represented = associatedPrIds.map(id => {
               const parent = capture.pullRequests.find(pr => pr.repositoryId === repositoryId && pr.sourceId.value === id);
               requireThat(parent, 'ASSOCIATED_PR_DETAIL_UNAVAILABLE'); return parent;
@@ -399,9 +420,13 @@ export async function collectPublicSources({ client, repositories, subjectAccoun
         }
         capture.commits.push(projection);
       }
+      activeRepository.requests = client.budget().used - repositoryStartRequests;
+      activeRepository.completed = true;
+      activeRepository = null;
     }
-    return { decision: 'ready', code: 'PUBLIC_CAPTURE_COLLECTED', capture, ...baseResponse(model) };
+    diagnostics.operation = 'complete';
+    return { decision: 'ready', code: 'PUBLIC_CAPTURE_COLLECTED', capture, diagnostics: diagnosticSnapshot(), ...baseResponse(model) };
   } catch (error) {
-    return { decision: 'hold', code: error instanceof CollectionFailure ? error.code : 'COLLECTION_UNAVAILABLE', capture: null, ...baseResponse(model) };
+    return { decision: 'hold', code: error instanceof CollectionFailure ? error.code : 'COLLECTION_UNAVAILABLE', capture: null, diagnostics: diagnosticSnapshot(), ...baseResponse(model) };
   }
 }
