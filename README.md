@@ -90,6 +90,8 @@ Action reports expose the underlying pending cause, per-public-repository reques
 
 The observed collector still enumerates the complete fixed-HEAD ancestry and every PR/review history. After validating each Git committed date, it skips commit-to-PR association requests for commits already outside the eligible analysis window. It does not use author dates, stop ancestry pagination early, exclude repositories or turn missing activity into zero. Legacy historical collection is unchanged.
 
+Unlinked Git authors outside the validated eligible window are explicitly excluded by date, not guessed as the subject or described as inactivity. Inside-window unknown attribution still holds the entire analysis. Invalid source shapes/times and conflicts with retained facts fail before this date exclusion; saved facts/XP are preserved.
+
 ## Development and validation
 
 ```sh

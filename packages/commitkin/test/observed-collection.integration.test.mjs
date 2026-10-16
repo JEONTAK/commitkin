@@ -162,3 +162,20 @@ test('real client pagination adds exactly one request for 125 old owned commits 
   assert.deepEqual(after.activities, before.activities); assert.deepEqual(after.reviewHistoryFacts, before.reviewHistoryFacts);
   assert.equal(settleQualifiedActivities({ activities: after.activities, reviewHistoryFacts: after.reviewHistoryFacts }).totalXp, '65');
 });
+
+test('unlinked old Git authors remain collected but cannot block the bounded window; recent unknown authors still hold the whole analysis', async () => {
+  const baseline = await collect(fixture()); const before = qualify(baseline.capture); assert.equal(before.decision, 'qualified');
+  const mock = fixture({ oldOwnedCommits: 125 });
+  const path = PREFIX + '/commits?sha=' + DIRECT + '&per_page=100';
+  for (const commit of mock.routes.get(path).slice(1)) commit.author = null;
+  const collected = await collect(mock); assert.equal(collected.decision, 'ready', collected.code);
+  assert.equal(collected.capture.commits.length, 126);
+  assert.equal(collected.capture.commits.filter(commit => commit.author.status === 'unavailable').length, 125);
+  const after = qualify(collected.capture); assert.equal(after.decision, 'qualified', after.code);
+  assert.equal(after.exclusions.OUTSIDE_GROWTH_WINDOW, 125); assert.deepEqual(after.activities, before.activities);
+  assert.equal(settleQualifiedActivities({ activities: after.activities, reviewHistoryFacts: after.reviewHistoryFacts }).totalXp, '65');
+  const recent = fixture(); recent.routes.get(path)[0].author = null;
+  const recentCollected = await collect(recent); assert.equal(recentCollected.decision, 'ready', recentCollected.code);
+  const blocked = qualify(recentCollected.capture);
+  assert.equal(blocked.decision, 'hold'); assert.equal(blocked.code, 'ACTOR_ATTRIBUTION_UNAVAILABLE'); assert.deepEqual(blocked.activities, []);
+});

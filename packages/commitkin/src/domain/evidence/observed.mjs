@@ -250,8 +250,11 @@ export function qualifyObservedCapture({ capture, subjectAccountId, growthStartD
       need(commit.defaultBranchMembership === 'current_ancestry' && commit.defaultBranchReflectionProof === 'unsupported' && ['not_collected', 'text_pair'].includes(commit.fullFileContents) && ['not_collected', 'complete_revision_inventory'].includes(commit.fileProof), 'DIRECT_FILE_PROOF_UNAVAILABLE');
       const basic = { eventKey: identity('direct_contribution', commit.repositoryId, commit.oid), kind: 'direct_contribution', repositoryId: commit.repositoryId, occurredAt: commit.committedAt, contributionKey: identity('direct_contribution', commit.repositoryId, commit.oid) };
       const old = retained(basic);
-      if (repo.fork || ['bot', 'other'].includes(owner)) { exclude('NONCANDIDATE_DIRECT_COMMIT'); continue; } need(owner === 'subject', 'ACTOR_ATTRIBUTION_UNAVAILABLE');
+      if (repo.fork || ['bot', 'other'].includes(owner)) { exclude('NONCANDIDATE_DIRECT_COMMIT'); continue; }
+      // A validated date can establish exclusion without guessing authorship.
+      // Retained identity/time conflicts and malformed inputs still fail above.
       if (!inWindow(commit.committedAt)) { exclude('OUTSIDE_GROWTH_WINDOW'); continue; }
+      need(owner === 'subject', 'ACTOR_ATTRIBUTION_UNAVAILABLE');
       need(commit.defaultBranchMembership === 'current_ancestry' && Array.isArray(commit.associatedPrIds), 'DEFAULT_BRANCH_MEMBERSHIP_UNAVAILABLE');
       need(new Set(commit.associatedPrIds).size === commit.associatedPrIds.length, 'DUPLICATE_SOURCE_IDENTITY');
       const associations = query('commit_pull_requests', commit.repositoryId, commit.oid, commit.associatedPrIds.length); need(associations.filters.enumeration === 'all', 'COMMIT_ASSOCIATION_QUERY_MISMATCH');

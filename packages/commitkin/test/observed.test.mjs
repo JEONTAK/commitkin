@@ -188,6 +188,49 @@ test('UTC window is growth-start bounded; cutoff and future activities are never
   held(empty(), 'OBSERVED_WINDOW_MISMATCH', { growthStartDate: '2026-10-01' });
 });
 
+function addUnknownCommit(capture, committedAt, oid = '9'.repeat(40)) {
+  capture.commits.push({ repositoryId: REPO, sourceId: { type: 'opaque', value: oid }, oid, author: { status: 'unavailable', reason: 'ACTOR_NOT_PROVIDED' }, committedAt, defaultBranchMembership: 'current_ancestry', defaultBranchReflectionProof: 'unsupported', fullFileContents: 'not_collected', fileProof: 'not_collected', associatedPrIds: null });
+  setCount(capture, 'default_branch_commits', capture.commits.length); return capture;
+}
+test('established old unknown-author commit is explicitly outside the window, preserving other qualified growth without calling it inactivity', () => {
+  const baseline = addRelease(addCommit(addPr(empty()))); const before = okay(baseline);
+  const capture = addUnknownCommit(clone(baseline), '2020-01-01T00:00:00Z'); const original = clone(capture); const after = okay(freeze(capture));
+  assert.equal(after.exclusions.OUTSIDE_GROWTH_WINDOW, 1); assert.deepEqual(after.activities, before.activities); assert.deepEqual(after.reviewHistoryFacts, before.reviewHistoryFacts); assert.deepEqual(capture, original);
+  assert.equal(settleQualifiedActivities({ activities: before.activities }).totalXp, '65'); assert.equal(settleQualifiedActivities({ activities: after.activities }).totalXp, '65');
+  assert.deepEqual(okay(addUnknownCommit(empty(), '2020-01-01T00:00:00Z')).activities, []);
+});
+
+test('unknown direct authors still hold inside the inclusive start/exclusive cutoff down to fractional boundaries', () => {
+  for (const [committedAt, inside] of [
+    ['2026-07-16T23:59:59.9999999Z', false], ['2026-07-17T00:00:00Z', true], ['2026-07-17T00:00:00.0000001Z', true],
+    ['2026-10-14T23:59:59.9999999Z', true], ['2026-10-15T00:00:00Z', false], ['2026-10-15T00:00:00.0000001Z', false], ['2027-01-01T00:00:00Z', false],
+  ]) {
+    const capture = addUnknownCommit(empty(), committedAt);
+    if (inside) held(capture, 'ACTOR_ATTRIBUTION_UNAVAILABLE');
+    else { const result = okay(capture); assert.deepEqual(result.activities, []); assert.equal(result.exclusions.OUTSIDE_GROWTH_WINDOW, 1); }
+  }
+});
+
+test('unknown out-of-window attribution never bypasses source date, shape, identity, or proof-shape validation', () => {
+  for (const value of [undefined, null, 'not-a-date', '2026-02-30T00:00:00Z', '2020-01-01T00:00:00+09:00']) held(addUnknownCommit(empty(), value), 'SOURCE_TIMESTAMP_INVALID');
+  for (const [mutate, code] of [
+    [row => { row.eligible = true; }, 'OBSERVED_CAPTURE_INVALID'],
+    [row => { delete row.associatedPrIds; }, 'OBSERVED_CAPTURE_INVALID'],
+    [row => { row.author = { status: 'unavailable' }; }, 'OBSERVED_CAPTURE_INVALID'],
+    [row => { row.sourceId.value = '8'.repeat(40); }, 'COMMIT_IDENTITY_MISMATCH'],
+    [row => { row.fileProof = 'caller-asserted-complete'; }, 'DIRECT_FILE_PROOF_UNAVAILABLE'],
+  ]) { const capture = addUnknownCommit(empty(), '2020-01-01T00:00:00Z'); mutate(capture.commits[0]); held(capture, code); }
+});
+
+test('retained direct identity and exact original time conflicts hold before unknown old-author window exclusion', () => {
+  const original = okay(addCommit(empty())).activities[0].fact; const previousLedger = { owner: { accountId: ACCOUNT }, facts: [clone(original)] };
+  held(addUnknownCommit(empty(), '2020-01-01T00:00:00Z', COMMIT), 'RETAINED_SOURCE_IDENTITY_OR_TIME_CONFLICT', { previousLedger });
+  const historical = clone(original); historical.occurredAt = '2020-01-01T00:00:00Z'; const oldLedger = { owner: { accountId: ACCOUNT }, facts: [historical] };
+  assert.deepEqual(okay(addUnknownCommit(empty(), historical.occurredAt, COMMIT), { previousLedger: oldLedger }).activities, []);
+  historical.contributionKey = 'v1:sha256:' + '0'.repeat(64);
+  held(addUnknownCommit(empty(), historical.occurredAt, COMMIT), 'RETAINED_SOURCE_IDENTITY_OR_TIME_CONFLICT', { previousLedger: oldLedger });
+});
+
 function addReview(capture, { submittedAt = WHEN, sourceId = '300', state = 'APPROVED', reviewedCommitOid = COMMIT } = {}) {
   if (capture.pullRequests.length === 0) addPr(capture, { otherAuthor: true });
   capture.reviews.push({ repositoryId: REPO, sourceId: { type: 'numeric', value: sourceId }, pullRequestId: '17', reviewer: clone(USER), state, submittedAt, reviewedCommitOid }); setCount(capture, 'pull_request_reviews', capture.reviews.length); return capture;
