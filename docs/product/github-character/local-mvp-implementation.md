@@ -1,6 +1,6 @@
 # Commitkin implementation and validation status
 
-Updated 2026-10-16. MVP source / pre-release validation; one explicitly authorized real author snapshot is saved and its profile preparation passed actual dry-run. No actual profile publication, automatic growth execution or release tag.
+Updated 2026-10-16. MVP source / pre-release validation; one authorized author snapshot and one separately approved actual managed-profile publication passed basic-token verification. Growth is preserved and both installed workflows are restored to manual read-only preview. No new automatic execution or release tag.
 
 ## Latest local gate
 
@@ -10,7 +10,19 @@ Updated 2026-10-16. MVP source / pre-release validation; one explicitly authoriz
 - Publication uses explicit outcomes: confirmed `true / published`, definitive no-write `false / not_published`, or unconfirmed post-CAS `null / outcome_unknown`. No blind retry.
 - These test/coverage figures are local synthetic/injected-HTTP results, not double-counted live proof. First author storage and positive profile preparation below are separate actual basic-token evidence.
 
+## One-off profile publication — 2026-10-16
+
+After separate display-only approval, [profile publication Actions](https://github.com/JEONTAK/JEONTAK/actions/runs/38856248063) succeeded with `PUBLISHED`, `profileChanged: true`, `growthRecordsChanged: false` and `progressionAuthorized: false`. The [single publication commit](https://github.com/JEONTAK/JEONTAK/commit/7d2a2ce33246036789a79ecc7957cd23ac22a041) changes only README.md, preserving every outside-block byte and all other tree entries. Readback matches the independently rendered 5,579-byte expected README exactly; no arbitrary remote Markdown/code is imported.
+
+The source is frozen at author commit `0a74c80aefbf866bfd9b38bd3537b79acf5ef9c8`; all five growth/display blobs are unchanged from first storage. Bloomguard, Lv.1 Adventurer, 20 XP and revision 2 remain unchanged. Only the profile job temporarily received contents-write, using its own basic token and the pinned README-only Action. No growth Action or settlement ran.
+
+Restore commit `59bb96fbd359bb10a876d685de61b2950d0df0eb` removes that write permission and restores manual contents-read/dry-run true; published README stays unchanged. The author workflow remains read-only too. No new automatic trigger or follow-up run is enabled; unrelated existing profile workflows/assets are unchanged.
+
+Actual browser verification of the live GitHub profile confirms the character, identity/XP, six-family table and seven recent counters. The image loads at natural 192×216 dimensions from the exact immutable source URL. Eighty-eight relevant existing tests were rechecked successfully, without counting them as new unique tests. Further writes, live recovery, other-user genuine-fork execution and release/rights checks remain separate gates.
+
 ## First author storage and positive profile dry-run — 2026-10-16
+
+Historical first-save evidence before the separately approved real profile publication above:
 
 After explicit permanent **Bloomguard** confirmation, [first-storage Actions](https://github.com/JEONTAK/commitkin-character/actions/runs/38854047488) succeeded with `PUBLISHED`: 22 known public repositories, 607 total runtime requests (594 read-side + 13 publication). The [saved commit](https://github.com/JEONTAK/commitkin-character/commit/d89ede9193f85b77e8bb847a6157de805c9edd04) changes exactly the three matched records, character PNG and display-only projection, preserving every unrelated tree entry. It used the installation job's basic GITHUB_TOKEN with temporary job-local contents-write, not a personal token. Runtime remains pinned to `735f54311584f1f3b44fec0491f4e3d99eaed5dc`; no growth/schema/code/dependency rule changed.
 
