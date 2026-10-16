@@ -4,9 +4,14 @@ Your GitHub activity. Your evolving pixel character.
 
 An open-source, user-owned GitHub Action that turns observed public activity into a chunky pixel character and readable Markdown stats. Your fork owns configuration and growth; a separate profile Action updates only your README block. No signup, hosted backend or personal access token.
 
+[Install Commitkin](#installation) · [Troubleshooting](#installation-troubleshooting) · [Recovery](#recovery) · [Credits](#credits)
+
 ## Status
 
 MVP implementation / pre-release validation. Fork-owned growth, character-only PNG rendering, six activity-family scores, recent activity Markdown and profile-only synchronization are implemented. One explicitly confirmed author snapshot and a separately approved actual README-only profile publication passed basic-token verification. **Real recovery and other-user fork execution remain unverified.** Both installed workflows are restored to manual-only read-only previews; further writes require separate authorization. No new automatic trigger or release tag is enabled.
+
+<details>
+<summary>Maintainer validation history</summary>
 
 The [initial diagnostic run](https://github.com/JEONTAK/commitkin/actions/runs/38712379879) passed 773 then-current tests and a real basic-token known-scope read probe. Later source changes need separate validation. A green diagnostic is not proof of every endpoint, complete discoverability, live installation or publication.
 
@@ -17,6 +22,8 @@ Earlier [author-installation preview](https://github.com/JEONTAK/commitkin-chara
 After separate permanent **Bloomguard** confirmation, [first storage](https://github.com/JEONTAK/commitkin-character/actions/runs/38854047488) published the matched five-file snapshot only in the bound author repository: **Lv.1 Adventurer, 20 XP**, 607 total runtime requests. The subsequent [profile dry-run](https://github.com/JEONTAK/JEONTAK/actions/runs/38854623804) prepared one README change in memory. [First-storage evidence](docs/product/github-character/local-mvp-implementation.md#first-author-storage-and-positive-profile-dry-run--2026-10-16).
 
 With separate display-only approval, [actual profile publication](https://github.com/JEONTAK/JEONTAK/actions/runs/38856248063) then updated only the managed README block. The [live profile](https://github.com/JEONTAK#user-content-commitkin) displays the character, six family scores and recent activity as native Markdown. Growth files and outside-block text are unchanged. Both author/profile workflows are restored to manual read-only dry-run; no automatic execution or further growth/display write is enabled. [Publication evidence](docs/product/github-character/local-mvp-implementation.md#one-off-profile-publication--2026-10-16).
+
+</details>
 
 ## How it works
 
@@ -33,25 +40,202 @@ Automatic discovery is best-effort, supplemented by explicit repositories. Known
 
 ## Installation
 
-Author-only exception: `JEONTAK/commitkin-character` is an ordinary public installation, explicitly bound in reviewed code to repository ID `1421634321`, owner ID `76037656` and its canonical slug. It uses the same storage and profile-sync guards. This is not a configurable bypass for copied repositories: other new users still follow the actual-fork setup below. Rename/transfer/recreation requires review; no saved record IDs are rebound.
+You do **not** write the character, stat bars or long generated Markdown yourself. You add two README markers and install one profile-sync workflow; Commitkin fills the block when you intentionally publish.
 
-This pre-release guide is opt-in, **not permission to write records on behalf of another user**.
+Replace `YOUR_LOGIN` below with your GitHub username. This guide is for a **personal GitHub.com account** with two public repositories under the same owner:
 
-1. Fork this repository to your personal account, normally `YOUR_LOGIN/commitkin`. Keep it public. GitHub's root fork-network ID binds it to Commitkin; a copied unrelated repository is not an installation. Enable Actions in the fork when you intentionally want to preview. There are no push/timer triggers.
-2. Keep optional analysis configuration in the **fork's** `.github/commitkin.yml`. Run its included **Commitkin fork preview** workflow manually. First preview takes a faction and `CONFIRM_PERMANENT_FACTION`; the checked-in `contents: read` and literal `dry-run: 'true'` save nothing.
-3. In your public personal profile repository `YOUR_LOGIN/YOUR_LOGIN`, add exactly one region yourself. Bytes outside it remain unchanged:
+| Repository | What belongs here |
+| --- | --- |
+| `YOUR_LOGIN/commitkin` — your actual fork | Analysis settings, permanent faction, growth records, character PNG and display JSON |
+| `YOUR_LOGIN/YOUR_LOGIN` — your profile | Existing README plus the managed display block and profile-sync workflow |
+
+No server, signup, PAT or custom secret is needed. Both workflows use their own built-in `${{ github.token }}`. All runs in this guide are **manual**; there is no timer, push trigger or automatic cross-repository sync.
+
+This is an opt-in pre-release guide, not a claim that other-user installation/recovery has been live-tested. Most class/faction artwork still uses development fallbacks; the approved Bloomguard Adventurer original is integrated, but the full art/rights-release gates remain open.
+
+### 1. Fork the project
+
+1. Open [JEONTAK/commitkin](https://github.com/JEONTAK/commitkin) and choose **Fork** into your personal account. Keep the name `commitkin` and visibility public.
+2. Open your fork's **Actions** tab and enable workflows if GitHub asks.
+3. Use your fork's default branch for every run below, normally `main`.
+
+Use a real GitHub fork, not a new unrelated repository with copied files or a template. Do not copy anybody else's `.commitkin` files or growth history. Organization accounts/private installations are not supported by this setup.
+
+### 2. Choose a faction and run a read-only preview
+
+Your fork already includes [`.github/workflows/commitkin.yml`](.github/workflows/commitkin.yml). You do not need to create it for the preview.
+
+Open **Actions → Commitkin fork preview → Run workflow** and enter:
+
+| Input | First preview / first save |
+| --- | --- |
+| Branch | Your fork's default branch |
+| `faction` | `bloomguard` for the cozy fantasy guild, or `ashbound` for the dark fantasy order |
+| `confirmation` | `CONFIRM_PERMANENT_FACTION` — exact spelling |
+
+The inherited workflow has `contents: read` and `dry-run: 'true'`. A successful ready preview reports:
+
+```json
+{
+  "decision": "prepared",
+  "dryRun": true,
+  "published": false,
+  "actualRecordsChanged": false
+}
+```
+
+That is a prepared result, **not saved growth and not a published profile**. A read-only preview does not lock the faction, so you may preview either choice before saving. If analysis reports `hold` or `pending`, inspect its reason before continuing; missing data is not zero activity.
+
+### 3. Save your character for the first time
+
+**Your first published faction is permanent.** Growth files, tracked repository IDs, dates, aggregates and identity hashes become public in your fork and Git history; hashes are not encryption or anonymity. First publication may reserve a permanent faction even when growth analysis remains pending.
+
+When you intentionally want to save, replace **your fork's** `.github/workflows/commitkin.yml` with this complete manual publisher. It uses the same first-use inputs as the preview:
+
+```yaml
+name: Commitkin character (manual)
+
+"on":
+  workflow_dispatch:
+    inputs:
+      faction:
+        description: First save only; leave empty after any saved snapshot
+        type: choice
+        options: ['', bloomguard, ashbound]
+        default: ''
+      confirmation:
+        description: First save only; CONFIRM_PERMANENT_FACTION
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: commitkin-fork
+  cancel-in-progress: false
+
+jobs:
+  character:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out this fork
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Save verified character files in this fork only
+        uses: ./
+        with:
+          token: ${{ github.token }}
+          faction: ${{ inputs.faction }}
+          confirmation: ${{ inputs.confirmation }}
+          dry-run: 'false'
+```
+
+Commit that workflow to the default branch, then open **Actions → Commitkin character (manual) → Run workflow**. For this first save, select your chosen faction and type the same confirmation. Committing this manual-only workflow does not itself run it.
+
+After a confirmed publication, check that the [five generated files](#generated-files) exist in **your fork**, not your profile repository. To proceed to profile display, `state.json` must show `growth.phase: "ready"` and `profile.json` must show `analysis.phase: "ready"`. Do not edit those files by hand.
+
+If the saved snapshot is `pending`, your faction is already fixed but XP/class are not finalized. Resolve the reported collection problem and rerun with **both `faction` and `confirmation` empty**. Do not delete records or choose another faction. A green published reservation is not proof of ready growth; check the stored phase.
+
+### 4. Add two markers to your profile README
+
+Open or create your public profile repository **`YOUR_LOGIN/YOUR_LOGIN`** and its `README.md` on the default branch. Keep your existing content and add this pair **exactly once**, wherever the character should appear:
 
 ```md
 <!-- COMMITKIN:START -->
 <!-- COMMITKIN:END -->
 ```
 
-4. Copy [examples/profile-sync.yml](examples/profile-sync.yml) to the **profile repository's** `.github/workflows/commitkin-profile-sync.yml`. Replace the placeholder with a reviewed **full 40-character source SHA** containing `profile-sync/action.yml`. No `@v1` tag exists. Its only product input is the source fork slug; it never stores faction/scope/growth there.
-5. Profile sync reads a successfully published display projection from the same owner's fork at one immutable commit. With no published fork snapshot, preview holds and preserves the profile; it does not invent a character or write growth to make the preview pass. A synthetic offline preview is available below.
-6. **Later, only with intentional publication:** change the fork workflow to `contents: write` and `dry-run: 'false'` to publish growth. The first published faction is permanent; later runs leave faction/confirmation empty. An incomplete first analysis may reserve a pending faction, not zero XP or a successful class.
-7. **Separately, only with intentional profile publication:** change the profile sync workflow to `contents: write` and `dry-run: 'false'`. It updates only the README block using the profile's own basic token. It never computes XP or writes the fork. Keep all execution manual until you explicitly decide otherwise.
+Do not copy the long generated block, paste the markers inside a code fence, escape them with backslashes or add a second pair. The sync Action generates the contents between them; existing bytes outside them are preserved. The character is the only image; identity, XP, six stat bars and recent activity remain Markdown.
 
-The fork previews its own checked-out Action code; stored inputs are still read from a fixed Git head. The profile executes only reviewed pinned renderer code, never code from display data. Both use Node.js 24 and pinned dependencies with lifecycle scripts disabled. The fork token writes only its fork; the profile token writes only its profile. [GitHub tokens are repository-scoped](https://docs.github.com/en/actions/concepts/security/github_token). Branch protection/rulesets may reject writes; there is no PAT or weaker-write fallback. Inputs/logs in public repositories may be public.
+### 5. Install and preview profile synchronization
+
+In **`YOUR_LOGIN/YOUR_LOGIN`**, create `.github/workflows/commitkin-profile-sync.yml` with this complete workflow. Replace the single `YOUR_LOGIN/commitkin` value with your actual fork slug:
+
+```yaml
+name: Commitkin profile sync (manual)
+
+"on":
+  workflow_dispatch:
+    inputs:
+      source_repository:
+        description: Your public Commitkin fork
+        type: string
+        required: true
+        default: YOUR_LOGIN/commitkin
+
+permissions:
+  contents: read
+
+concurrency:
+  group: commitkin-profile-display
+  cancel-in-progress: false
+
+jobs:
+  profile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Preview the profile block without publishing
+        uses: JEONTAK/commitkin/profile-sync@72e2a0a0f6f9cac2bf78fface9e1d5ecea719c15
+        with:
+          token: ${{ github.token }}
+          source-repository: ${{ inputs.source_repository }}
+          dry-run: 'true'
+```
+
+The full SHA pins the reviewed pre-release renderer with six-row Markdown graphs; there is no `@v1` release tag. The reusable [unfilled template](examples/profile-sync.yml) is also available, but the complete example above needs no SHA placeholder replacement. Future code updates should be reviewed before changing the pin.
+
+Commit the file, then open **Actions → Commitkin profile sync (manual) → Run workflow** in the **profile repository**, using its default branch. Confirm the source field names your fork, not `JEONTAK/commitkin` or your profile repository.
+
+A successful preview reports `PROFILE_SYNC_PREPARED`, `dryRun: true`, `published: false`; `PROFILE_ALREADY_CURRENT` is valid if the managed display already matches. It prepares Markdown in memory, **without changing the README**. A missing/pending/invalid fork snapshot safely holds instead of creating growth or replacing your profile.
+
+### 6. Publish the profile block
+
+After the profile preview passes and you intentionally want the README update, change **only these two values** in the profile workflow from step 5:
+
+```diff
+ permissions:
+-  contents: read
++  contents: write
+
+-          dry-run: 'true'
++          dry-run: 'false'
+```
+
+The diff illustrates edits to the full YAML above; do not paste the `+`/`-` lines as a new workflow. Commit, then manually run **Commitkin profile sync (manual)** again. This is separate from the fork's growth run.
+
+Confirm `published: true` and a README-only commit, then open your public GitHub profile. `PROFILE_ALREADY_CURRENT` may instead make no commit when nothing changed. The Action replaces only the one managed block; it does not calculate XP, write the fork or copy growth records into the profile repository. The image URL is generated and commit-pinned for you—do not maintain it manually.
+
+### 7. Update later, still manually
+
+1. Run **Commitkin character (manual)** in your fork with **both faction fields empty**, including when resuming a saved pending snapshot. This checks new public activity and may update growth.
+2. Once its stored snapshot is ready, run **Commitkin profile sync (manual)** in your profile repository. This displays the already saved snapshot; the first run does not trigger this one automatically.
+
+To return either workflow to preview-only mode, set both `contents: read` and `dry-run: 'true'` in that workflow. To intentionally publish later, explicitly restore both write/false values. No schedule is needed or enabled by this guide. Never reset/delete records to rerun first setup or unlock a different faction.
+
+### Installation troubleshooting
+
+| Symptom | What to check |
+| --- | --- |
+| Workflow or Run workflow is missing | Enable Actions in that repository and commit the YAML to its default branch. The fork and profile have separate Actions pages. |
+| Nothing appears after a successful preview | Dry-run saves nothing. First publish a ready fork snapshot, then separately publish the profile block. |
+| `FACTION_ALREADY_CONFIRMED` | Clear **both** faction and confirmation inputs. The saved choice—including a pending reservation—is permanent. |
+| Profile sync holds or keeps old content | Confirm the source is your same-owner public fork, its five files form a ready matched snapshot, and README has one unescaped marker pair. Preserve existing records. |
+| Collection is pending, unavailable or over budget | Inspect the bounded reason/request diagnostics. Resolve known-target access or intentionally configure exclusions; retry after the reported quota reset when applicable. Do not assume missing data is zero. |
+| Publication fails with permissions, rulesets or a branch conflict | Both contents-write and dry-run false are required, but repository/organization policies may still block writes. Review the stated cause or competing commit; do not add a PAT, force-push or weaken protection as a workaround. An uncertain write must be checked before retrying. |
+| Expected work is missing from the stats | Only qualified observed public activity counts. Automatic discovery is best-effort; add public repositories below. A completed empty scope is different from an incomplete analysis. |
+
+Both Actions run Node.js 24 with pinned dependencies and lifecycle scripts disabled. The fork's local `uses: ./` runs its checked-out code, so review fork updates before running; the profile executes only its pinned renderer, never code or arbitrary Markdown from display data. Each [built-in token is repository-scoped](https://docs.github.com/en/actions/concepts/security/github_token). Public workflow inputs/logs and configuration may be visible. Stop after a held/uncertain publication and follow [recovery](#recovery); do not blindly replay or mix snapshots.
+
+<details>
+<summary>Maintainer's author-only installation exception</summary>
+
+`JEONTAK/commitkin-character` is an ordinary public installation, bound in reviewed code to repository ID `1421634321`, owner ID `76037656` and that canonical slug. It is not the repository other users should fork or use as their source. Other users must fork **JEONTAK/commitkin**. This is not a configurable bypass for copied repositories; rename/transfer/recreation requires review and no saved record IDs are rebound. This documentation does not change the maintainer's growth records or installed workflows.
+
+</details>
 
 ### Extra repositories and exclusions
 
