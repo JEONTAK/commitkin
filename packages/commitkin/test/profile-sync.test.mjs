@@ -9,6 +9,7 @@ import { createGithubProfilePublisher } from '../src/infrastructure/github/publi
 import { renderProfileMarkdown, validateProfileModel } from '../src/presentation/profile.mjs';
 import { updateManagedReadme, START, END } from '../src/presentation/readme.mjs';
 import { canvas, encodePng } from '../src/presentation/pixel.mjs';
+import { BLOOMGUARD_ADVENTURER, readApprovedCharacter } from '../src/presentation/character-art.mjs';
 import { AUTHOR_STORAGE, PRODUCT_OWNER_ID } from '../src/infrastructure/github/storage.mjs';
 
 // All provider calls and CAS effects are in-memory fixtures, never real GitHub.
@@ -138,6 +139,24 @@ test('production profile sync defaults to dry run and reads only display JSON, P
   const readPaths = mock.calls.filter(call => call.path.includes('/contents/')).map(call => call.path);
   assert.deepEqual(readPaths.sort(), [`/repos/${SOURCE}/contents/.commitkin/character.png`, `/repos/${SOURCE}/contents/.commitkin/profile.json`, `/repos/${TARGET}/contents/README.md`].sort());
   assert.equal(mock.calls.some(call => call.path.includes('/git/blobs/')), false);
+});
+
+test('approved original with its provenance is accepted only at the fixed class, faction, size and digest', async () => {
+  const png = readApprovedCharacter();
+  const options = { png, changeModel: model => { model.character = { ...BLOOMGUARD_ADVENTURER }; } };
+  const good = fixture(options); const prepared = await good.run(input());
+  assert.equal(prepared.decision, 'prepared', JSON.stringify(prepared));
+  assert.equal(good.calls.every(call => call.method === 'GET'), true);
+  const live = fixture(options), sourceBefore = [...live.sourceFiles];
+  assert.equal((await live.run(input({ dryRun: false }))).decision, 'published');
+  assertOutsideSame(live.targetFiles.get('README.md'), live.stored().get('README.md'));
+  assert.deepEqual([...live.sourceFiles], sourceBefore);
+  const mutated = Buffer.from(png); mutated[100] ^= 1;
+  const bad = fixture({ ...options, png: mutated }); assertSafeHold(await bad.run(input()), 'PROFILE_CHARACTER_INVALID');
+  const wrongFaction = fixture({ png, changeModel: model => { model.character = { ...BLOOMGUARD_ADVENTURER }; model.factionId = 'ashbound'; } });
+  assertSafeHold(await wrongFaction.run(input()), 'PROFILE_MODEL_INVALID');
+  const arbitrary = fixture({ png, changeModel: model => { model.character = { ...BLOOMGUARD_ADVENTURER, sha256: 'a'.repeat(64) }; } });
+  assertSafeHold(await arbitrary.run(input()), 'PROFILE_MODEL_INVALID');
 });
 test('bound ordinary author source supports the same projection/PNG dry-run and missing-data safety hold', async () => {
   const authorInput = { workflowContext: workflow({ repository: 'JEONTAK/JEONTAK', repositoryId: '773666201', ownerAccountId: PRODUCT_OWNER_ID, actorAccountId: PRODUCT_OWNER_ID }), sourceRepository: AUTHOR_STORAGE.fullName };

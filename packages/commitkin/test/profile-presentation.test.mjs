@@ -5,7 +5,8 @@ import { createHash } from 'node:crypto';
 import { inflateSync } from 'node:zlib';
 import { buildDemo, createSnapshotEvaluator } from '../src/index.mjs';
 import { buildProfileModel, validateProfileModel, renderCharacterPng, renderProfileMarkdown, PROFILE_MODEL_MAX_BYTES } from '../src/presentation/profile.mjs';
-import { renderCard } from '../src/presentation/card.mjs';
+import { renderCard, drawCharacter } from '../src/presentation/card.mjs';
+import { canvas, encodePng } from '../src/presentation/pixel.mjs';
 import { classifyActivity } from '../src/domain/character/classification.mjs';
 import { activityFacts } from '../src/domain/character/activity.mjs';
 import { activityIdentity } from '../src/domain/evidence/qualify.mjs';
@@ -48,6 +49,39 @@ test('ready profile is deterministic closed JSON bound to the storage identity w
   for (const field of ['sourceId', 'eventKey', 'facts', 'fileContents', 'currentLabels', 'email', 'token', 'Markdown']) assert.equal(JSON.stringify(model).includes('"' + field + '"'), false);
 });
 
+test('Bloomguard Adventurer uses the approved original bytes without modifying growth or other projection fields', () => {
+  const record = fixture(); const before = clone(record); const model = project(record);
+  const original = readFileSync(new globalThis.URL('../assets/characters/bloomguard-adventurer.png', import.meta.url));
+  assert.deepEqual(renderCharacterPng({ model }), original);
+  assert.equal(model.character.width, 1254); assert.equal(model.character.height, 1254);
+  assert.equal(model.character.sha256, '2737ffb0d202744a91c20d6e38d5d14248ee1a0c6a273483230a810c5c6d6282');
+  assert.deepEqual(record, before);
+  const old = canvas(192, 216, [0, 0, 0, 0]);
+  drawCharacter(old, { classId: 'adventurer', factionId: 'bloomguard', level: '1', x: 0, y: 0, scale: 6, palette: { dark: [27, 50, 43], skin: [237, 203, 163], body: [106, 154, 111], accent: [204, 235, 163], metal: [221, 229, 198] } });
+  const oldPng = encodePng(old); const legacy = clone(model);
+  legacy.character = { path: '.commitkin/character.png', width: 192, height: 216, sha256: hash(oldPng) };
+  assert.deepEqual(renderCharacterPng({ model: legacy }), oldPng);
+  for (const change of [m => { m.character.width = 1253; }, m => { m.character.sha256 = '0'.repeat(64); }, m => { m.factionId = 'ashbound'; }]) {
+    const invalid = clone(model); change(invalid); assert.throws(() => validateProfileModel(invalid), /PROFILE_MODEL_INVALID/);
+  }
+});
+
+test('compact default keeps all six native-text scores while hiding empty rewards, zero counters and operational detail', () => {
+  const model = project(); const markdown = renderProfileMarkdown({ model, characterImageUrl: URL });
+  const [visible, details] = markdown.split('<details>');
+  assert.match(visible, /<img src="https:\/\/raw\.githubusercontent\.com\//);
+  assert.match(visible, /width="160" height="160"/);
+  for (const family of ['Craft', 'Guard', 'Knowledge', 'Verification', 'Recovery', 'Operations']) assert.match(visible, new RegExp(family + ' \\*\\*0\\.0\\*\\*'));
+  assert.match(visible, /\*\*Last 30 days\*\* · 1 active day · 1 merged PR/);
+  assert.equal((visible.match(/Lv\.1 Adventurer/g) ?? []).length, 1);
+  assert.doesNotMatch(visible, /None yet|Traits:|Achievements:|Known repositories|Observed range|Last successful|Growth record|Permanent faction|\| Activity \| Count \||\| Family \| Pattern/);
+  assert.ok(visible.trim().split('\n').length <= 10);
+  assert.match(details, /previous 90 completed UTC days/); assert.match(details, /Known repositories/);
+  assert.match(details, /Reviewed PR commits/); assert.match(details, /not skill or seniority/);
+  const empty = renderProfileMarkdown({ model: project(fixture('ready-empty')), characterImageUrl: URL }).split('<details>')[0];
+  assert.match(empty, /No qualifying activity/); assert.doesNotMatch(empty, /0 active|0 merged|0 releases/);
+});
+
 test('complete zero activity remains measured zero, distinct from pending unknown statistics', () => {
   const ready = project(fixture('ready-empty')), pending = project(fixture('first-analysis-pending'));
   assert.equal(ready.analysis.phase, 'ready'); assert.equal(ready.recentActivity.activeDays, 0); assert.equal(ready.growth.totalXp, '0');
@@ -62,8 +96,8 @@ test('both faction synthetic demos append local native Markdown and character-on
     const { result, files, model } = demo(faction); images.push(files.get('.commitkin/character.png'));
     for (const path of ['.commitkin/state.json', '.commitkin/ledger.json', '.commitkin/status.json', '.commitkin/card.png', 'README.md', 'growth-gallery.png', 'preview-report.json', 'LICENSE.txt', '.commitkin/profile.json', '.commitkin/character.png', 'PROFILE.md']) assert.ok(files.has(path), path);
     assert.equal(result.files.length, 11); assert.equal(model.factionId, faction); assert.equal(model.classId, 'blacksmith'); assert.equal(model.growth.level, '7'); assert.equal(model.familyScores.craft, 100); assert.equal(model.recentActivity.activeDays, 25); assert.equal(model.recentActivity.mergedPrs, 25);
-    assert.equal(model.character.sha256, hash(files.get('.commitkin/character.png'))); assert.match(files.get('PROFILE.md').toString(), /Fictional local data only/); assert.match(files.get('PROFILE.md').toString(), /\]\(<\.commitkin\/character\.png>\)/); assert.doesNotMatch(files.get('PROFILE.md').toString(), /raw\.githubusercontent/);
-    assert.match(files.get('PROFILE.md').toString(), /previous 30 completed UTC days/); assert.match(files.get('PROFILE.md').toString(), /previous 90 completed UTC days/); assert.match(files.get('PROFILE.md').toString(), /Craft \| `██████████` \| 100\.0 \/ 100/);
+    assert.equal(model.character.sha256, hash(files.get('.commitkin/character.png'))); assert.match(files.get('PROFILE.md').toString(), /Fictional local data only/); assert.match(files.get('PROFILE.md').toString(), /src="\.commitkin\/character\.png"/); assert.doesNotMatch(files.get('PROFILE.md').toString(), /raw\.githubusercontent/);
+    assert.match(files.get('PROFILE.md').toString(), /previous 30 completed UTC days/); assert.match(files.get('PROFILE.md').toString(), /previous 90 completed UTC days/); assert.match(files.get('PROFILE.md').toString(), /Craft \*\*100\.0\*\*/);
     assert.equal(result.report.githubRequests, 0); assert.equal(result.report.realOwnerRecordsChanged, false);
   }
   assert.notDeepEqual(images[0], images[1]);
@@ -157,15 +191,15 @@ test('pending contradictions reject invented zero growth, finalized class, measu
   const record = fixture('first-analysis-pending'); record.state.traits.habit.currentId = 'focused'; assert.equal(buildProfileModel({ ...record, username: 'DemoHero' }).decision, 'hold');
 });
 
-test('Markdown accepts only the owner-controlled pinned raw character URL and never arbitrary HTML or dynamic endpoints', () => {
-  const model = project(); const markdown = renderProfileMarkdown({ model, characterImageUrl: URL }); assert.match(markdown, /\| Character \| Profile \|/); assert.match(markdown, /\| !\[DemoHero:[^\n]+\| \*\*DemoHero\*\*/); assert.match(markdown, /Activity families/); assert.match(markdown, /Recent activity/); assert.doesNotMatch(markdown, /<img|<script|<iframe|Scheduled daily/);
+test('Markdown accepts only pinned owner-controlled images with fixed sizing HTML, never arbitrary HTML or dynamic endpoints', () => {
+  const model = project(); const markdown = renderProfileMarkdown({ model, characterImageUrl: URL }); assert.match(markdown, /\| Character \| \*\*DemoHero\*\* · Bloomguard \|/); assert.match(markdown, /\| <img src="[^\n]+\| \*\*Lv\.1 Adventurer\*\*/); assert.match(markdown, /Activity families/); assert.match(markdown, /Recent activity/); assert.doesNotMatch(markdown, /<script|<iframe|Scheduled daily/);
   for (const url of [URL.replace('https:', 'http:'), URL.replace('raw.githubusercontent.com', 'evil.invalid'), URL.replace('/DemoHero/', '/OtherUser/'), URL.replace(SHA, 'main'), URL + '?token=SECRET', URL + '#x', URL.replace('/commitkin/', '/../'), URL.replace('/commitkin/', '/%2e%2e/'), URL.replace('character.png', 'card.png'), 'javascript:alert(1)']) assert.throws(() => renderProfileMarkdown({ model, characterImageUrl: url }), /PROFILE_MODEL_INVALID/);
   const altered = clone(model); altered.character.sha256 = '0'.repeat(64); assert.throws(() => renderCharacterPng({ model: altered }), /PROFILE_MODEL_INVALID/);
 });
 
 test('fixed explanatory details retain scope, trait window, help/recovery/credits and next appearance using only the closed projection', () => {
   const model = project(); const original = clone(model); const markdown = renderProfileMarkdown({ model, characterImageUrl: URL });
-  assert.match(markdown, /<details>\n<summary>Character details<\/summary>/); assert.match(markdown, /automatically discovered and added repositories/);
+  assert.match(markdown, /<details>\n<summary>Details<\/summary>/); assert.match(markdown, /automatically discovered and added repositories/);
   assert.match(markdown, /Class: previous 90 completed UTC days\. Traits: previous 30 completed UTC days/); assert.match(markdown, /not skill or seniority/); assert.match(markdown, /Adventurer stays fixed until a verified regular assignment/);
   for (const [label, anchor] of [['How it works', 'how-it-works'], ['Recovery guide', 'recovery'], ['Credits', 'credits']]) assert.ok(markdown.includes('[' + label + '](https://github.com/JEONTAK/commitkin#' + anchor + ')'));
   assert.ok(markdown.endsWith('</details>')); assert.deepEqual(model, original);

@@ -5,6 +5,7 @@ import { createProfileSyncUseCase } from '../../application/sync-profile.mjs';
 import { compareTimestamps } from '../../domain/character/activity.mjs';
 import { updateManagedReadme } from '../../presentation/readme.mjs';
 import { validateProfileModel, renderProfileMarkdown } from '../../presentation/profile.mjs';
+import { usesApprovedCharacter } from '../../presentation/character-art.mjs';
 import { createGithubClient } from './client.mjs';
 import { createGithubProfilePublisher } from './publication.mjs';
 import { isCommitkinStorageRepository } from './storage.mjs';
@@ -78,18 +79,19 @@ async function fileAtHead(client, repository, head, entries, path) {
 function pngMatches(bytes, model) {
   const data = Buffer.from(bytes);
   const header = data.length >= 33 && data.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])) &&
-    data.readUInt32BE(8) === 13 && data.toString('ascii', 12, 16) === 'IHDR' && data.readUInt32BE(16) === 192 && data.readUInt32BE(20) === 216 &&
+    data.readUInt32BE(8) === 13 && data.toString('ascii', 12, 16) === 'IHDR' && data.readUInt32BE(16) === model.character.width && data.readUInt32BE(20) === model.character.height &&
     data[24] === 8 && data[25] === 6 && data[26] === 0 && data[27] === 0 && data[28] === 0 &&
     createHash('sha256').update(bytes).digest('hex') === model.character.sha256;
   if (!header) return false;
-  // Commitkin's generated static image has no text, links, animation or trailing
-  // payload. Check container integrity and bounded decompression, not just magic.
+  // Only the exact hash-pinned approved original may carry its caBX provenance.
+  // Other images retain the strict static, metadata-free legacy PNG contract.
+  const allowedChunks = usesApprovedCharacter(model) ? ['caBX', 'IDAT', 'IEND'] : ['IDAT', 'IEND'];
   let offset = 8; let chunks = 0; let ended = false; const compressed = [];
   while (offset + 12 <= data.length && chunks < 128) {
     const length = data.readUInt32BE(offset); const end = offset + length + 12;
     if (end > data.length) return false;
     const type = data.toString('ascii', offset + 4, offset + 8);
-    if (chunks === 0 ? type !== 'IHDR' : !['IDAT', 'IEND'].includes(type)) return false;
+    if (chunks === 0 ? type !== 'IHDR' : !allowedChunks.includes(type)) return false;
     let crc = 0xffffffff;
     for (const byte of data.subarray(offset + 4, end - 4)) crc = CRC_TABLE[(crc ^ byte) & 255] ^ (crc >>> 8);
     if (((crc ^ 0xffffffff) >>> 0) !== data.readUInt32BE(end - 4)) return false;
@@ -99,10 +101,10 @@ function pngMatches(bytes, model) {
     if (ended) break;
   }
   if (!ended || compressed.length === 0) return false;
-  const stride = 192 * 4 + 1; const expected = 216 * stride;
+  const stride = model.character.width * 4 + 1; const expected = model.character.height * stride;
   try {
     const raw = inflateSync(Buffer.concat(compressed), { maxOutputLength: expected });
-    return raw.length === expected && Array.from({ length: 216 }, (_, row) => raw[row * stride]).every(filter => filter <= 4);
+    return raw.length === expected && Array.from({ length: model.character.height }, (_, row) => raw[row * stride]).every(filter => filter <= 4);
   } catch { return false; }
 }
 

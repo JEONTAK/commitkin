@@ -7,6 +7,7 @@ import { selectAchievementBadges } from '../domain/character/achievements.mjs';
 import { levelProgress, xpForLevel, appearanceForLevel } from '../domain/growth/levels.mjs';
 import { drawCharacter, FACTION_NAMES } from './card.mjs';
 import { canvas, encodePng } from './pixel.mjs';
+import { BLOOMGUARD_ADVENTURER, hasApprovedCharacter, usesApprovedCharacter, readApprovedCharacter } from './character-art.mjs';
 
 export const PROFILE_MODEL_MAX_BYTES = 65536;
 const WIDTH = 192, HEIGHT = 216;
@@ -86,12 +87,13 @@ export function validateProfileModel(model) {
       for (const row of details.earnedAchievements) need(compareTimestamps(row.earnedAt, a.evaluatedAt) <= 0);
       for (const badge of model.badges) need(details.earnedAchievements.some(row => row.seriesId === badge.seriesId && row.grade === badge.grade && compareTimestamps(row.earnedAt, badge.earnedAt) === 0));
     }
-    exact(model.character, ['path', 'sha256', 'width', 'height']); need(model.character.path === '.commitkin/character.png' && typeof model.character.sha256 === 'string' && /^[0-9a-f]{64}$/.test(model.character.sha256) && model.character.width === WIDTH && model.character.height === HEIGHT);
+    exact(model.character, ['path', 'sha256', 'width', 'height']); need(model.character.path === '.commitkin/character.png' && typeof model.character.sha256 === 'string' && /^[0-9a-f]{64}$/.test(model.character.sha256) && (model.character.width === WIDTH && model.character.height === HEIGHT || usesApprovedCharacter(model)));
     return structuredClone(model);
   } catch { throw new TypeError('PROFILE_MODEL_INVALID'); }
 }
 
 function sprite(model) {
+  if (usesApprovedCharacter(model)) return readApprovedCharacter();
   const out = canvas(WIDTH, HEIGHT, [0, 0, 0, 0]);
   drawCharacter(out, { classId: model.classId ?? 'adventurer', factionId: model.factionId, level: model.growth.level ?? '1', x: 0, y: 0, scale: 6, palette: PALETTES[model.factionId] });
   return encodePng(out);
@@ -155,6 +157,7 @@ export function buildProfileModel({ state, ledger, status, username } = {}) {
         earnedAchievements: Object.keys(ACHIEVEMENT_NAMES).flatMap(seriesId => { const series = state.achievements.find(item => item.seriesId === seriesId); if (!series) return []; const earned = [...series.earned].sort((left, right) => GRADES.indexOf(right.grade) - GRADES.indexOf(left.grade))[0]; return [{ seriesId, grade: earned.grade, earnedAt: earned.earnedAt }]; }) };
       Object.assign(model.analysis, { evaluatedAt: evaluation.evaluatedAt, cutoffExclusive: cutoff, classWindowStart: classStart, recentWindowStart: recentStart, knownRepositories: scope.repositoryIds.length });
     }
+    if (hasApprovedCharacter(model)) model.character = { ...BLOOMGUARD_ADVENTURER };
     model.character.sha256 = sha256(sprite(model));
     const checked = validateProfileModel(model); return { decision: pending ? 'pending' : 'ready', code: pending ? 'PROFILE_ANALYSIS_PENDING' : 'PROFILE_MODEL_READY', model: checked };
   } catch { return { decision: 'hold', code: 'PROFILE_PROJECTION_INVALID', model: null }; }
@@ -165,33 +168,47 @@ export function renderProfileMarkdown({ model, characterImageUrl }) {
   need(typeof characterImageUrl === 'string');
   const match = characterImageUrl.match(/^https:\/\/raw\.githubusercontent\.com\/([A-Za-z0-9-]+)\/([A-Za-z0-9_.-]{1,100})\/([0-9a-f]{40})\/\.commitkin\/character\.png$/);
   need(match && match[1].toLowerCase() === m.username.toLowerCase() && !['.', '..'].includes(match[2]));
-  const summary = m.analysis.phase === 'pending' ? `**${m.username}** · ${FACTION_NAMES[m.factionId]} · Analysis pending` : `**${m.username}** · ${FACTION_NAMES[m.factionId]} · Lv.${m.growth.level} ${CLASS_NAMES[m.classId]}`;
-  const lines = ['### Commitkin', '', '| Character | Profile |', '| :---: | :--- |', `| ![${m.username}: ${FACTION_NAMES[m.factionId]} pixel character. ${m.analysis.phase === 'pending' ? 'Analysis pending; class and growth are not finalized.' : `Level ${m.growth.level} ${CLASS_NAMES[m.classId]}.`}](<${characterImageUrl}>) | ${summary} |`, '', `${FACTION_NAMES[m.factionId]} · Permanent faction · Public activity only`, ''];
-  if (m.analysis.phase === 'pending') lines.push('Analysis pending. XP, level, class and activity statistics are not finalized. No successful analysis yet.');
+  const pending = m.analysis.phase === 'pending';
+  const name = value => value[0].toUpperCase() + value.slice(1);
+  const grade = row => `${ACHIEVEMENT_NAMES[row.seriesId]} · ${name(row.grade)}`;
+  const summary = pending ? ['**Analysis pending**'] : [`**Lv.${m.growth.level} ${CLASS_NAMES[m.classId]}**`, `XP **${m.growth.xpIntoLevel} / ${m.growth.xpForNextLevel}**`, '', '**Activity patterns · 90d · /100**'];
+  if (!pending) for (let index = 0; index < FAMILIES.length; index += 2) summary.push(FAMILIES.slice(index, index + 2).map(family => `${name(family)} **${m.familyScores[family].toFixed(1)}**`).join(' · '));
+  // Fixed safe HTML sizes the character and breaks a Markdown table cell only.
+  // Every identity, score and activity value remains selectable native text.
+  const image = `<img src="${characterImageUrl}" width="160" height="${Math.round(160 * m.character.height / m.character.width)}" alt="${m.username}: ${FACTION_NAMES[m.factionId]} pixel character">`;
+  const lines = ['### Commitkin', '', `| Character | **${m.username}** · ${FACTION_NAMES[m.factionId]} |`, '| :---: | :--- |', `| ${image} | ${summary.join('<br>')} |`, ''];
+  if (pending) lines.push('Analysis pending. XP, level, class and activity statistics are not finalized. No successful analysis yet.');
   else {
-    lines.push(`**Lv.${m.growth.level} ${CLASS_NAMES[m.classId]}** · ${m.growth.totalXp} XP`, '', `Next level: ${m.growth.xpIntoLevel} / ${m.growth.xpForNextLevel} XP`, '', `Traits: ${[m.traits.habitId, m.traits.activityId].filter(Boolean).map(id => TRAIT_NAMES[id]).join(' · ') || 'None yet'}`, '', `Achievements: ${m.badges.map(badge => `${ACHIEVEMENT_NAMES[badge.seriesId]} · ${badge.grade[0].toUpperCase() + badge.grade.slice(1)}`).join(' / ') || 'None yet'}`, '', '#### Activity families · previous 90 completed UTC days', '', `Observed range: ${m.analysis.classWindowStart} to ${m.analysis.cutoffExclusive} (UTC, end exclusive; growth-start bounded).`, '', '| Family | Pattern | Score |', '| --- | --- | ---: |');
-    for (const family of FAMILIES) { const cells = Math.round(m.familyScores[family] / 10); lines.push(`| ${family[0].toUpperCase() + family.slice(1)} | \`${'█'.repeat(cells)}${'░'.repeat(10 - cells)}\` | ${m.familyScores[family].toFixed(1)} / 100 |`); }
-    lines.push('', 'Activity-pattern scores describe observed public contributions, not skill or seniority.', '', '#### Recent activity · previous 30 completed UTC days', '', `Observed range: ${m.analysis.recentWindowStart} to ${m.analysis.cutoffExclusive} (UTC, end exclusive; growth-start bounded).`, '', '| Activity | Count |', '| --- | ---: |');
-    const labels = ['Active UTC dates', 'Merged pull requests', 'Reviewed pull requests', 'Reviewed PR commits', 'Published releases', 'Direct contributions', 'Repository triage days'];
-    COUNTERS.forEach((key, index) => lines.push(`| ${labels[index]} | ${m.recentActivity[key]} |`));
-    const statusLabel = { ok: 'Complete for the last successful tracked scope', partial: 'Partial current data — last successful snapshot retained', configuration_error: 'Configuration needs attention — last successful snapshot retained', recovery_required: 'Recovery needed — last successful snapshot retained' }[m.analysis.dataStatus];
-    lines.push('', `Data: ${statusLabel}.`, '', `Last successful analysis: ${m.analysis.evaluatedAt}.`, `Known repositories in that scope: ${m.analysis.knownRepositories}.`);
+    const labels = [['active day', 'active days'], ['merged PR', 'merged PRs'], ['reviewed PR', 'reviewed PRs'], ['reviewed PR commit', 'reviewed PR commits'], ['release', 'releases'], ['direct contribution', 'direct contributions'], ['triage day', 'triage days']];
+    const recent = COUNTERS.flatMap((key, index) => m.recentActivity[key] > 0 ? [`${m.recentActivity[key]} ${labels[index][m.recentActivity[key] === 1 ? 0 : 1]}`] : []);
+    lines.push(`**Last 30 days** · ${recent.join(' · ') || 'No qualifying activity'}`);
+    const traits = [m.traits.habitId, m.traits.activityId].filter(Boolean).map(id => TRAIT_NAMES[id]);
+    if (traits.length) lines.push('', '**Traits** · ' + traits.join(' · '));
+    if (m.badges.length) lines.push('', '**Achievements** · ' + m.badges.slice(0, 2).map(grade).join(' / '));
+    const warning = { partial: 'Partial current data — last successful snapshot retained.', configuration_error: 'Configuration needs attention — last successful snapshot retained.', recovery_required: 'Recovery needed — last successful snapshot retained.' }[m.analysis.dataStatus];
+    if (warning) lines.push('', '**Notice:** ' + warning);
   }
-  lines.push('', `Growth record starts ${m.analysis.growthStartDate} (UTC). Activity outside the observed public scope may be missing.`);
-  if (m.analysis.hasUnobservedGaps) lines.push('Unobserved gaps remain unknown; they are not confirmed inactivity.');
-  lines.push('', '<details>', '<summary>Character details</summary>', '',
+  if (m.analysis.hasUnobservedGaps) lines.push('', '**Notice:** Unobserved gaps remain unknown; they are not confirmed inactivity.');
+  lines.push('', '<details>', '<summary>Details</summary>', '',
+    `${FACTION_NAMES[m.factionId]} · Permanent faction · Public activity only`, '',
     'Scope: Public activity from automatically discovered and added repositories. Other activity may be missing.', '',
     'Class: previous 90 completed UTC days. Traits: previous 30 completed UTC days. Both windows are bounded by the preserved growth start.',
     'Classification and family scores describe observed contribution style, not skill or seniority. Recent activity counts qualifying identities, not every GitHub event.');
-  if (m.analysis.phase === 'pending') lines.push('Appearance: the Adventurer preview is not a finalized class or level. Required analysis remains incomplete.');
+  lines.push('', `Growth record starts ${m.analysis.growthStartDate} (UTC). Activity outside the observed public scope may be missing.`);
+  if (pending) lines.push('Appearance: the Adventurer preview is not a finalized class or level. Required analysis remains incomplete.');
   else {
+    lines.push('', `Total earned XP: ${m.growth.totalXp}.`, `Last successful analysis: ${m.analysis.evaluatedAt}.`, `Known repositories in that scope: ${m.analysis.knownRepositories}.`, '',
+      `Activity families · previous 90 completed UTC days: ${m.analysis.classWindowStart} to ${m.analysis.cutoffExclusive} (UTC, end exclusive; growth-start bounded).`, '',
+      `Recent activity · previous 30 completed UTC days: ${m.analysis.recentWindowStart} to ${m.analysis.cutoffExclusive} (UTC, end exclusive; growth-start bounded).`, '', '| Activity | Count |', '| --- | ---: |');
+    const labels = ['Active UTC dates', 'Merged pull requests', 'Reviewed pull requests', 'Reviewed PR commits', 'Published releases', 'Direct contributions', 'Repository triage days'];
+    COUNTERS.forEach((key, index) => lines.push(`| ${labels[index]} | ${m.recentActivity[key]} |`));
     const appearance = appearanceForLevel({ classId: m.classId, level: m.growth.level });
     const d = m.details, c = d.classification;
-    lines.push(c.reason === 'adventurer' ? 'Adventurer: no verified regular-class assignment has been finalized.' : c.reason === 'qualified-current' ? `${CLASS_NAMES[m.classId]}: ${c.family[0].toUpperCase() + c.family.slice(1)} activity leads in the observed public scope, with ${c.ownership}-owned, ${c.distribution} contributions.` : `${CLASS_NAMES[m.classId]} retained while the next activity pattern is insufficient, ambiguous, or under observation.`);
+    lines.push('', c.reason === 'adventurer' ? 'Adventurer: no verified regular-class assignment has been finalized.' : c.reason === 'qualified-current' ? `${CLASS_NAMES[m.classId]}: ${name(c.family)} activity leads in the observed public scope, with ${c.ownership}-owned, ${c.distribution} contributions.` : `${CLASS_NAMES[m.classId]} retained while the next activity pattern is insufficient, ambiguous, or under observation.`);
     if (d.classPending) lines.push(`Class candidate: ${CLASS_NAMES[d.classPending.targetId]} · ${d.classPending.count}/7 observations. Seven observations do not waive the 14-date change interval or candidate requirements.`);
     for (const slot of ['habit', 'activity']) if (d.traitPending[slot]) { const p = d.traitPending[slot]; lines.push(`${slot[0].toUpperCase() + slot.slice(1)} trait ${p.targetId === null ? 'removal' : 'candidate: ' + TRAIT_NAMES[p.targetId]} · ${p.count}/3 observations.`); }
     lines.push(appearance.fixed ? 'Appearance: Adventurer stays fixed until a verified regular assignment.' : appearance.finalStage ? 'Appearance: final Lv.50 stage; numerical levels continue.' : `Next appearance: Lv.${appearance.nextAppearanceAt}.`);
-    lines.push('', 'Earned achievements: ' + (d.earnedAchievements.map(row => `${ACHIEVEMENT_NAMES[row.seriesId]} · ${row.grade[0].toUpperCase() + row.grade.slice(1)}`).join(' / ') || 'None yet') + '.');
+    if (d.earnedAchievements.length) lines.push('', 'Earned achievements: ' + d.earnedAchievements.map(grade).join(' / ') + '.');
   }
   lines.push('', '[How it works](https://github.com/JEONTAK/commitkin#how-it-works) · [Recovery guide](https://github.com/JEONTAK/commitkin#recovery) · [Credits](https://github.com/JEONTAK/commitkin#credits)', '', '</details>');
   const markdown = lines.join('\n'); need(Buffer.byteLength(markdown, 'utf8') <= PROFILE_MODEL_MAX_BYTES); return markdown;
