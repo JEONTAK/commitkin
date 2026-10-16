@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="docs/installation.md"><strong>Get started</strong></a> ·
+  <a href="#profile-preview">Preview</a> ·
   <a href="https://github.com/JEONTAK#user-content-commitkin">Live example</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="#credits">Credits</a>
@@ -26,6 +27,18 @@ Turn public contributions into a pixel character on your GitHub profile.
 
 > **Pre-release · Public activity only · Manual runs**<br>
 > Other-user installation, live recovery and artwork rights review remain open.
+
+## Profile preview
+
+*Fictional data, actual renderer layout. Only the character is an image; stats are Markdown.*
+
+| Character | **DemoHero** · Bloomguard |
+| :---: | :--- |
+| <img src="packages/commitkin/assets/characters/bloomguard-adventurer.png" width="160" height="160" alt="DemoHero: Bloomguard pixel character"> | **Lv.1 Adventurer**<br>XP **40 / 100**<br><br>**Activity patterns · 90d**<br>`Craft         ████░░░░░░   40.0 / 100`<br>`Guard         ████░░░░░░   35.0 / 100`<br>`Knowledge     ███░░░░░░░   27.4 / 100`<br>`Verification  ██░░░░░░░░   20.0 / 100`<br>`Recovery      █░░░░░░░░░   10.0 / 100`<br>`Operations    ██░░░░░░░░   15.0 / 100` |
+
+**Last 30 days** · 1 active day · 1 merged PR
+
+**Achievements** · Completed Works · Bronze
 
 ## Choose your faction
 
