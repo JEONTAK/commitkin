@@ -5,7 +5,7 @@ Updated 2026-10-16. MVP source / pre-release validation; real known-scope read-o
 ## Latest local gate
 
 - Runtime: 1,042/1,042 native tests; record validator: 295/295. Combined: 1,337 tests, without double-counting schema assertions.
-- Core coverage: 99.01% lines, 94.39% branches, 97.38% functions; configured minimums all 80%.
+- Core coverage: 99.01% lines, at least 94.37% branches, 97.38% functions across repeat local runs; configured minimums all 80%.
 - 198 protected original artifacts and the original mechanics baseline remained unchanged.
 - Publication uses explicit outcomes: confirmed `true / published`, definitive no-write `false / not_published`, or unconfirmed post-CAS `null / outcome_unknown`. No blind retry.
 - These test/coverage figures are local synthetic/injected-HTTP results. The real profile dry-run below is separate API proof; no actual owner growth write is included.
@@ -28,7 +28,17 @@ Updated 2026-10-16. MVP source / pre-release validation; real known-scope read-o
 - Separate profile sync checks same-owner public fork lineage, immutable source head, display version/IDs/times and complete PNG structure/hash. Default dry-run and unchanged snapshots construct no writer. The profile's own basic token can opt in to one fixed `README.md`-only expected-head CAS writer; no growth calculation, settings/record copy, PAT or cross-repository write. Missing/pending/invalid source preserves the existing profile. Both supplied workflows remain manual-only `contents: read`, literal dry-run true.
 - Both faction demos passed actual offline CLI generation into fresh synthetic preview directories, including character PNG/display JSON/native Markdown and no HTTP. The real preview-directory writer round-trip is tested; unknown paths and overwrites still reject. Independently reviewed legacy/fork write-layout isolation includes a regression preventing a legacy five-file bundle from writing a fork README.
 
-The new fork/profile-sync path has **not** run in real GitHub Actions and no real profile display or growth record has been published. The earlier basic-token profile-layout diagnostic below is historical read evidence, not certification of the new storage/sync adapter. No schedule, automatic dispatch or live migration has been enabled.
+The new storage/profile-sync adapters ran in actual basic-token Actions through the separately bound ordinary author installation, as recorded below. Genuine other-user fork Actions execution remains unverified. No real profile display or growth record has been published. No schedule, automatic dispatch or live migration has been enabled.
+
+## Author installation dry-runs — 2026-10-16
+
+Runtime source `735f54311584f1f3b44fec0491f4e3d99eaed5dc` is pinned by both installed workflows. Author commit `914033f1eebb4c98b8309cb1d9e57461a6ffe59b` contains only README, optional empty-list settings and the manual read-only preview workflow. Profile commit `da04bc6662bdf1f70a86858f8c7f4e6b31834c10` adds only the separate manual read-only profile-sync preview. Both jobs log `Contents: read`, use their own basic GITHUB_TOKEN and literal dry-run true; no personal token, new automatic trigger or real record write is enabled.
+
+The [author analysis](https://github.com/JEONTAK/commitkin-character/actions/runs/38850629775) succeeded with `DRY_RUN_READY`: all 22 known public repositories, 594 runtime requests, five files prepared in memory only. `published`, `progressionAuthorized` and `actualRecordsChanged` are all false. The preview's temporary faction/20 XP are not saved. Budget remains 900 with unchanged scope/eligibility; this job's observed 5,000 quota is not a guaranteed basic-token allowance.
+
+The [profile-sync diagnostic](https://github.com/JEONTAK/JEONTAK/actions/runs/38850632042) accepted the source binding, read fixed source/target heads and safely held at `PROFILE_SOURCE_DIRECTORY_INVALID`: no saved display snapshot exists under the no-growth-publication boundary. CLI exit 2 makes the Actions conclusion **failure**, not successful sync. `profileChanged`, `growthRecordsChanged`, `progressionAuthorized` and `published` are false. This is live binding/absence-preservation evidence, not positive live Markdown rendering or publication. Positive projection/PNG/render/CAS behavior is covered by local synthetic HTTP only.
+
+After execution, author/profile HEADs match their installation commits and all three repositories contain no root `.commitkin` directory. Profile README, old manual preview workflow, unrelated scheduled workflow and image remain unchanged. Actual growth publication, saved-snapshot positive profile preview, live sync and real other-user fork execution remain separate gates.
 
 ## Confirmed source semantics
 

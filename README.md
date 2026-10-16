@@ -12,6 +12,8 @@ The [initial diagnostic run](https://github.com/JEONTAK/commitkin/actions/runs/3
 
 The [observed-source read diagnostic](https://github.com/JEONTAK/commitkin/actions/runs/38719578588) at `f54463901518d36b47c69f1ec740697409e5dd09` passed 1,183 tests plus actual built-in-token collection, multi-page file acquisition and a fixed public closing-issues query. No growth files were written. Later installation-only fixes have their own source tests; unchanged public probes may be explicitly skipped to conserve quota, never relabeled as executed.
 
+The [bound author-installation preview](https://github.com/JEONTAK/commitkin-character/actions/runs/38850629775) succeeded on 2026-10-16 with 22 known public repositories and 594 runtime requests, preparing five files in memory only. The [profile-sync dry-run](https://github.com/JEONTAK/JEONTAK/actions/runs/38850632042) correctly held because no saved display exists (`PROFILE_SOURCE_DIRECTORY_INVALID`, Actions conclusion failure). It preserved the profile; this is not positive live character synchronization. Both use basic read-only tokens and manual-only workflows. No real growth, faction or display snapshot was saved. [Detailed evidence](docs/product/github-character/local-mvp-implementation.md#author-installation-dry-runs--2026-10-16).
+
 ## How it works
 
 - Choose **Bloomguard**, a cozy fantasy guild, or **Ashbound**, a dark fantasy order. First published choice is permanent.
