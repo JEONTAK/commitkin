@@ -24,7 +24,7 @@ Turn public contributions into a pixel character on your GitHub profile.
 - **Own** — settings and growth stay in your fork. Your profile receives only the display.
 - **Run** — GitHub Actions and the built-in token. No server, signup or PAT.
 
-> **Pre-release · Public activity only · Manual runs**  
+> **Pre-release · Public activity only · Manual runs**<br>
 > Other-user installation, live recovery and artwork rights review remain open.
 
 ## Choose your faction
