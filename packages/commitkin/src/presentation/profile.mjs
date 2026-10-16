@@ -171,8 +171,13 @@ export function renderProfileMarkdown({ model, characterImageUrl }) {
   const pending = m.analysis.phase === 'pending';
   const name = value => value[0].toUpperCase() + value.slice(1);
   const grade = row => `${ACHIEVEMENT_NAMES[row.seriesId]} · ${name(row.grade)}`;
-  const summary = pending ? ['**Analysis pending**'] : [`**Lv.${m.growth.level} ${CLASS_NAMES[m.classId]}**`, `XP **${m.growth.xpIntoLevel} / ${m.growth.xpForNextLevel}**`, '', '**Activity patterns · 90d · /100**'];
-  if (!pending) for (let index = 0; index < FAMILIES.length; index += 2) summary.push(FAMILIES.slice(index, index + 2).map(family => `${name(family)} **${m.familyScores[family].toFixed(1)}**`).join(' · '));
+  const summary = pending ? ['**Analysis pending**'] : [`**Lv.${m.growth.level} ${CLASS_NAMES[m.classId]}**`, `XP **${m.growth.xpIntoLevel} / ${m.growth.xpForNextLevel}**`, '', '**Activity patterns · 90d**'];
+  if (!pending) for (const family of FAMILIES) {
+    const score = m.familyScores[family], cells = Math.round(score / 10);
+    // Fixed-width native Markdown rows, not a chart image or a second score.
+    // NBSP keeps column padding intact in GitHub's inline-code rendering.
+    summary.push(`\`${name(family).padEnd(12, '\u00a0')}\u00a0\u00a0${'█'.repeat(cells)}${'░'.repeat(10 - cells)}\u00a0\u00a0${score.toFixed(1).padStart(5, '\u00a0')} / 100\``);
+  }
   // Fixed safe HTML sizes the character and breaks a Markdown table cell only.
   // Every identity, score and activity value remains selectable native text.
   const image = `<img src="${characterImageUrl}" width="160" height="${Math.round(160 * m.character.height / m.character.width)}" alt="${m.username}: ${FACTION_NAMES[m.factionId]} pixel character">`;

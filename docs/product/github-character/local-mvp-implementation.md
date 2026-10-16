@@ -3,6 +3,12 @@
 Updated 2026-10-16. MVP source / pre-release validation; one authorized author snapshot and one separately approved actual managed-profile publication passed basic-token verification. Growth is preserved and both installed workflows are restored to manual read-only preview. No new automatic execution or release tag.
 
 
+## Six-row Markdown family graphs — 2026-10-16
+
+The user explicitly approves replacing the right-side paired numbers with six aligned family-name/bar/score rows, retaining the approved portrait as the only image. The ten-character bars and scores are native inline Markdown text, with NBSP padding for column alignment. Bars round to the nearest ten points for presentation only; the existing one-decimal scores, classifier, periods, identity/XP, recent line and collapsed Details stay unchanged. Measured zero is an empty bar; pending unknown analysis has no graph. No new endpoint/image/SVG/dependency or record/model change.
+
+This request authorizes source publication and one README-only sync, not activity collection, growth settlement or automatic execution. Preserve all five files in bound author storage (including its PNG/projection), every outside-block README byte and unrelated workflows/assets. The existing manual profile job may temporarily publish through the scoped basic-token Action, then must return to read-only dry-run. Local and actual outcome evidence will be recorded after verification.
+
 ## Approved art and compact presentation correction — 2026-10-16
 
 The user rejects the development placeholder and verbose report-like profile, and explicitly approves the existing Bloomguard Adventurer plus a compact native-Markdown display. This supersedes the earlier code-native-only asset rule for this selected original, not the remaining production art or AI-image rights gate.

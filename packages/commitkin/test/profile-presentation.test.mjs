@@ -71,7 +71,7 @@ test('compact default keeps all six native-text scores while hiding empty reward
   const [visible, details] = markdown.split('<details>');
   assert.match(visible, /<img src="https:\/\/raw\.githubusercontent\.com\//);
   assert.match(visible, /width="160" height="160"/);
-  for (const family of ['Craft', 'Guard', 'Knowledge', 'Verification', 'Recovery', 'Operations']) assert.match(visible, new RegExp(family + ' \\*\\*0\\.0\\*\\*'));
+  for (const family of ['Craft', 'Guard', 'Knowledge', 'Verification', 'Recovery', 'Operations']) assert.match(visible, new RegExp(family + '\\s+░{10}\\s+0\\.0 / 100'));
   assert.match(visible, /\*\*Last 30 days\*\* · 1 active day · 1 merged PR/);
   assert.equal((visible.match(/Lv\.1 Adventurer/g) ?? []).length, 1);
   assert.doesNotMatch(visible, /None yet|Traits:|Achievements:|Known repositories|Observed range|Last successful|Growth record|Permanent faction|\| Activity \| Count \||\| Family \| Pattern/);
@@ -80,6 +80,33 @@ test('compact default keeps all six native-text scores while hiding empty reward
   assert.match(details, /Reviewed PR commits/); assert.match(details, /not skill or seniority/);
   const empty = renderProfileMarkdown({ model: project(fixture('ready-empty')), characterImageUrl: URL }).split('<details>')[0];
   assert.match(empty, /No qualifying activity/); assert.doesNotMatch(empty, /0 active|0 merged|0 releases/);
+});
+
+test('family graph has six ordered aligned Markdown rows with ten segments and unchanged exact scores', () => {
+  const model = project();
+  const families = ['craft', 'guard', 'knowledge', 'verification', 'recovery', 'operations'];
+  const scores = [0, 5, 27.4, 50, 95, 100], filled = [0, 1, 3, 5, 10, 10];
+  families.forEach((family, index) => { model.familyScores[family] = scores[index]; });
+  const before = clone(model); const png = renderCharacterPng({ model });
+  const visible = renderProfileMarkdown({ model, characterImageUrl: URL }).split('<details>')[0];
+  const rows = [...visible.matchAll(/`([^`]+[█░][^`]+)`/g)].map(match => match[1]);
+  assert.equal(rows.length, 6);
+  families.forEach((family, index) => {
+    const label = family[0].toUpperCase() + family.slice(1);
+    assert.equal(rows[index].replaceAll('\u00a0', ' '), `${label.padEnd(12)}  ${'█'.repeat(filled[index])}${'░'.repeat(10 - filled[index])}  ${scores[index].toFixed(1).padStart(5)} / 100`);
+  });
+  assert.equal(new Set(rows.map(row => row.indexOf('█') >= 0 ? row.indexOf('█') : row.indexOf('░'))).size, 1);
+  assert.equal((visible.match(/<img /g) ?? []).length, 1); assert.doesNotMatch(visible, /<svg|<canvas|!\[/);
+  assert.deepEqual(model, before); assert.deepEqual(renderCharacterPng({ model }), png);
+});
+
+test('zero family scores show empty bars while pending unknown scores never fabricate a graph', () => {
+  const model = project(); const before = clone(model);
+  const visible = renderProfileMarkdown({ model, characterImageUrl: URL }).split('<details>')[0];
+  assert.equal((visible.match(/░{10}/g) ?? []).length, 6); assert.doesNotMatch(visible, /█/);
+  assert.deepEqual(model, before);
+  const pending = renderProfileMarkdown({ model: project(fixture('first-analysis-pending')), characterImageUrl: URL });
+  assert.doesNotMatch(pending, /[█░]|Activity patterns|0\.0 \/ 100/);
 });
 
 test('complete zero activity remains measured zero, distinct from pending unknown statistics', () => {
@@ -97,7 +124,7 @@ test('both faction synthetic demos append local native Markdown and character-on
     for (const path of ['.commitkin/state.json', '.commitkin/ledger.json', '.commitkin/status.json', '.commitkin/card.png', 'README.md', 'growth-gallery.png', 'preview-report.json', 'LICENSE.txt', '.commitkin/profile.json', '.commitkin/character.png', 'PROFILE.md']) assert.ok(files.has(path), path);
     assert.equal(result.files.length, 11); assert.equal(model.factionId, faction); assert.equal(model.classId, 'blacksmith'); assert.equal(model.growth.level, '7'); assert.equal(model.familyScores.craft, 100); assert.equal(model.recentActivity.activeDays, 25); assert.equal(model.recentActivity.mergedPrs, 25);
     assert.equal(model.character.sha256, hash(files.get('.commitkin/character.png'))); assert.match(files.get('PROFILE.md').toString(), /Fictional local data only/); assert.match(files.get('PROFILE.md').toString(), /src="\.commitkin\/character\.png"/); assert.doesNotMatch(files.get('PROFILE.md').toString(), /raw\.githubusercontent/);
-    assert.match(files.get('PROFILE.md').toString(), /previous 30 completed UTC days/); assert.match(files.get('PROFILE.md').toString(), /previous 90 completed UTC days/); assert.match(files.get('PROFILE.md').toString(), /Craft \*\*100\.0\*\*/);
+    assert.match(files.get('PROFILE.md').toString(), /previous 30 completed UTC days/); assert.match(files.get('PROFILE.md').toString(), /previous 90 completed UTC days/); assert.match(files.get('PROFILE.md').toString(), /Craft\s+█{10}\s+100\.0 \/ 100/);
     assert.equal(result.report.githubRequests, 0); assert.equal(result.report.realOwnerRecordsChanged, false);
   }
   assert.notDeepEqual(images[0], images[1]);
