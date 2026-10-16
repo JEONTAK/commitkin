@@ -6,13 +6,13 @@ import { selectAchievementBadges } from '../domain/character/achievements.mjs';
 export const FACTION_NAMES = Object.freeze({ bloomguard: 'Bloomguard', ashbound: 'Ashbound' });
 export function displayName(id) { return CLASS_NAMES[id] ?? FACTION_NAMES[id] ?? TRAIT_NAMES[id] ?? ACHIEVEMENT_NAMES[id] ?? String(id ?? '').split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' '); }
 
-export function drawCharacter(surface, { classId, factionId, level, x = 36, y = 66, scale = 6 }) {
+export function drawCharacter(surface, { classId, factionId, level, x = 36, y = 66, scale = 6, palette = null }) {
   if (!CLASS_NAMES[classId] || !FACTION_NAMES[factionId]) throw new TypeError('CHARACTER_RENDER_INVALID');
   const appearance = appearanceForLevel({ classId, level });
   const stage = appearance.stageIndex;
   const bloom = factionId === 'bloomguard';
-  const dark = [12, 15, 23], skin = [232, 192, 149], body = bloom ? [45, 121, 87] : [123, 62, 66];
-  const accent = bloom ? [137, 220, 144] : [245, 166, 90], metal = bloom ? [179, 205, 193] : [191, 168, 161];
+  const dark = palette?.dark ?? [12, 15, 23], skin = palette?.skin ?? [232, 192, 149], body = palette?.body ?? (bloom ? [45, 121, 87] : [123, 62, 66]);
+  const accent = palette?.accent ?? (bloom ? [137, 220, 144] : [245, 166, 90]), metal = palette?.metal ?? (bloom ? [179, 205, 193] : [191, 168, 161]);
   const p = (a,b,w,h,color) => surface.rect(x+a*scale,y+b*scale,w*scale,h*scale,color);
   p(4,34,24,2,dark);
   if (stage >= 8) { p(1,6,2,23,accent); p(29,6,2,23,accent); }

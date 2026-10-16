@@ -14,7 +14,7 @@ function mockedPublisher({ mutation = 'success', apply = true, readback = 'actua
   const calls = []; let changed = false; let submitted = false;
   const publisher = createGithubPublisher({ token: TOKEN, requestBudget, maxRetries: 0, fetchImpl: async (url, init) => {
     const path = new URL(url).pathname; calls.push({ path, method: init.method });
-    if (path === '/repos/owner/owner') return response(metadata === 'null' ? 'null' : { id: 9001, owner: { id: metadata === 'wrong_owner' ? 9999 : 1001 }, node_id: 'R_synthetic', default_branch: 'main', private: false, visibility: 'public' });
+    if (path === '/repos/owner/owner') return response(metadata === 'null' ? 'null' : { id: 9001, name: 'owner', full_name: 'owner/owner', owner: { id: metadata === 'wrong_owner' ? 9999 : 1001, login: 'owner', type: 'User' }, node_id: 'R_synthetic', default_branch: 'main', private: false, visibility: 'public' });
     if (path.endsWith('/git/ref/heads/main')) {
       if (submitted && readback === 'unavailable') return response({ message: TOKEN }, 503);
       if (submitted && readback === 'malformed') return response({ unexpected: TOKEN });

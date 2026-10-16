@@ -23,10 +23,11 @@ export function createRefreshUseCase(ports) {
     try {
       const installation = await ports.acquire({ workflowContext, initialSelection });
       if (installation.decision !== 'acquired') return held('installation', installation.code);
-      if (installation.readmeBytes === null) return held('readme', 'README_CONNECTION_REQUIRED');
-      const originalReadme = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(installation.readmeBytes);
+      const storageLayout = installation.storageLayout ?? 'legacy-profile';
+      if (storageLayout !== 'fork' && installation.readmeBytes === null) return held('readme', 'README_CONNECTION_REQUIRED');
+      const originalReadme = installation.readmeBytes === null ? null : new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(installation.readmeBytes);
       // Validate the user's connection before expensive discovery/collection.
-      ports.updateReadme(originalReadme, 'Analysis pending');
+      if (storageLayout !== 'fork') ports.updateReadme(originalReadme, 'Analysis pending');
       const previous = installation.firstInstallVerified ? null : Object.fromEntries(['state', 'ledger', 'status'].map(role => [role, ports.parse(installation.records[role], role)]));
       const settings = ports.parseSettings(installation.settingsBytes, {
         previouslyUsed: previous?.state.settings.filePreviouslyUsed ?? false,
@@ -41,7 +42,7 @@ export function createRefreshUseCase(ports) {
       const base = previous ?? initial.snapshot;
       const reservePending = (code, causeStage) => {
         if (!initial || !ports.reserveInitialPending || typeof ports.presentPending !== 'function') return null;
-        const files = ports.presentPending({ candidate: base, username: installation.login, originalReadme });
+        const files = ports.presentPending({ candidate: base, username: installation.login, originalReadme, storageLayout });
         return { decision: 'pending', stage: 'initialization', code: 'INITIAL_FACTION_RESERVED_ANALYSIS_PENDING', causeCode: code, causeStage, ...withDiagnostics(), files, candidate: base,
           repository: installation.repository.fullName, owner: installation.expectedOwner, defaultBranch: installation.defaultBranch, expectedHead: installation.expectedHead,
           summary: { firstInstallation: true, classId: null, totalXp: null, deltaXp: '0', knownRepositories: discovery.repositories.length },
@@ -102,7 +103,7 @@ export function createRefreshUseCase(ports) {
       const statusOnly = evaluated.code === 'LOCAL_STATUS_READY';
       const verification = statusOnly ? { decision: 'not_required', code: 'PRIMARY_SNAPSHOT_UNCHANGED', sourceEligibility: 'passed', newCandidateBinding: 'not_checked' } : ports.verifyCandidate ? ports.verifyCandidate({ context, candidate: evaluated.candidate, previous: base, qualification }) : ports.verify({ context: bytes(context), evidence: bytes(evidence), candidate: bundleBytes(evaluated.candidate), previous: bundleBytes(base) });
       if (!statusOnly && !['accept_relative_to_evidence', 'accept_relative_to_capture'].includes(verification.decision)) return held('verification', verification.code);
-      const files = ports.present({ candidate: evaluated.candidate, username: installation.login, classificationReason: evaluated.character.classificationReason, originalReadme });
+      const files = ports.present({ candidate: evaluated.candidate, username: installation.login, classificationReason: evaluated.character.classificationReason, originalReadme, storageLayout });
       return { decision: evaluated.decision === 'unchanged' ? 'unchanged' : 'prepared', stage: 'complete', code: 'DRY_RUN_READY', files, candidate: evaluated.candidate,
         repository: installation.repository.fullName, owner: installation.expectedOwner, defaultBranch: installation.defaultBranch, expectedHead: installation.expectedHead,
         summary, verification, ...withDiagnostics(), sourceModel: ports.sourceModel ?? 'github-public-historical-v1', sourceAuthenticity: 'not_checked', progressionAuthorized: false, published: false };

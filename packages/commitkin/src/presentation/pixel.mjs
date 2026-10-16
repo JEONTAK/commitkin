@@ -10,10 +10,12 @@ const GLYPHS = {
 
 export function canvas(width, height, background = [15, 22, 30]) {
   if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width * height > 2000000) throw new TypeError('CANVAS_INVALID');
-  const pixels = Buffer.alloc(width * height * 3);
+  const channels = background.length === 4 ? 4 : 3;
+  const pixels = Buffer.alloc(width * height * channels);
   const rect = (x, y, w, h, color) => {
     for (let cy = Math.max(0, Math.floor(y)); cy < Math.min(height, y + h); cy++) for (let cx = Math.max(0, Math.floor(x)); cx < Math.min(width, x + w); cx++) {
-      const at = (cy * width + cx) * 3; pixels[at] = color[0]; pixels[at + 1] = color[1]; pixels[at + 2] = color[2];
+      const at = (cy * width + cx) * channels; pixels[at] = color[0]; pixels[at + 1] = color[1]; pixels[at + 2] = color[2];
+      if (channels === 4) pixels[at + 3] = color[3] ?? 255;
     }
   };
   rect(0, 0, width, height, background);
@@ -28,7 +30,7 @@ export function canvas(width, height, background = [15, 22, 30]) {
     }
     return at;
   }
-  return { width, height, pixels, rect, text };
+  return { width, height, pixels, rect, text, channels };
 }
 
 const CRC_TABLE = Array.from({ length: 256 }, (_, index) => { let c = index; for (let n = 0; n < 8; n++) c = (c & 1) ? 0xedb88320 ^ (c >>> 1) : c >>> 1; return c >>> 0; });
@@ -39,8 +41,9 @@ function chunk(type, data) {
 }
 export function encodePng(surface) {
   const { width, height, pixels } = surface;
-  const header = Buffer.alloc(13); header.writeUInt32BE(width); header.writeUInt32BE(height, 4); header[8] = 8; header[9] = 2;
-  const raw = Buffer.alloc(height * (1 + width * 3));
-  for (let y = 0; y < height; y++) pixels.copy(raw, y * (1 + width * 3) + 1, y * width * 3, (y + 1) * width * 3);
+  const channels = surface.channels === 4 ? 4 : 3;
+  const header = Buffer.alloc(13); header.writeUInt32BE(width); header.writeUInt32BE(height, 4); header[8] = 8; header[9] = channels === 4 ? 6 : 2;
+  const raw = Buffer.alloc(height * (1 + width * channels));
+  for (let y = 0; y < height; y++) pixels.copy(raw, y * (1 + width * channels) + 1, y * width * channels, (y + 1) * width * channels);
   return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]), chunk('IHDR', header), chunk('IDAT', deflateSync(raw)), chunk('IEND', Buffer.alloc(0))]);
 }

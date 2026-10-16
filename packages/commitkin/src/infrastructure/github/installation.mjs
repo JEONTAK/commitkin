@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { parseStrictJson } from '../../../../record-validator/src/infrastructure/strict-json.js';
 import { digest } from '../../../../record-validator/src/domain/hash.js';
 import { compareTimestamps } from '../../domain/character/activity.mjs';
+import { isCommitkinStorageRepository } from './storage.mjs';
 
 const RECORDS = Object.freeze({ state: '.commitkin/state.json', ledger: '.commitkin/ledger.json', status: '.commitkin/status.json' });
 const LIMITS = Object.freeze({ '.commitkin/state.json': 1048576, '.commitkin/ledger.json': 33554432, '.commitkin/status.json': 65536, 'README.md': 1048576, '.github/commitkin.yml': 65536 });
@@ -195,8 +196,12 @@ export async function acquireInstallation({ client, workflowContext, initialSele
     const actual = structuredClone(metadata.data);
     const parts = repository.toLowerCase().split('/');
     if (!actual || identifier(actual.id) !== context.repositoryId || identifier(actual.owner?.id) !== context.ownerAccountId || actual.owner?.type !== 'User' || actual.private !== false || actual.visibility && actual.visibility !== 'public' ||
-      typeof actual.owner?.login !== 'string' || typeof actual.name !== 'string' || actual.owner.login.toLowerCase() !== parts[0] || actual.name.toLowerCase() !== parts[1] || actual.owner.login.toLowerCase() !== actual.name.toLowerCase() ||
+      typeof actual.owner?.login !== 'string' || typeof actual.name !== 'string' || actual.owner.login.toLowerCase() !== parts[0] || actual.name.toLowerCase() !== parts[1] ||
       typeof actual.full_name !== 'string' || actual.full_name.toLowerCase() !== repository.toLowerCase() || typeof actual.default_branch !== 'string' || !actual.default_branch || actual.default_branch.length > 255 || /[\s\\\x00-\x1f]|\.\.|\/\/|^\/|\/$/.test(actual.default_branch)) return hold('INSTALLATION_REPOSITORY_MISMATCH');
+    // Legacy profile installations remain readable in place. New distribution
+    // binds storage to the owner's actual Commitkin fork, never a profile copy.
+    const storageLayout = actual.owner.login.toLowerCase() === actual.name.toLowerCase() ? 'legacy-profile' : 'fork';
+    if (storageLayout === 'fork' && !isCommitkinStorageRepository(actual)) return hold('INSTALLATION_REPOSITORY_MISMATCH');
     if (context.actorAccountId !== context.ownerAccountId) return hold('INSTALLATION_ACTOR_MISMATCH');
     if (context.ref !== 'refs/heads/' + actual.default_branch) return hold('INSTALLATION_DEFAULT_BRANCH_REQUIRED');
     const head = await client.get(`${root}/git/ref/heads/${actual.default_branch.split('/').map(encodeURIComponent).join('/')}`);
@@ -216,9 +221,12 @@ export async function acquireInstallation({ client, workflowContext, initialSele
       if (entry && (entry.type !== 'tree' || entry.mode !== '040000')) return hold('INSTALLATION_SYMLINK_REJECTED');
     }
     const recordCount = Object.values(RECORDS).filter(path => entries.has(path)).length;
-    if (recordCount !== 0 && recordCount !== 3 || recordCount === 0 && entries.has('.commitkin/card.png')) return hold('RECOVERY_REQUIRED');
+    if (recordCount !== 0 && recordCount !== 3 || recordCount === 0 && ['.commitkin/card.png', '.commitkin/character.png', '.commitkin/profile.json'].some(path => entries.has(path))) return hold('RECOVERY_REQUIRED');
     const contents = {};
     for (const path of Object.keys(LIMITS)) {
+      // Fork documentation is neither an analysis input nor a publication
+      // target. Do not make its format, size or presence an installation gate.
+      if (storageLayout === 'fork' && path === 'README.md') { contents[path] = null; continue; }
       const entry = entries.get(path);
       if (!entry) { contents[path] = null; continue; }
       if (entry.type !== 'blob' || !['100644', '100755'].includes(entry.mode) || !SHA.test(entry.sha ?? '') || !Number.isSafeInteger(entry.size) || entry.size < 0 || entry.size > LIMITS[path]) return hold('INSTALLATION_FILE_INVALID');
@@ -269,7 +277,7 @@ export async function acquireInstallation({ client, workflowContext, initialSele
     }
     return {
       decision: 'acquired', code: firstInstallVerified ? 'FIRST_INSTALL_INPUTS_ACQUIRED' : 'EXISTING_INSTALLATION_ACQUIRED',
-      expectedOwner, expectedHead, defaultBranch: actual.default_branch, login: actual.owner.login,
+      expectedOwner, expectedHead, defaultBranch: actual.default_branch, login: actual.owner.login, storageLayout,
       repository: { id: context.repositoryId, name: actual.name, fullName: actual.full_name, ownerAccountId: context.ownerAccountId, ownerLogin: actual.owner.login, visibility: 'public' },
       records, readmeBytes: contents['README.md'], settingsBytes: contents['.github/commitkin.yml'], settingsFileUsed: contents['.github/commitkin.yml'] !== null,
       firstInstallVerified, initialAssignmentVerified: firstInstallVerified || pendingOriginVerified || adventurerOriginVerified,

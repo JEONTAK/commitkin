@@ -3,6 +3,7 @@ import { scopeFor } from './evaluate.mjs';
 import { drawCharacter, renderCard } from '../presentation/card.mjs';
 import { canvas, encodePng } from '../presentation/pixel.mjs';
 import { managedContent, updateManagedReadme, START, END } from '../presentation/readme.mjs';
+import { buildProfileModel, renderCharacterPng, renderProfileMarkdown } from '../presentation/profile.mjs';
 const json=value=>Buffer.from(JSON.stringify(value,null,2)+'\n');
 
 /** Fictional fixture generator, not an input/import or live first-install path. */
@@ -34,5 +35,10 @@ export function buildDemoUseCase({faction='bloomguard',evaluateSnapshot}){
   const levels=[1,5,10,15,20,25,30,35,40,45,50];
   levels.forEach((level,index)=>{const col=index%6,row=Math.floor(index/6);const x=20+col*144,y=72+row*220;drawCharacter(gallery,{classId:'blacksmith',factionId:faction,level,x,y,scale:4});gallery.text('LV.'+level,x+30,y+156,[222,220,196],2);});
   const report={reportVersion:1,synthetic:true,decision:'local_demo_ready',faction,sourceAuthenticity:'not_checked',progressionAuthorized:false,recordValidation:evaluated.recordReport.code,classId:evaluated.candidate.state.class.id,totalXp:evaluated.candidate.state.growth.totalXp,level:evaluated.character.level.level,appearance:evaluated.character.appearance.stageIndex,realOwnerRecordsChanged:false,githubRequests:0};
-  return{report,files:[...['state','ledger','status'].map(role=>({path:'.commitkin/'+role+'.json',content:json(evaluated.candidate[role])})),{path:'.commitkin/card.png',content:card},{path:'README.md',content:Buffer.from(readme)},{path:'growth-gallery.png',content:encodePng(gallery)},{path:'preview-report.json',content:json(report)},{path:'LICENSE.txt',content:Buffer.from('Development fallback pixel art and bitmap lettering are original code-native previews. First-party code: MIT. Generated preview art: CC BY 4.0, attribution: Commitkin contributors. No AI concept sheets or external fonts are included. Not a completed release rights audit.\n')}]};
+  const projected=buildProfileModel({...evaluated.candidate,username:'DemoHero'});
+  if(projected.decision!=='ready')throw new TypeError(projected.code);
+  const imageUrl='https://raw.githubusercontent.com/DemoHero/commitkin/'+'d'.repeat(40)+'/.commitkin/character.png';
+  const nativeProfile='# Synthetic Commitkin profile preview\n\nFictional local data only. This is not a real GitHub profile, live activity, or completed release. The image is local; no network access is needed.\n\n'+renderProfileMarkdown({model:projected.model,characterImageUrl:imageUrl}).replaceAll(imageUrl,'.commitkin/character.png')+'\n';
+  return{report,files:[...['state','ledger','status'].map(role=>({path:'.commitkin/'+role+'.json',content:json(evaluated.candidate[role])})),{path:'.commitkin/card.png',content:card},{path:'README.md',content:Buffer.from(readme)},{path:'growth-gallery.png',content:encodePng(gallery)},{path:'preview-report.json',content:json(report)},{path:'LICENSE.txt',content:Buffer.from('Development fallback pixel art and bitmap lettering are original code-native previews. First-party code: MIT. Generated preview art: CC BY 4.0, attribution: Commitkin contributors. No AI concept sheets or external fonts are included. Not a completed release rights audit.\n')},
+    {path:'.commitkin/profile.json',content:json(projected.model)},{path:'.commitkin/character.png',content:renderCharacterPng({model:projected.model})},{path:'PROFILE.md',content:Buffer.from(nativeProfile)}]};
 }

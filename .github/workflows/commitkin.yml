@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: MIT
+# Runs in your own fork. Nothing runs on push or on a timer.
+name: Commitkin fork preview
+
+"on":
+  workflow_dispatch:
+    inputs:
+      faction:
+        description: First preview only; no choice is saved in dry-run
+        type: choice
+        options: ['', bloomguard, ashbound]
+        default: ''
+      confirmation:
+        description: First preview only; CONFIRM_PERMANENT_FACTION
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: commitkin-fork
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out this fork at the requested commit
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Prepare fork-owned files without publishing
+        uses: ./
+        with:
+          token: ${{ github.token }}
+          faction: ${{ inputs.faction }}
+          confirmation: ${{ inputs.confirmation }}
+          dry-run: 'true'
+
+# Later publication is a separate intentional edit: contents: write and
+# dry-run: 'false'. Do not add a schedule as part of installation or preview.

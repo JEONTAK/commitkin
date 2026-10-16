@@ -2,11 +2,11 @@
 
 Your GitHub activity. Your evolving pixel character.
 
-An open-source, user-owned GitHub Action that turns observed public activity into a chunky pixel character on your profile README. No separate signup, hosted backend or personal access token.
+An open-source, user-owned GitHub Action that turns observed public activity into a chunky pixel character and readable Markdown stats. Your fork owns configuration and growth; a separate profile Action updates only your README block. No signup, hosted backend or personal access token.
 
 ## Status
 
-MVP implementation / pre-release validation. Class, trait, achievement, growth, rendering, collection and opt-in publication paths are implemented. Publication/recovery are covered by injected-HTTP tests; **a real profile growth write has not been performed**. Default mode is read-only. No release tag or automatic character workflow is enabled in this product repository.
+MVP implementation / pre-release validation. Fork-owned growth, character-only PNG rendering, six activity-family scores, recent activity Markdown and profile-only synchronization are implemented locally. Publication/recovery are covered by injected-HTTP tests; **real growth publication and live profile synchronization have not been performed**. All supplied workflows are manual-only previews. No schedule or release tag is enabled.
 
 The [initial diagnostic run](https://github.com/JEONTAK/commitkin/actions/runs/38712379879) passed 773 then-current tests and a real basic-token known-scope read probe. Later source changes need separate validation. A green diagnostic is not proof of every endpoint, complete discoverability, live installation or publication.
 
@@ -18,7 +18,8 @@ The [observed-source read diagnostic](https://github.com/JEONTAK/commitkin/actio
 - Public commits, merged PRs, reviews, documentation, tests, bug-recovery signals, releases and qualifying issue operations shape 25 classes, 12 traits and 36 achievement tiers.
 - Regular-class appearance grows at five-level milestones through 50; numeric levels continue. Adventurer is a fixed starter until a clear activity pattern is established.
 - Daily analysis uses completed UTC days: 90-day class window, 30-day traits, original-date XP settlement and 100 XP daily cap. This reflects observed contribution style, **not skill, seniority or productivity**.
-- Minimal records live in your own public profile repository. This product repository is not central storage for user records.
+- Minimal growth records and `.github/commitkin.yml` live only in your public fork. The profile repository receives only its managed README display, not settings, ledger or growth records.
+- Only the character is a PNG. Class, faction, level/XP, traits, six family scores, recent activity and achievements are rendered as Markdown, not flattened into a card image. GitHub controls README colors/layout; the concept mockups are not pixel-exact Markdown promises.
 
 Confirmed `observed-api-v1` uses current default-branch reachability plus Git committed date for direct commits, `published_at` plus currently public/normal release state, and current exact `bug` labels at first eligible analysis. It does not reconstruct first push, original release lifecycle or merge-time labels. Accepted facts/XP remain when mutable metadata later changes.
 
@@ -28,20 +29,21 @@ Automatic discovery is best-effort, supplemented by explicit repositories. Known
 
 This pre-release guide is opt-in, **not permission to write records on behalf of another user**.
 
-1. Use your public personal profile repository `YOUR_LOGIN/YOUR_LOGIN`, with default-branch `README.md`. Organization/product repositories are rejected.
-2. Add exactly one region yourself; Commitkin preserves bytes outside it:
+1. Fork this repository to your personal account, normally `YOUR_LOGIN/commitkin`. Keep it public. GitHub's root fork-network ID binds it to Commitkin; a copied unrelated repository is not an installation. Enable Actions in the fork when you intentionally want to preview. There are no push/timer triggers.
+2. Keep optional analysis configuration in the **fork's** `.github/commitkin.yml`. Run its included **Commitkin fork preview** workflow manually. First preview takes a faction and `CONFIRM_PERMANENT_FACTION`; the checked-in `contents: read` and literal `dry-run: 'true'` save nothing.
+3. In your public personal profile repository `YOUR_LOGIN/YOUR_LOGIN`, add exactly one region yourself. Bytes outside it remain unchanged:
 
 ```md
 <!-- COMMITKIN:START -->
 <!-- COMMITKIN:END -->
 ```
 
-3. Add a manual-only workflow based on [examples/commitkin.yml](examples/commitkin.yml). Replace its placeholder with a reviewed **full 40-character source commit SHA** containing `action.yml`; no `@v1` release tag exists.
-4. Preview manually with `dry-run` true, your faction and `CONFIRM_PERMANENT_FACTION`. Preview constructs no publisher and saves nothing. Inputs/logs in a public repository can be public.
-5. Only if you intentionally want public records, grant that job `contents: write` and explicitly set `dry-run` false. First publication permanently binds the faction. An incomplete first analysis may publish only a confirmed pending faction, with null XP/class/evaluation; this is not successful analysis.
-6. After first publication, leave faction/confirmation empty. Add a schedule only after reviewing your own successful installation. Use a non-round UTC minute and concurrency with `cancel-in-progress: false`. No schedule is needed for preview.
+4. Copy [examples/profile-sync.yml](examples/profile-sync.yml) to the **profile repository's** `.github/workflows/commitkin-profile-sync.yml`. Replace the placeholder with a reviewed **full 40-character source SHA** containing `profile-sync/action.yml`. No `@v1` tag exists. Its only product input is the source fork slug; it never stores faction/scope/growth there.
+5. Profile sync reads a successfully published display projection from the same owner's fork at one immutable commit. With no published fork snapshot, preview holds and preserves the profile; it does not invent a character or write growth to make the preview pass. A synthetic offline preview is available below.
+6. **Later, only with intentional publication:** change the fork workflow to `contents: write` and `dry-run: 'false'` to publish growth. The first published faction is permanent; later runs leave faction/confirmation empty. An incomplete first analysis may reserve a pending faction, not zero XP or a successful class.
+7. **Separately, only with intentional profile publication:** change the profile sync workflow to `contents: write` and `dry-run: 'false'`. It updates only the README block using the profile's own basic token. It never computes XP or writes the fork. Keep all execution manual until you explicitly decide otherwise.
 
-The Action uses Node.js 24 and pinned dependencies with lifecycle scripts disabled. No working-tree checkout is required: profile inputs come from a fixed Git head. Intended public reads use the basic repository-scoped `GITHUB_TOKEN` with `contents: read`. **Publishing your five files needs `contents: write`**. Branch protection/rulesets may still reject publication; Commitkin does not bypass them or fall back to a PAT.
+The fork previews its own checked-out Action code; stored inputs are still read from a fixed Git head. The profile executes only reviewed pinned renderer code, never code from display data. Both use Node.js 24 and pinned dependencies with lifecycle scripts disabled. The fork token writes only its fork; the profile token writes only its profile. [GitHub tokens are repository-scoped](https://docs.github.com/en/actions/concepts/security/github_token). Branch protection/rulesets may reject writes; there is no PAT or weaker-write fallback. Inputs/logs in public repositories may be public.
 
 ### Extra repositories and exclusions
 
@@ -60,25 +62,29 @@ Omit the file on first install to accept empty lists. Once a configuration has b
 
 ### Generated files
 
-Only these five paths publish together:
+Only these five paths publish together **in the fork**:
 
 ```text
 .commitkin/state.json
 .commitkin/ledger.json
 .commitkin/status.json
-.commitkin/card.png
-README.md                 # one managed region only
+.commitkin/character.png   # character pixels only
+.commitkin/profile.json    # bounded, versioned display projection, not growth authority
 ```
 
-IDs, dates, aggregates and hashes are public. Hashes are not encryption or anonymity. No raw activity content, file contents, titles/bodies, emails, participant lists or credentials are archived. Keep Git history for recovery. Same-date no-ops do not rewrite files or claim new successful freshness.
+The fork README is not rewritten. The separate profile writer can update only `README.md`; it copies no records or images into that repository. The PNG link pins the same fork commit as the display JSON, preventing mixed-revision image/text. Markdown is generated from validated structured data, never imported as arbitrary remote Markdown/HTML.
+
+IDs, dates, aggregates and hashes are public. Hashes are not encryption or anonymity. No raw activity content, file contents, titles/bodies, emails, participant lists or credentials are archived. Keep fork Git history for recovery. Same-date no-ops do not rewrite files or claim new successful freshness. Family scores are independent 0–100 contribution-style indicators, not percentages that sum to 100 or skill rankings. Recent summary counts refer to qualified facts in the verified scope/window, not account-wide totals or coding time.
 
 ## Recovery
 
 - `hold`: required proof is missing, inaccessible, over budget or contradictory. Preserve the character; inspect the bounded code and resolve the cause.
 - `Analysis pending`: faction confirmed, growth unknown. Retry without faction/confirmation; do not delete files or treat unknown XP as zero.
-- Missing/corrupt/mismatched records: restore **all three JSON files from the latest valid same-owner commit/backup**, keeping matched revisions. Restore its card and managed README block as well, preserving unrelated README bytes; same-date no-ops do not repair presentation. Unverifiable restored history still holds for review. Do not mix snapshots, reset XP, reselect faction or revert unrelated files.
+- Missing/corrupt/mismatched records: restore **all three growth JSON files from the latest valid same-owner, same-storage-repository commit/backup in the fork**, keeping matched revisions. Restore its character and display projection from the same snapshot. Then preview profile sync separately. Same-date growth no-ops do not repair independently edited presentation. Unverifiable restored history holds; do not mix snapshots, reset XP, reselect faction or revert unrelated files.
 - Competing publication: expected-head compare-and-swap rejects a changed branch. Read authoritative state before retrying; ambiguous writes are never blindly replayed.
-- Uninstall: disable/remove the workflow and optionally the managed block, retaining `.commitkin` and its history. No automatic expiry/deletion; history redaction is a separate explicit user operation.
+- Uninstall: disable/remove both workflows and optionally the profile block, retaining fork `.commitkin` and its history. No automatic expiry/deletion; history redaction is a separate explicit user operation.
+
+Legacy `LOGIN/LOGIN` storage installations remain supported in place with their old five-file layout. They are not copied, rebound, reset or automatically migrated into a fork. The v1 field `owner.profileRepositoryId` retains its wire name and is the immutable installation/storage repository ID; new fork records bind it to the fork. Copying another repository's records is rejected. Rewritten history or creating another fork is not an account-wide anti-tamper guarantee; there is no central registry.
 
 Rewritten-away user-managed history cannot always be detected. Old uncollected periods remain explicit gaps, not inactivity or guaranteed recoverable history. Required failures never advance successful freshness or growth observations.
 

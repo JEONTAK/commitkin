@@ -1,4 +1,4 @@
-# Inert installation example. Copy into YOUR_LOGIN/YOUR_LOGIN only after review.
+# Inert alternative fork workflow. The fork already includes commitkin.yml.
 # Replace the SHA placeholder; it deliberately is not a runnable release ref.
 name: Commitkin manual preview
 
@@ -19,7 +19,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: commitkin-profile
+  group: commitkin-fork
   cancel-in-progress: false
 
 jobs:
@@ -34,4 +34,4 @@ jobs:
           dry-run: 'true'
 
 # Publication requires explicit user choice: contents: write AND dry-run: 'false'.
-# Add no schedule until your own initial publication/recovery review succeeds.
+# No schedule or automatic trigger is enabled by this example.

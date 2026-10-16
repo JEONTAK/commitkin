@@ -1,7 +1,7 @@
 import { mkdir, open, lstat, realpath } from 'node:fs/promises';
 import { resolve, relative, sep, dirname, join } from 'node:path';
 
-const ALLOWED = new Set(['README.md','.commitkin/state.json','.commitkin/ledger.json','.commitkin/status.json','.commitkin/card.png','preview-report.json','LICENSE.txt','growth-gallery.png']);
+const ALLOWED = new Set(['README.md','PROFILE.md','.commitkin/state.json','.commitkin/ledger.json','.commitkin/status.json','.commitkin/card.png','.commitkin/character.png','.commitkin/profile.json','preview-report.json','LICENSE.txt','growth-gallery.png']);
 async function noSymlinkAncestors(path) {
   let current=resolve(path);
   while(true){

@@ -22,7 +22,7 @@ function regularFiles() {
   state.observationClock.classLastCountedOn = '2026-10-15'; files[RECORD_PATHS[0]] = bytes(JSON.stringify(state));
   return files;
 }
-function fixture({ files = {}, metadata = {}, head = HEAD, truncated = false, treeChanges = entry => entry, contentChanges = item => item, history = {}, historicalStates = {}, historicalTreeChanges = entry => entry, historicalContentChanges = item => item, historicalTruncated = false, failure = null, blobFallback = false } = {}) {
+function fixture({ files = {}, metadata = {}, fork = false, head = HEAD, truncated = false, treeChanges = entry => entry, contentChanges = item => item, history = {}, historicalStates = {}, historicalTreeChanges = entry => entry, historicalContentChanges = item => item, historicalTruncated = false, failure = null, blobFallback = false } = {}) {
   const filesByPath = { 'README.md': bytes('# Profile\n<!-- COMMITKIN:START -->\n<!-- COMMITKIN:END -->\n안녕\n'), '.github/commitkin.yml': bytes('version: 1\nrepositories:\n  additional: []\n  exclude: []\n'), ...files };
   for (const [path, value] of Object.entries(filesByPath)) if (value === null) delete filesByPath[path];
   const entries = Object.entries(filesByPath).map(([path, value]) => treeChanges({ path, type: 'blob', mode: '100644', sha: blobHash(value), size: value.length }));
@@ -33,8 +33,8 @@ function fixture({ files = {}, metadata = {}, head = HEAD, truncated = false, tr
     async get(path) {
       calls.push({ method: 'GET', path });
       if (failure?.(path)) return { ok: false, code: 'ACCESS_DENIED' };
-      const url = new URL(path, 'https://api.github.com'); const pathname = url.pathname;
-      if (pathname === '/repos/Owner/OWNER') return { ok: true, data: { id: 9001, name: 'Owner', full_name: 'Owner/Owner', private: false, visibility: 'public', owner: { id: 1001, login: 'Owner', type: 'User' }, default_branch: 'main', ...metadata } };
+      const url = new URL(path, 'https://api.github.com'); const pathname = fork ? url.pathname.replace('/repos/Owner/commitkin', '/repos/Owner/OWNER') : url.pathname;
+      if (pathname === '/repos/Owner/OWNER') return { ok: true, data: { id: 9001, name: fork ? 'commitkin' : 'Owner', full_name: fork ? 'Owner/commitkin' : 'Owner/Owner', private: false, visibility: 'public', owner: { id: 1001, login: 'Owner', type: 'User' }, default_branch: 'main', ...(fork ? { fork: true, source: { id: 1420061458, owner: { id: 76037656 } } } : {}), ...metadata } };
       if (pathname === '/repos/Owner/OWNER/git/ref/heads/main') return { ok: true, data: { object: { sha: head } } };
       if (pathname === `/repos/Owner/OWNER/git/commits/${HEAD}`) return { ok: true, data: { sha: HEAD, tree: { sha: TREE } } };
       if (pathname === `/repos/Owner/OWNER/git/trees/${TREE}`) return { ok: true, data: { sha: TREE, truncated, tree: entries } };
@@ -118,6 +118,28 @@ test('non-GitHub servers, arbitrary API URLs, unsafe IDs and unsupported events 
 });
 test('only public personal profile repository with matching durable owner and repository IDs is accepted', async () => {
   for (const metadata of [{ private: true, visibility: 'private' }, { visibility: 'internal' }, { id: 9002 }, { owner: { id: 999, login: 'Owner', type: 'User' } }, { owner: { id: 1001, login: 'Owner', type: 'Organization' } }, { name: 'project', full_name: 'Owner/project' }, { full_name: 'Other/Owner' }]) assert.equal((await acquire(fixture({ metadata }))).code, 'INSTALLATION_REPOSITORY_MISMATCH');
+});
+test('a public owner fork acquires storage without any profile README or managed block', async () => {
+  for (const readme of [null, bytes('# Fork documentation without a profile block\n')]) {
+    const mock = fixture({ fork: true, files: { 'README.md': readme } });
+    const result = await acquire(mock, { workflowContext: context({ repository: 'Owner/commitkin' }) });
+    assert.equal(result.decision, 'acquired', JSON.stringify(result));
+    assert.equal(result.storageLayout, 'fork'); assert.equal(result.expectedOwner.profileRepositoryId, '9001');
+    assert.equal(result.firstInstallVerified, true); assert.equal(result.publicationAuthorized, false);
+    assert.equal(mock.calls.some(call => call.path.includes('/repos/Owner/Owner/')), false);
+  }
+});
+test('fork ancestry is a durable root binding, not a caller-controlled fork label or name', async () => {
+  for (const metadata of [{ fork: false }, { source: null }, { source: { id: 999, owner: { id: 76037656 } } }, { source: { id: 1420061458, owner: { id: 999 } } }]) {
+    const result = await acquire(fixture({ fork: true, metadata }), { workflowContext: context({ repository: 'Owner/commitkin' }) });
+    assert.equal(result.code, 'INSTALLATION_REPOSITORY_MISMATCH');
+  }
+});
+test('retained fork projections without records require recovery, never a new faction selection', async () => {
+  for (const path of ['.commitkin/character.png', '.commitkin/profile.json']) {
+    const result = await acquire(fixture({ fork: true, files: { [path]: bytes('retained display') } }), { workflowContext: context({ repository: 'Owner/commitkin' }) });
+    assert.equal(result.code, 'RECOVERY_REQUIRED');
+  }
 });
 test('default-branch ref and immutable expected head must match trusted workflow context', async () => {
   assert.equal((await acquire(fixture(), { workflowContext: context({ ref: 'refs/heads/other' }) })).code, 'INSTALLATION_DEFAULT_BRANCH_REQUIRED');

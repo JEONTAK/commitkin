@@ -19,6 +19,17 @@ import { qualifyObservedCapture, OBSERVED_SOURCE_MODEL } from './domain/evidence
 import { createObservedCandidateVerifier } from './application/verify-observed.mjs';
 import { createActionRunUseCase } from './application/run-action.mjs';
 import { createGithubPublisher } from './infrastructure/github/publication.mjs';
+import { buildProfileModel, renderCharacterPng } from './presentation/profile.mjs';
+
+function presentFork({ candidate, username }) {
+  const projection = buildProfileModel({ ...candidate, username });
+  if (!['ready', 'pending'].includes(projection.decision) || !projection.model) throw new TypeError('PROFILE_PROJECTION_INVALID');
+  return [
+    ...['state', 'ledger', 'status'].map(role => ({ path: '.commitkin/' + role + '.json', content: Buffer.from(JSON.stringify(candidate[role], null, 2) + '\n') })),
+    { path: '.commitkin/character.png', content: renderCharacterPng({ model: projection.model }) },
+    { path: '.commitkin/profile.json', content: Buffer.from(JSON.stringify(projection.model, null, 2) + '\n') },
+  ];
+}
 
 /** Composition root. Factories construct capabilities; importing never performs I/O/network writes. */
 export { createPreflightValidator };
@@ -51,12 +62,12 @@ function composeRefresh({client,clock,observed}){
         {decision:'verified'}:{decision:'hold',code:'INITIAL_CLASS_ORIGIN_UNVERIFIED'};
     }}:{}),
     schema:createEvidenceSchemaRegistry(),clock,evaluate:createSnapshotEvaluator(),verify:createEvidenceVerifier(),updateReadme:updateManagedReadme,
-    present:({candidate,username,classificationReason,originalReadme})=>[
+    present:({candidate,username,classificationReason,originalReadme,storageLayout})=>storageLayout==='fork'?presentFork({candidate,username}):[
       ...['state','ledger','status'].map(role=>({path:'.commitkin/'+role+'.json',content:Buffer.from(JSON.stringify(candidate[role],null,2)+'\n')})),
       {path:'.commitkin/card.png',content:renderCard({state:candidate.state,username,classificationReason,preview:!observed})},
       {path:'README.md',content:Buffer.from(updateManagedReadme(originalReadme,managedContent({state:candidate.state,status:candidate.status,username,classificationReason,preview:!observed})))},
     ],
-    presentPending:({candidate,username,originalReadme})=>[
+    presentPending:({candidate,username,originalReadme,storageLayout})=>storageLayout==='fork'?presentFork({candidate,username}):[
       ...['state','ledger','status'].map(role=>({path:'.commitkin/'+role+'.json',content:Buffer.from(JSON.stringify(candidate[role],null,2)+'\n')})),
       {path:'.commitkin/card.png',content:renderPendingCard({state:candidate.state,username,preview:!observed})},
       {path:'README.md',content:Buffer.from(updateManagedReadme(originalReadme,managedPendingContent({state:candidate.state,status:candidate.status,username,preview:!observed})))},
@@ -72,5 +83,8 @@ export { levelProgress, levelForXp, xpForLevel, appearanceForLevel } from './dom
 export { evaluateCharacter } from './domain/character/index.mjs';
 export { renderCard } from './presentation/card.mjs';
 export { managedContent, updateManagedReadme } from './presentation/readme.mjs';
+export { buildProfileModel, validateProfileModel, renderCharacterPng, renderProfileMarkdown } from './presentation/profile.mjs';
+export { createGithubProfilePublisher } from './infrastructure/github/publication.mjs';
+export { createGithubProfileSync } from './infrastructure/github/profile-sync.mjs';
 export { createGithubClient,discoverRepositories,createGithubPublisher } from './infrastructure/github/index.mjs';
 export { collectPublicSources };

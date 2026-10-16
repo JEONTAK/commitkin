@@ -1,0 +1,36 @@
+name: Commitkin profile sync
+description: Render safe fork-owned display data into a profile README block. No growth calculation or growth-record writes.
+author: JEONTAK
+inputs:
+  token:
+    description: The profile repository's own basic GITHUB_TOKEN.
+    required: true
+    default: ${{ github.token }}
+  source-repository:
+    description: Your public Commitkin fork, OWNER/REPOSITORY, owned by the same personal account.
+    required: true
+  dry-run:
+    description: True prepares the Markdown in memory. Explicit false writes only the profile README.
+    required: false
+    default: 'true'
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+      with:
+        node-version: '24'
+    - name: Install pinned renderer dependencies without lifecycle scripts
+      shell: bash
+      env:
+        COMMITKIN_SOURCE: ${{ github.action_path }}/..
+      run: |
+        npm --prefix "$COMMITKIN_SOURCE/packages/record-validator" ci --ignore-scripts --no-audit --no-fund
+        npm --prefix "$COMMITKIN_SOURCE/packages/commitkin" ci --ignore-scripts --no-audit --no-fund
+    - name: Prepare or sync the profile Markdown only
+      shell: bash
+      env:
+        COMMITKIN_SOURCE: ${{ github.action_path }}/..
+        GITHUB_TOKEN: ${{ inputs.token }}
+        COMMITKIN_SOURCE_REPOSITORY: ${{ inputs.source-repository }}
+        COMMITKIN_DRY_RUN: ${{ inputs.dry-run }}
+      run: node "$COMMITKIN_SOURCE/packages/commitkin/bin/commitkin-profile-sync.mjs"

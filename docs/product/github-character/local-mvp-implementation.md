@@ -4,8 +4,8 @@ Updated 2026-10-16. MVP source / pre-release validation; real known-scope read-o
 
 ## Latest local gate
 
-- Runtime: 929/929 native tests; record validator: 295/295. Combined: 1,224 tests, without double-counting schema assertions.
-- Core coverage: 98.89% lines, 94.22% branches, 97.18% functions; configured minimums all 80%.
+- Runtime: 1,037/1,037 native tests; record validator: 295/295. Combined: 1,332 tests, without double-counting schema assertions.
+- Core coverage: 99.00% lines, 94.35% branches, 97.38% functions; configured minimums all 80%.
 - 198 protected original artifacts and the original mechanics baseline remained unchanged.
 - Publication uses explicit outcomes: confirmed `true / published`, definitive no-write `false / not_published`, or unconfirmed post-CAS `null / outcome_unknown`. No blind retry.
 - These test/coverage figures are local synthetic/injected-HTTP results. The real profile dry-run below is separate API proof; no actual owner growth write is included.
@@ -21,6 +21,12 @@ Updated 2026-10-16. MVP source / pre-release validation; real known-scope read-o
 - Observed-source acquisition/qualification, independent candidate settlement comparison, managed README and original code-native PNG rendering.
 - Default no-write Action composition. Explicit opt-in five-file publisher uses one preserved-base-tree commit and expected-head GraphQL compare-and-swap, then authoritative ref readback. Unknown outcomes require reconciliation, not blind retries.
 - Lazy first regular-class continuity after a successful empty Adventurer analysis: verify the immutable same-owner/faction matched-record origin only when a real candidate exists, then reevaluate without double observations. Maximum 100 state-history entries and bounded requests; missing proof explicitly holds. Ordinary no-candidate growth does not scan this history. Original schemas/record fields and numerical mechanics remain unchanged.
+- Fork-owned installation checks the public personal owner, durable root fork-network ID and fixed default-branch head. New publication writes exactly three growth JSON files plus `character.png` and display-only `profile.json`; it never writes the fork README. The author's root product repository is also supported. Legacy profile installations remain in place without automatic migration/reset; schema-v1 `owner.profileRepositoryId` keeps its wire name and binds the actual installation storage ID.
+- Character-only 192 × 216 RGBA PNG uses original pixels and faction palettes. The safe closed display projection reuses existing six-family 90-day classification scores and seven distinct-activity counters over the last completed 30 days in the last successful scope. Native Markdown presents identity, level/XP, traits, badges, gauges and counts. It is not arbitrary imported Markdown, skill ranking, account-wide totals or new growth authority.
+- Separate profile sync checks same-owner public fork lineage, immutable source head, display version/IDs/times and complete PNG structure/hash. Default dry-run and unchanged snapshots construct no writer. The profile's own basic token can opt in to one fixed `README.md`-only expected-head CAS writer; no growth calculation, settings/record copy, PAT or cross-repository write. Missing/pending/invalid source preserves the existing profile. Both supplied workflows remain manual-only `contents: read`, literal dry-run true.
+- Both faction demos passed actual offline CLI generation into fresh synthetic preview directories, including character PNG/display JSON/native Markdown and no HTTP. The real preview-directory writer round-trip is tested; unknown paths and overwrites still reject. Independently reviewed legacy/fork write-layout isolation includes a regression preventing a legacy five-file bundle from writing a fork README.
+
+The new fork/profile-sync path has **not** run in real GitHub Actions and no real profile display or growth record has been published. The earlier basic-token profile-layout diagnostic below is historical read evidence, not certification of the new storage/sync adapter. No schedule, automatic dispatch or live migration has been enabled.
 
 ## Confirmed source semantics
 

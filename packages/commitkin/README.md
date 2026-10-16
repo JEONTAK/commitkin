@@ -21,16 +21,20 @@ Use a fresh demo name: existing output is never overwritten. Demos write only fi
 
 ## Installation and publication
 
-See the root [installation guide](../../README.md#installation). The composite [Action](../../action.yml) runs only for `workflow_dispatch` or `schedule` in a public personal profile repository `LOGIN/LOGIN`, from the current default branch, with owner/repository IDs bound to trusted Actions context. The product repository itself is not a valid profile target.
+See the root [installation guide](../../README.md#installation). New installations run the composite [Action](../../action.yml) in a public personal fork of `JEONTAK/commitkin` (the maintainer may use the root product repository). Durable owner/repository IDs, root fork-network identity and current default-branch head are verified. The supplied workflows are manual-only; no schedule is added or enabled.
 
 - Default `dry-run: 'true'`: prepare five files in memory, emit a bounded summary, never construct a publisher or save a faction.
-- Explicit `dry-run: 'false'`: requires `contents: write`; publish only `.commitkin/state.json`, `ledger.json`, `status.json`, `card.png` and the managed region in `README.md` after safety gates.
+- Explicit `dry-run: 'false'`: requires `contents: write`; publish only `.commitkin/state.json`, `ledger.json`, `status.json`, `character.png` and display-only `profile.json` **in the fork**, after safety gates. The fork README is not modified.
 - First manual install requires `faction: bloomguard|ashbound` and `confirmation: CONFIRM_PERMANENT_FACTION`. The first published confirmation is permanent. Later runs leave both inputs empty.
 - Incomplete first analysis can reserve only the confirmed faction: XP, class and evaluation remain null, and the card says Analysis pending. This is not a successful zero-XP analysis.
 - Existing failures preserve the last valid character. Deleted/corrupt/incomplete files require recovery, not reinitialization. Pending initial assignment requires verified reachable same-owner pending-state history.
 - A user whose first successful analysis was an empty Adventurer can receive a first regular class later. Only an actual class candidate triggers verified matched-record lineage reads. At most 100 state-history entries are supported; missing/corrupt/over-budget origin proof explicitly holds that assignment/analysis. No-candidate XP and traits do not require this history scan. Empty history alone never grants first-assignment authority.
 
-Publication constructs five blobs, one base-tree-preserving tree and one commit, then applies fixed GraphQL `updateRefs` with `beforeOid=expectedHead` and `force:false`. Authoritative ref readback is required. Concurrent changes hold; ambiguous mutations are reconciled by reads, never blindly retried or downgraded to weaker ref updates. Other profile files and README bytes outside the single managed block remain unchanged.
+Publication constructs five blobs, one base-tree-preserving tree and one commit, then applies fixed GraphQL `updateRefs` with `beforeOid=expectedHead` and `force:false`. Authoritative ref readback is required. Concurrent changes hold; ambiguous mutations are reconciled by reads, never blindly retried or downgraded to weaker ref updates.
+
+The separate [profile-sync Action](../../profile-sync/action.yml) runs manually in `LOGIN/LOGIN`. It reads a bounded strict display model and verified PNG at one immutable same-owner fork head; it never imports remote Markdown/code, reads growth records or calculates growth. A separate fixed-path writer can update **README.md only**, preserving every byte outside exactly one managed region, using that profile repository's own `GITHUB_TOKEN`. Dry-run/unchanged never construct a writer. Missing/pending/invalid source data holds instead of erasing the last profile. No PAT, automatic trigger or cross-repository write is introduced.
+
+Legacy profile storage remains compatible in place (old card PNG + README layout). No migration, reset, account rebinding or real growth update occurs. The schema-v1 `owner.profileRepositoryId` key is retained unchanged; it identifies the installation's storage repository. New fork records bind it to the fork ID; copied legacy/other-fork records fail owner binding.
 
 Write/recovery paths are tested with injected HTTP, not by changing the maintainer's real growth records. Current validation workflows use `contents: read` only. No live profile installation, scheduled growth write, release tag or complete provider-coverage claim is implied.
 
@@ -54,7 +58,9 @@ Changed-file inventories are complete and independently checked against fixed Gi
 
 25 classes: Adventurer plus six families of four regular classes. Twelve traits, twelve achievement series with Bronze/Silver/Gold tiers, uncapped numeric levels, 100 daily XP maximum and appearance milestones every five levels through 50. A verified first regular assignment can happen immediately when qualified; subsequent changes require seven eligible observations and the 14-date cooldown. Traits use three observations after the first-analysis exception. Missing days are not simulated observations.
 
-English 880 × 416 static PNG and accessible README share one verified snapshot. The original code-native renderer provides 530 appearances: 24 regular classes × two factions × eleven stages (Lv.1–4 base, then 5…50), plus two fixed Adventurers. These are programmatic fallback pixels and bitmap lettering, not cleared AI concept sheets, external fonts or 530 hand-painted assets.
+New output uses a **character-only PNG plus English Markdown** for identity/XP/traits, six family score rows, recent qualified activity counts and earned badges. Scores reuse the existing classifier; they are independent 0–100 indicators, not percentages that sum to 100. No new XP/classification formula, coding-time metric or account-wide activity promise is added. GitHub controls Markdown styling; Bloomguard/Ashbound palettes are carried by the character pixels, not arbitrary CSS. Legacy full-card rendering remains for compatibility.
+
+The original code-native renderer provides 530 appearances: 24 regular classes × two factions × eleven stages (Lv.1–4 base, then 5…50), plus two fixed Adventurers. These are programmatic fallback pixels, not cleared AI concept sheets, external fonts or 530 hand-painted assets.
 
 ### Classes and traits
 
@@ -105,6 +111,6 @@ node packages/commitkin/bin/commitkin.mjs preflight \
 
 No raw source captures, titles, bodies, file contents, emails, tokens or participant lists enter public records. Original IDs are transient ordering inputs; approved hashes, stable repository IDs, dates and aggregates are public, not anonymous or encrypted. Same-date no-ops retain prior successful timestamps rather than falsely binding old snapshots to new captures.
 
-On uninstall, disable the workflow and optionally remove the managed README block; retain growth files. Restore matching state/ledger/status from the latest valid same-owner commit/backup set, together with its card and managed README content (not unrelated README bytes). Same-date no-ops do not repair independently edited presentation. A restored bundle without sufficient historical provenance still holds for review. Never mix revisions, delete records to change faction, automatically reset or roll back unrelated files. See [recovery](../../README.md#recovery).
+On uninstall, disable both workflows and optionally remove the profile block; retain fork growth files/history. For new installations, restore matching state/ledger/status and character.png/profile.json from the latest valid same-owner, same-storage-repository snapshot in the fork, then preview profile sync separately. Only legacy profile storage also restores its old card.png and managed README content (not unrelated README bytes). Same-date growth no-ops do not repair independently edited presentation. A restored bundle without sufficient historical provenance still holds for review. Never mix revisions, delete records to change faction, automatically reset or roll back unrelated files. See [recovery](../../README.md#recovery).
 
 First-party code is MIT; dependencies retain their licenses/notices, including canonicalize's Apache-2.0. No external font or AI image is loaded. AI-image rights remain mandatory before future redistribution. See [credits](../../README.md#credits) and [validation status](../../docs/product/github-character/local-mvp-implementation.md).

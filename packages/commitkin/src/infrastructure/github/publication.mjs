@@ -1,6 +1,8 @@
 import { createTransport } from './transport.mjs';
+import { isCommitkinStorageRepository } from './storage.mjs';
 
 const PATHS = ['.commitkin/state.json', '.commitkin/ledger.json', '.commitkin/status.json', '.commitkin/card.png', 'README.md'];
+const FORK_PATHS = ['.commitkin/state.json', '.commitkin/ledger.json', '.commitkin/status.json', '.commitkin/character.png', '.commitkin/profile.json'];
 const SHA = /^[a-f0-9]{40}$/;
 // Fixed mutation and variables only; no caller-supplied GraphQL document or weaker
 // REST fallback. beforeOid is an atomic precondition for the complete ref update.
@@ -13,15 +15,24 @@ function branchName(value) { return typeof value === 'string' && value.length > 
 
 /** Explicit write capability. This module performs no request until publish is called. */
 export function createGithubPublisher(options) {
+  return createFixedPublisher(options, false);
+}
+/** A separate capability: this writer can never mutate growth/config/image paths. */
+export function createGithubProfilePublisher(options) {
+  return createFixedPublisher(options, true);
+}
+function createFixedPublisher(options, profileOnly) {
   const transport = createTransport(options);
   async function publish({ repository, defaultBranch, expectedHead, expectedRepositoryId, expectedOwnerAccountId, files }) {
     let casAttempted = false;
     try {
-    const ceilings = { '.commitkin/state.json': 1024 * 1024, '.commitkin/ledger.json': 32 * 1024 * 1024, '.commitkin/status.json': 65536, '.commitkin/card.png': 8 * 1024 * 1024, 'README.md': 8 * 1024 * 1024 };
-    if (!repositoryName(repository) || !branchName(defaultBranch) || typeof expectedHead !== 'string' || !SHA.test(expectedHead) || !Array.isArray(files) || files.length !== PATHS.length || new Set(files.map(item => item?.path)).size !== PATHS.length || !files.every(item => PATHS.includes(item?.path) && item.content instanceof Uint8Array && item.content.length > 0 && item.content.length <= ceilings[item.path])) return hold('PUBLICATION_INPUT_INVALID');
+    const ceilings = { '.commitkin/state.json': 1024 * 1024, '.commitkin/ledger.json': 32 * 1024 * 1024, '.commitkin/status.json': 65536, '.commitkin/card.png': 8 * 1024 * 1024, '.commitkin/character.png': 8 * 1024 * 1024, '.commitkin/profile.json': 65536, 'README.md': 1024 * 1024 };
+    const groups = profileOnly ? [['README.md']] : [PATHS, FORK_PATHS];
+    const matchedPaths = Array.isArray(files) ? groups.find(paths => files.length === paths.length && new Set(files.map(item => item?.path)).size === paths.length && files.every(item => paths.includes(item?.path))) : null;
+    if (!repositoryName(repository) || !branchName(defaultBranch) || typeof expectedHead !== 'string' || !SHA.test(expectedHead) || !matchedPaths || !files.every(item => item.content instanceof Uint8Array && item.content.length > 0 && item.content.length <= ceilings[item.path])) return hold('PUBLICATION_INPUT_INVALID');
     for (const file of files) {
       const text = new TextDecoder().decode(file.content);
-      if (text.includes(options.token) || file.path !== '.commitkin/card.png' && text.includes('-----BEGIN PRIVATE KEY-----')) return hold('PUBLICATION_SENSITIVE_CONTENT');
+      if (text.includes(options.token) || !file.path.endsWith('.png') && text.includes('-----BEGIN PRIVATE KEY-----')) return hold('PUBLICATION_SENSITIVE_CONTENT');
     }
     // Defensive copy prevents callers changing prepared bytes while awaiting HTTP.
     const prepared = files.map(file => ({ path: file.path, content: new Uint8Array(file.content) })).sort((left, right) => left.path < right.path ? -1 : 1);
@@ -32,6 +43,8 @@ export function createGithubPublisher(options) {
     const stableId = value => typeof value === 'string' && /^[1-9][0-9]*$/.test(value) ? value : Number.isSafeInteger(value) && value > 0 ? String(value) : null;
     if (expectedRepositoryId !== undefined && (!stableId(expectedRepositoryId) || stableId(metadata.data?.id) !== expectedRepositoryId) || expectedOwnerAccountId !== undefined && (!stableId(expectedOwnerAccountId) || stableId(metadata.data?.owner?.id) !== expectedOwnerAccountId)) return hold('PUBLICATION_OWNER_BINDING_MISMATCH');
     if (metadata.data.default_branch !== defaultBranch || metadata.data.private !== false || metadata.data.visibility && metadata.data.visibility !== 'public') return hold('PUBLICATION_REPOSITORY_MISMATCH');
+    if (matchedPaths === FORK_PATHS && (!isCommitkinStorageRepository(metadata.data) || metadata.data.owner.login?.toLowerCase() === metadata.data.name?.toLowerCase())) return hold('PUBLICATION_REPOSITORY_MISMATCH');
+    if ((profileOnly || matchedPaths === PATHS) && (metadata.data.owner?.type !== 'User' || typeof metadata.data.owner.login !== 'string' || typeof metadata.data.name !== 'string' || metadata.data.owner.login.toLowerCase() !== metadata.data.name.toLowerCase() || metadata.data.full_name?.toLowerCase() !== repository.toLowerCase())) return hold('PUBLICATION_REPOSITORY_MISMATCH');
     // Global node IDs are opaque: check the bounded wire form and obtain the ID
     // only from this repository's successful metadata response, never from input.
     if (!nodeId(metadata.data.node_id)) return hold('REPOSITORY_NODE_ID_INVALID');
@@ -51,7 +64,7 @@ export function createGithubPublisher(options) {
     const built = await transport.request('POST', `${root}/git/trees`, { base_tree: base.data.tree.sha, tree });
     if (!built.ok) return hold(built.code);
     if (!SHA.test(built.data?.sha ?? '')) return hold('REMOTE_TREE_INVALID');
-    const commit = await transport.request('POST', `${root}/git/commits`, { message: 'chore: update Commitkin character', tree: built.data.sha, parents: [expectedHead] });
+    const commit = await transport.request('POST', `${root}/git/commits`, { message: profileOnly ? 'chore: sync Commitkin profile display' : 'chore: update Commitkin character', tree: built.data.sha, parents: [expectedHead] });
     if (!commit.ok) return hold(commit.code);
     if (!SHA.test(commit.data?.sha ?? '')) return hold('REMOTE_COMMIT_INVALID');
     // Avoid an unnecessary mutation if the branch has already changed. The

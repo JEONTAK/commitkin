@@ -1,5 +1,5 @@
 name: Commitkin
-description: Grow a pixel character from observed public GitHub activity. Dry-run preview is the safe default.
+description: Prepare fork-owned growth records, a character PNG and a display-only profile projection. Dry-run is the safe default.
 author: JEONTAK
 inputs:
   token:

@@ -1,24 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { createGithubClient, createReadonlyRefresh } from '../src/index.mjs';
+import { createGithubClient, createReadonlyRefresh, createObservedReadonlyRefresh } from '../src/index.mjs';
 const hash = bytes => createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 const owner = '1001', repositoryId = '9001', name = 'HeroA/HeroA', head = 'a'.repeat(40), tree = 'b'.repeat(40);
 const workflowContext = { serverUrl: 'https://github.com', apiUrl: 'https://api.github.com', eventName: 'workflow_dispatch', repository: name, repositoryId, ownerAccountId: owner, actorAccountId: owner, ref: 'refs/heads/main', sha: head, startedAt: '2026-10-15T01:00:00Z' };
 const metadata = { id: 9001, owner: { id: 1001, login: 'HeroA', type: 'User' }, name: 'HeroA', full_name: name, visibility: 'public', private: false, fork: false, archived: false, default_branch: 'main' };
-function fixture({ prior = null, bom = false } = {}) {
+function fixture({ prior = null, bom = false, fork = false, missingReadme = false } = {}) {
   const stored = new Map([
     ['README.md', Buffer.from('# My profile\n\n<!-- COMMITKIN:START -->\n<!-- COMMITKIN:END -->\n\nKeep this text.\n')],
     ['.github/commitkin.yml', Buffer.from('version: 1\nrepositories:\n  additional: []\n  exclude:\n    - heroa/heroa\n')],
   ]);
+  const repositoryMetadata = fork ? { ...metadata, name: 'commitkin', full_name: 'HeroA/commitkin', fork: true, source: { id: 1420061458, owner: { id: 76037656 } } } : metadata;
+  if (fork) stored.set('.github/commitkin.yml', Buffer.from('version: 1\nrepositories:\n  additional: []\n  exclude:\n    - heroa/commitkin\n'));
+  if (missingReadme) stored.delete('README.md');
   if (bom) stored.set('README.md', Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), stored.get('README.md')]));
   if (prior) for (const role of ['state', 'ledger', 'status']) stored.set('.commitkin/' + role + '.json', Buffer.from(JSON.stringify(prior[role])));
   const requests = [];
   const client = createGithubClient({ token: 'synthetic-token-only', maxRetries: 0, fetchImpl: async (url, options) => {
     assert.equal(options.method, 'GET'); requests.push(url);
-    const parsed = new URL(url), path = parsed.pathname;
+    const parsed = new URL(url), path = fork ? parsed.pathname.replace('/repos/HeroA/commitkin', '/repos/HeroA/HeroA').replace('/repos/heroa/commitkin', '/repos/heroa/heroa') : parsed.pathname;
     let data;
-    if (path.toLowerCase() === '/repos/heroa/heroa') data = metadata;
+    if (path.toLowerCase() === '/repos/heroa/heroa') data = repositoryMetadata;
     else if (path === '/repos/' + name + '/git/ref/heads/main') data = { object: { sha: head } };
     else if (path === '/repos/' + name + '/git/commits/' + head) data = { sha: head, tree: { sha: tree } };
     else if (path === '/repos/' + name + '/git/trees/' + tree) data = { sha: tree, truncated: false, tree: [
@@ -32,7 +35,7 @@ function fixture({ prior = null, bom = false } = {}) {
       assert.ok(content); data = { type: 'file', path: file, sha: hash(content), size: content.length, encoding: 'base64', content: content.toString('base64') };
     }
     else if (path === '/repos/' + name + '/commits') { assert.ok(parsed.searchParams.get('path')); data = prior ? [{ sha: head }] : []; }
-    else if (path === '/users/HeroA/repos') data = [metadata];
+    else if (path === '/users/HeroA/repos') data = [repositoryMetadata];
     else if (path === '/users/HeroA/events/public') data = [];
     else throw new TypeError('UNEXPECTED_MOCK_REQUEST');
     return new Response(JSON.stringify(data), { status: 200 });
@@ -71,4 +74,22 @@ test('UTF-8 BOM and every README byte outside the managed region survive the ful
   assert.deepEqual(output.subarray(0, output.indexOf(start) + start.length), original.subarray(0, original.indexOf(start) + start.length));
   assert.deepEqual(output.subarray(output.indexOf(end)), original.subarray(original.indexOf(end)));
   assert.deepEqual([...output.subarray(0, 3)], [0xef, 0xbb, 0xbf]);
+});
+test('actual observed fork composition prepares growth plus a display projection, never profile or fork README writes', async () => {
+  for (const factionId of ['bloomguard', 'ashbound']) for (const missingReadme of [false, true]) {
+    const input = fixture({ fork: true, missingReadme });
+    const before = [...input.stored].map(([path, content]) => [path, Buffer.from(content)]);
+    const result = await createObservedReadonlyRefresh({ client: input.client, clock: () => '2026-10-15T01:01:00Z' })({
+      workflowContext: { ...workflowContext, repository: 'HeroA/commitkin' },
+      initialSelection: { accountId: owner, factionId, confirmation: 'CONFIRM_PERMANENT_FACTION' },
+    });
+    assert.equal(result.decision, 'prepared', JSON.stringify(result));
+    assert.equal(result.verification.decision, 'accept_relative_to_capture');
+    assert.deepEqual(result.files.map(file => file.path).sort(), ['.commitkin/character.png', '.commitkin/ledger.json', '.commitkin/profile.json', '.commitkin/state.json', '.commitkin/status.json']);
+    const model = JSON.parse(Buffer.from(result.files.find(file => file.path === '.commitkin/profile.json').content));
+    assert.deepEqual(model.owner, { accountId: owner, storageRepositoryId: repositoryId });
+    assert.equal(result.candidate.state.faction.id, factionId); assert.equal(result.summary.totalXp, '0');
+    assert.deepEqual([...input.stored], before); assert.equal(result.published, false); assert.equal(result.progressionAuthorized, false);
+    assert.equal(input.requests.some(url => new URL(url).pathname.toLowerCase().startsWith('/repos/heroa/heroa')), false);
+  }
 });

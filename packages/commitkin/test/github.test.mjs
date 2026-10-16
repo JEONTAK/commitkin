@@ -7,7 +7,7 @@ const HEAD = 'a'.repeat(40); const BASE = 'b'.repeat(40); const TREE = 'c'.repea
 const bytes = text => new TextEncoder().encode(text);
 function response(data, status = 200, headers = {}) { return new Response(typeof data === 'string' ? data : JSON.stringify(data), { status, headers }); }
 function options(fetchImpl, extra = {}) { return { token: TOKEN, fetchImpl, maxRetries: 0, waitImpl: async () => {}, ...extra }; }
-function repo(id = 1, full_name = 'owner/project', extras = {}) { return { id, node_id: 'R_kgDOTestRepository', full_name, owner: { id: 1001, type: 'User' }, private: false, visibility: 'public', fork: false, archived: false, default_branch: 'main', ...extras }; }
+function repo(id = 1, full_name = 'owner/project', extras = {}) { return { id, node_id: 'R_kgDOTestRepository', full_name, name: full_name.split('/')[1], owner: { id: 1001, login: full_name.split('/')[0], type: 'User' }, private: false, visibility: 'public', fork: false, archived: false, default_branch: 'main', ...extras }; }
 function files() { return ['.commitkin/state.json', '.commitkin/ledger.json', '.commitkin/status.json', '.commitkin/card.png', 'README.md'].map(path => ({ path, content: bytes(path.endsWith('json') ? '{}' : path.endsWith('png') ? 'png bytes test only' : '<!-- commitkin:start -->ok<!-- commitkin:end -->') })); }
 function publication(input = {}) { return { repository: 'owner/owner', defaultBranch: 'main', expectedHead: HEAD, files: files(), ...input }; }
 function publishMock({ mutationStatus = 200, mutationErrors = null, ambiguousMutation = false, confirmed = false, changed = false } = {}) {
